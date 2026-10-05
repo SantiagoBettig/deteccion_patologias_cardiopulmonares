@@ -1,0 +1,10 @@
+pathology_label,test_sujetos,train_sujetos,val_sujetos,test_registros,train_registros,val_registros
+abnormal_heart_unspecified,46,214,46,160,783,159
+bronchiectasis,1,5,1,2,12,2
+bronchiolitis_asthma,1,5,1,3,9,2
+copd,10,44,10,97,527,169
+heart_murmur,27,125,27,74,355,70
+normal_heart,69,319,69,241,1079,242
+normal_lung,4,18,4,7,23,5
+pneumonia,1,4,1,4,30,3
+respiratory_infection,2,12,2,3,20,2

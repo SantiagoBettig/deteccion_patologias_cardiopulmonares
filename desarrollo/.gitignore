@@ -1,0 +1,21 @@
+# Entorno
+.venv/
+.vscode/
+.python-version.local
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Datos (crudos y derivados) — ver README
+data/
+
+# Pesos de modelos (cualquier carpeta checkpoints*)
+**/checkpoints*/
+*.pt
+*.pth
+*.npy
+
+# Reportes y logs generados
+*.log

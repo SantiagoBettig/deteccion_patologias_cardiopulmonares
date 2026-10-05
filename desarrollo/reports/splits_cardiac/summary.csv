@@ -1,0 +1,4 @@
+pathology_label,test_sujetos,train_sujetos,val_sujetos,test_registros,train_registros,val_registros
+abnormal_heart_unspecified,46,214,46,170,782,150
+heart_murmur,27,125,27,65,351,83
+normal_heart,69,319,69,240,1089,233
