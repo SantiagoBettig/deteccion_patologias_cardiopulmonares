@@ -48,6 +48,16 @@ class Cnn6(nn.Module):
         self.fc1 = nn.Linear(512, 512)
         self.fc_audioset = nn.Linear(512, n_audioset_classes)  # se carga pero no se usa
 
+    def frozen_trunk(self, logmel: torch.Tensor) -> torch.Tensor:
+        """bn0 + bloques 1-3: la parte que queda congelada en el fine-tuning
+        parcial (ver run_partial_finetune.py). Devuelve (batch, 256,
+        frames/8, 8)."""
+        x = logmel.transpose(1, 3)
+        x = self.bn0(x).transpose(1, 3)
+        for block in (self.conv_block1, self.conv_block2, self.conv_block3):
+            x = F.dropout(block(x), p=0.2, training=self.training)
+        return x
+
     def embed(self, logmel: torch.Tensor) -> torch.Tensor:
         """logmel: (batch, 1, frames, 64) en dB (10·log10 de la potencia Mel)."""
         x = logmel.transpose(1, 3)          # BN por banda Mel, como en PANNs

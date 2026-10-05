@@ -19,3 +19,7 @@ data/
 
 # Reportes y logs generados
 *.log
+*.log.err
+
+# Archivos temporales de Google Drive para escritorio (subidas en curso)
+.tmp.driveupload/
