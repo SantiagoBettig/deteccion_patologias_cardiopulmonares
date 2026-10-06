@@ -256,6 +256,12 @@ def run_fold(i, cfg, epochs, cycles, bank, split, out_dir, device, amp) -> None:
     model.load_state_dict(torch.load(best_pt, map_location=device))
     p_va = predict(model, bank, idx["val"], amp)
     thresholds, val_score = calibrate_thresholds(y_all[idx["val"]], p_va)
+    # Probabilidades de validación: permiten estudiar otras formas de calibrar
+    # los umbrales sin reentrenar (ver avances/17, fold 4 de la variante A).
+    val_part = cycles.iloc[idx["val"]][["cycle_id", "subject_id", "crackle", "wheeze"]].copy()
+    val_part["fold"] = i
+    val_part["p_crackle"], val_part["p_wheeze"] = p_va[:, 0], p_va[:, 1]
+    val_part.to_csv(out_dir / f"val_probs_fold{i}.csv", index=False)
     p_te = predict(model, bank, idx["test"], amp)
     m = full_metrics(y_all[idx["test"]], p_te, thresholds)
     h = pd.DataFrame(history)
