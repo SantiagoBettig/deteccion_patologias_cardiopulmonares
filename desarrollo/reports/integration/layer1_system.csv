@@ -1,0 +1,10 @@
+,valor
+grabaciones,591.0
+pacientes,161.0
+gate_accuracy_ventana,0.975346687211094
+gate_accuracy_grabacion_media,0.9864636209813875
+gate_accuracy_grabacion_votacion,0.9813874788494078
+gate_errores_cardiaco_a_pulmonar,3.0
+gate_errores_pulmonar_a_cardiaco,5.0
+accuracy_6clases_sistema,0.8037225042301185
+accuracy_6clases_ruteo_perfecto,0.8121827411167513

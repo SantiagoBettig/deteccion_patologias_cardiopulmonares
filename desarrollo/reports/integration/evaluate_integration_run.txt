@@ -1,0 +1,76 @@
+
+== Chequeo murmullo oráculo, nivel ventana (test) ==
+ fold  accuracy  precision  recall    f1    f2
+    0     0.842      0.511   0.803 0.625 0.721
+    1     0.901      0.671   0.792 0.726 0.764
+    2     0.849      0.571   0.795 0.665 0.738
+    3     0.881      0.627   0.730 0.675 0.707
+    4     0.872      0.643   0.801 0.713 0.763
+  F2 medio 0.739 (per_fold.csv de k-fold: 0.737)
+
+== Murmullo por grabación (media ± desvío en 5 folds) ==
+                  setting rule      accuracy     precision        recall            f1            f2           auc
+   ventanas fijas (todas) mean  0.867 ± 0.03 0.569 ± 0.115 0.795 ± 0.053 0.655 ± 0.054 0.729 ± 0.017 0.906 ± 0.014
+   ventanas fijas (todas)  p75 0.881 ± 0.037 0.616 ± 0.125   0.77 ± 0.04 0.676 ± 0.069 0.726 ± 0.024 0.904 ± 0.013
+   ventanas fijas (todas)  max 0.849 ± 0.059 0.553 ± 0.151 0.721 ± 0.069 0.612 ± 0.081 0.668 ± 0.039 0.882 ± 0.018
+   ventanas fijas (todas) frac 0.885 ± 0.028 0.627 ± 0.119 0.762 ± 0.053 0.679 ± 0.048 0.724 ± 0.008 0.898 ± 0.014
+   ventanas fijas (todas) auto 0.885 ± 0.031  0.63 ± 0.125 0.764 ± 0.053 0.681 ± 0.056 0.725 ± 0.017 0.899 ± 0.012
+ventanas fijas (con .tsv) mean  0.866 ± 0.03 0.569 ± 0.115 0.795 ± 0.053 0.655 ± 0.054 0.729 ± 0.017 0.906 ± 0.014
+ventanas fijas (con .tsv)  p75 0.881 ± 0.037 0.616 ± 0.125   0.77 ± 0.04 0.676 ± 0.069 0.726 ± 0.024 0.904 ± 0.013
+ventanas fijas (con .tsv)  max 0.849 ± 0.059 0.553 ± 0.151 0.721 ± 0.069 0.612 ± 0.081 0.668 ± 0.039 0.882 ± 0.018
+ventanas fijas (con .tsv) frac 0.885 ± 0.028 0.627 ± 0.119 0.762 ± 0.053 0.679 ± 0.048 0.724 ± 0.008 0.898 ± 0.014
+ventanas fijas (con .tsv) auto 0.885 ± 0.031  0.63 ± 0.125 0.764 ± 0.053 0.681 ± 0.056 0.725 ± 0.017 0.899 ± 0.012
+        oráculo 4 latidos mean 0.904 ± 0.018 0.677 ± 0.058 0.765 ± 0.025 0.717 ± 0.031 0.745 ± 0.021 0.912 ± 0.012
+        oráculo 4 latidos  p75  0.891 ± 0.03  0.64 ± 0.091  0.777 ± 0.05 0.696 ± 0.036  0.741 ± 0.02  0.91 ± 0.009
+        oráculo 4 latidos  max 0.843 ± 0.064 0.563 ± 0.218   0.749 ± 0.1  0.612 ± 0.07  0.68 ± 0.029  0.894 ± 0.01
+        oráculo 4 latidos frac 0.886 ± 0.026  0.62 ± 0.063 0.766 ± 0.031 0.683 ± 0.033 0.729 ± 0.018 0.883 ± 0.012
+        oráculo 4 latidos auto 0.898 ± 0.024 0.664 ± 0.076 0.763 ± 0.051 0.706 ± 0.027 0.738 ± 0.023 0.905 ± 0.019
+  regla elegida por fold: {'ventanas fijas (todas)': ['mean', 'frac', 'frac', 'frac', 'p75'], 'ventanas fijas (con .tsv)': ['mean', 'frac', 'frac', 'frac', 'p75'], 'oráculo 4 latidos': ['frac', 'p75', 'mean', 'p75', 'p75']}
+
+  Nivel paciente (OOF):
+                             accuracy  precision  recall   f1     f2
+paciente (alguna grabación)     0.793      0.474   0.816  0.6  0.713
+
+== Pulmonar por grabación (media ± desvío en 5 folds) ==
+                  setting rule            se            sp   icbhi_score accuracy_4class   crackle_auc crackle_recall crackle_precision    wheeze_auc wheeze_recall wheeze_precision
+   ventanas fijas (todas) mean 0.303 ± 0.135 0.682 ± 0.202  0.492 ± 0.04   0.423 ± 0.047 0.663 ± 0.023  0.428 ± 0.158      0.663 ± 0.07 0.787 ± 0.029 0.319 ± 0.264    0.713 ± 0.136
+   ventanas fijas (todas)  p75 0.337 ± 0.061 0.661 ± 0.159 0.499 ± 0.049    0.44 ± 0.018  0.665 ± 0.03   0.47 ± 0.116     0.701 ± 0.046 0.789 ± 0.036 0.383 ± 0.141    0.754 ± 0.073
+   ventanas fijas (todas)  max  0.28 ± 0.097 0.774 ± 0.124 0.527 ± 0.036   0.432 ± 0.059 0.661 ± 0.032  0.289 ± 0.156     0.745 ± 0.082 0.821 ± 0.021    0.5 ± 0.07     0.76 ± 0.063
+   ventanas fijas (todas) frac 0.333 ± 0.072 0.689 ± 0.178 0.511 ± 0.068    0.445 ± 0.05 0.627 ± 0.019  0.404 ± 0.098      0.733 ± 0.05 0.732 ± 0.047 0.514 ± 0.127    0.755 ± 0.071
+   ventanas fijas (todas) auto   0.35 ± 0.08  0.683 ± 0.14 0.516 ± 0.053   0.451 ± 0.057 0.656 ± 0.034  0.444 ± 0.093      0.693 ± 0.03 0.808 ± 0.034 0.472 ± 0.173    0.757 ± 0.075
+ventanas fijas (con .txt) mean 0.303 ± 0.135 0.682 ± 0.202  0.492 ± 0.04   0.423 ± 0.047 0.663 ± 0.023  0.428 ± 0.158      0.663 ± 0.07 0.787 ± 0.029 0.319 ± 0.264    0.713 ± 0.136
+ventanas fijas (con .txt)  p75 0.337 ± 0.061 0.661 ± 0.159 0.499 ± 0.049    0.44 ± 0.018  0.665 ± 0.03   0.47 ± 0.116     0.701 ± 0.046 0.789 ± 0.036 0.383 ± 0.141    0.754 ± 0.073
+ventanas fijas (con .txt)  max  0.28 ± 0.097 0.774 ± 0.124 0.527 ± 0.036   0.432 ± 0.059 0.661 ± 0.032  0.289 ± 0.156     0.745 ± 0.082 0.821 ± 0.021    0.5 ± 0.07     0.76 ± 0.063
+ventanas fijas (con .txt) frac 0.333 ± 0.072 0.689 ± 0.178 0.511 ± 0.068    0.445 ± 0.05 0.627 ± 0.019  0.404 ± 0.098      0.733 ± 0.05 0.732 ± 0.047 0.514 ± 0.127    0.755 ± 0.071
+ventanas fijas (con .txt) auto   0.35 ± 0.08  0.683 ± 0.14 0.516 ± 0.053   0.451 ± 0.057 0.656 ± 0.034  0.444 ± 0.093      0.693 ± 0.03 0.808 ± 0.034 0.472 ± 0.173    0.757 ± 0.075
+           oráculo ciclos mean 0.278 ± 0.088  0.71 ± 0.217 0.494 ± 0.068   0.413 ± 0.037 0.665 ± 0.023  0.416 ± 0.073     0.715 ± 0.057 0.784 ± 0.029 0.299 ± 0.301    0.848 ± 0.174
+           oráculo ciclos  p75 0.294 ± 0.104 0.697 ± 0.186 0.495 ± 0.046   0.421 ± 0.039 0.668 ± 0.036  0.398 ± 0.121     0.706 ± 0.085 0.784 ± 0.032 0.365 ± 0.217     0.775 ± 0.08
+           oráculo ciclos  max  0.267 ± 0.07 0.789 ± 0.126  0.528 ± 0.03   0.431 ± 0.034 0.669 ± 0.037  0.281 ± 0.116     0.768 ± 0.089  0.824 ± 0.02  0.498 ± 0.15    0.777 ± 0.044
+           oráculo ciclos frac 0.366 ± 0.122 0.647 ± 0.212  0.506 ± 0.05   0.458 ± 0.018  0.65 ± 0.025  0.436 ± 0.138     0.704 ± 0.065 0.738 ± 0.033 0.563 ± 0.112     0.766 ± 0.06
+           oráculo ciclos auto  0.31 ± 0.138 0.678 ± 0.228 0.494 ± 0.051   0.427 ± 0.043 0.658 ± 0.034   0.397 ± 0.12     0.717 ± 0.071 0.771 ± 0.045 0.476 ± 0.225    0.767 ± 0.087
+  regla elegida por fold: {'ventanas fijas (todas)': ['max', 'frac', 'max', 'p75', 'mean'], 'ventanas fijas (con .txt)': ['max', 'frac', 'max', 'p75', 'mean'], 'oráculo ciclos': ['frac', 'frac', 'p75', 'mean', 'p75']}
+
+== Capa 1 — sistema completo sobre el test del gate ==
+  grabaciones: 591
+  pacientes: 161
+  gate_accuracy_ventana: 0.9753
+  gate_accuracy_grabacion_media: 0.9865
+  gate_accuracy_grabacion_votacion: 0.9814
+  gate_errores_cardiaco_a_pulmonar: 3
+  gate_errores_pulmonar_a_cardiaco: 5
+  accuracy_6clases_sistema: 0.8037
+  accuracy_6clases_ruteo_perfecto: 0.8122
+    rama           setting  grabaciones  pacientes  accuracy  precision  recall    f1    f2   se    sp  icbhi_score  accuracy_4class
+murmullo    ruteo perfecto          475        142     0.872      0.576   0.662 0.616 0.643  NaN   NaN          NaN              NaN
+murmullo sistema (gate v5)          475        142     0.869      0.571   0.649 0.608 0.632  NaN   NaN          NaN              NaN
+pulmonar    ruteo perfecto          116         19       NaN        NaN     NaN   NaN   NaN 0.42 0.914        0.667            0.569
+pulmonar sistema (gate v5)          116         19       NaN        NaN     NaN   NaN   NaN 0.42 0.857        0.638            0.552
+                    card: sin murmullo  card: murmullo  pulm: normal  pulm: crackle  pulm: wheeze  pulm: both  ruteo erróneo
+card: sin murmullo                 363              36             0              0             0           0              2
+card: murmullo                      25              48             0              0             0           0              1
+pulm: normal                         0               0            30              2             0           0              3
+pulm: crackle                        0               0            22             23             1           3              1
+pulm: wheeze                         0               0             3              2             7           1              0
+pulm: both                           0               0             6              0             7           4              1
+
+✓ Reportes en: C:\Users\santi\OneDrive\Documentos\CEIA\repo_ceia\proyecto_final\desarrollo\reports\integration

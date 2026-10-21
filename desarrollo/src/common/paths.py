@@ -144,3 +144,13 @@ GATE_DIAG_REPORTS_DIR      = REPORTS_DIR / "gate_diagnostics" / "source_db"
 # vigente de v4.
 GATE_V5_CHECKPOINTS_DIR = SRC_ROOT / "gate_model" / "checkpoints_v5_mfcc"
 GATE_V5_REPORTS_DIR      = REPORTS_DIR / "gate" / "runs" / "v5_mfcc"
+
+# ── Integración del pipeline (etapa 3, ver avances/18 y 19) ────────────────────
+# Modelos vigentes de cada rama (avances/18 §2) y salida de la evaluación
+# integrada: probabilidades por ventana fija (integration/window_inference.py)
+# y métricas por grabación (integration/evaluate_integration.py).
+CARDIAC_MURMUR_KFOLD_CHECKPOINTS_DIR = SRC_ROOT / "cardiac_murmur_model" / "checkpoints_kfold"
+CARDIAC_MURMUR_KFOLD_DIR             = UNIFIED_V2_DIR / "cardiac_murmur_kfold"
+PULMONARY_V8B_DIR                    = PULMONARY_ADV_REPORTS_DIR / "v8_cnn6_ft_B"
+INTEGRATION_REPORTS_DIR              = REPORTS_DIR / "integration"
+INTEGRATION_PROBS_DIR                = INTEGRATION_REPORTS_DIR / "window_probs"
