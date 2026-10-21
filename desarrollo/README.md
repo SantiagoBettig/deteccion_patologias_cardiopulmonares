@@ -100,7 +100,9 @@ linkeado.
 - **Etapa 2 — cardíaco**: el intento de 3 clases se reemplazó por dos
   tareas binarias (murmullo, outcome); murmullo v1 es la versión final
   (F2≈0.71-0.74, validado por k-fold), outcome quedó como limitación
-  conocida. Ver `avances/10` y `avances/11`.
+  conocida. Ver `avances/10` y `avances/11`. Para la integración se usan
+  los checkpoints k-fold (`cardiac_murmur_model/checkpoints_kfold/`), no el
+  `best.pt` de split único (ver `avances/18` §4).
 - **Etapa 2 — pulmonar**: diagnosticar por paciente no es viable con ICBHI
   (5 de 6 clases con 6-16 pacientes, sesgo por edad), así que se plantea
   como **detección de sonidos adventicios por ciclo respiratorio**
@@ -115,6 +117,12 @@ linkeado.
   Transfer learning, etapa 1: la CNN6 de PANNs **congelada** + un MLP chico
   iguala a v4 (0.559±0.024) sin entrenar la red — ver `avances/15`; pesos
   preentrenados en `data/pretrained/` (Zenodo doi:10.5281/zenodo.3987831).
+  **Versión vigente: CNN6 con fine-tuning de los bloques 3-4 en Google Colab
+  (variante B)** — score ICBHI **0.572±0.027**, AUC crackle 0.708 / wheeze
+  0.836 (mejora sobre v4 en AUC en 4-5 de 5 folds). Notebook:
+  `colab_pulmonary_finetune.ipynb` (+ paquete de datos generado por
+  `pulmonary_adventitious_model/pack_for_colab.py`). Detalle, variantes A/C y
+  estudio de calibración de umbrales en `avances/17`.
 
 ## Entorno
 
@@ -254,15 +262,20 @@ equipo y por grupo de edad (chequeo de atajos).
 
 ## Próximos pasos
 
-Etapa 2: modelos de patología cardíaca y pulmonar, usando segmentación por
-ciclo (latido S1→S1 en CirCor vía los `.tsv`, ciclo respiratorio directo en
-ICBHI vía los `.txt`) en vez de ventaneo de duración fija — ver `avances/`
-para el detalle de esta decisión y sus alternativas consideradas.
+**Etapa 3 — integración del pipeline** (gate → cardíaco / pulmonar). Plan
+acordado y punto de partida en
+[`avances/18_plan_integracion.md`](../avances/18_plan_integracion.md):
 
-**Pendiente de decidir antes de entrenar** — revisar `pathology_label`: se
-diseñó para el split conjunto del gate (cardíaco+pulmonar a la vez), y
-colapsa algo de granularidad que ya no hace falta mantener ahora que cada
-modelo de patología va a tener su propio split independiente (ej.: el
-detalle de murmullo de CirCor no se usa hoy; ICBHI agrupa
-URTI+LRTI y Bronchiolitis+Asthma). Ver `avances/9_revision_clases_etapa2.md`
-para el análisis completo y la recomendación por dominio.
+- ramas evaluadas con **ventanas fijas** al predecir, sin reentrenar
+  (murmullo ~2.5 s, pulmonar 4 s): el sistema recibe solo audio, sin las
+  anotaciones de ciclos de los datasets;
+- salida **por grabación**, con la regla de agregación de ventanas
+  calibrada en validación de cada fold;
+- evaluación en dos capas: (1) pipeline completo sobre los 161 pacientes de
+  test del gate, con las ramas usando el modelo k-fold que no vio a cada
+  paciente; (2) ramas sobre todos los pacientes con sus 5 folds;
+- comparación contra la segmentación por ciclos anotados (cuánto se pierde
+  sin anotaciones).
+
+Después: modelo único sin gate (comparación contra el pipeline), validación
+externa con HLS-CMDS, gate con 5 folds y ajuste fino de los modelos.

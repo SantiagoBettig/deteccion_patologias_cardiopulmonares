@@ -1,0 +1,20 @@
+{
+  "se": 0.246875,
+  "sp": 0.895320197044335,
+  "icbhi_score": 0.5710975985221675,
+  "accuracy_4class": 0.609504132231405,
+  "crackle_auc": 0.6604366722796159,
+  "crackle_precision": 0.562962962962963,
+  "crackle_recall": 0.17674418604651163,
+  "crackle_f1": 0.26902654867256637,
+  "crackle_threshold": 0.85,
+  "wheeze_auc": 0.8665146219126239,
+  "wheeze_precision": 0.7650273224043715,
+  "wheeze_recall": 0.43613707165109034,
+  "wheeze_f1": 0.5555555555555556,
+  "wheeze_threshold": 0.8,
+  "fold": 2,
+  "best_epoch": 58,
+  "val_mean_auc": 0.7517936753363396,
+  "val_icbhi_score": 0.5925741382030776
+}
