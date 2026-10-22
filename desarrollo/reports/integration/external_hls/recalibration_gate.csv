@@ -1,0 +1,5 @@
+direccion,umbral,acc_cardiacas,acc_pulmonares
+calibra F -> evalúa M,congelado (0.5),0.8333333333333334,1.0
+calibra F -> evalúa M,recalibrado (0.20),0.9166666666666666,0.8333333333333334
+calibra M -> evalúa F,congelado (0.5),0.7692307692307693,1.0
+calibra M -> evalúa F,recalibrado (0.40),0.8076923076923077,1.0
