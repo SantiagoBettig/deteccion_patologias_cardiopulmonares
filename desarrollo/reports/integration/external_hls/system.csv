@@ -1,0 +1,7 @@
+,media ± desvío (5 modelos)
+accuracy_6clases_sistema,0.504 ± 0.038
+accuracy_6clases_ruteo_perfecto,0.537 ± 0.046
+murmullo_f2_sistema,0.81 ± 0.021
+murmullo_f2_ruteo_perfecto,0.828 ± 0.023
+pulmonar_score_sistema,0.648 ± 0.049
+pulmonar_score_ruteo_perfecto,0.648 ± 0.049

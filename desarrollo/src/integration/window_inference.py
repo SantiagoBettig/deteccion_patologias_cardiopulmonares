@@ -115,7 +115,7 @@ _MEL_BASIS = librosa.filters.mel(sr=_PANNS["sr"], n_fft=_PANNS["n_fft"], n_mels=
                                  fmin=_PANNS["fmin"], fmax=_PANNS["fmax"])
 
 
-def pulmonary_batch(chunks: list[np.ndarray]) -> tuple[torch.Tensor, torch.Tensor]:
+def pulmonary_batch(chunks: list[np.ndarray], max_frames: int = MAX_FRAMES) -> tuple[torch.Tensor, torch.Tensor]:
     """Como LogmelBank.batch(train=False) de run_finetune_gpu.py: recorte
     centrado a MAX_FRAMES y relleno con silencio (PAD_DB), pero SIEMPRE
     hasta MAX_FRAMES y no hasta el más largo del batch. El relleno cambia
@@ -123,16 +123,19 @@ def pulmonary_batch(chunks: list[np.ndarray]) -> tuple[torch.Tensor, torch.Tenso
     enmascare): en Colab dependía de con quién compartía batch cada ciclo
     (hasta 0.18 de diferencia en un ciclo corto procesado solo). Al
     entrenar, un batch de 64 ciclos casi siempre trae uno de >= 4 s, así
-    que rellenar a MAX_FRAMES es lo que vio el modelo."""
+    que rellenar a MAX_FRAMES es lo que vio el modelo.
+
+    max_frames > MAX_FRAMES (ventanas de más de 4 s) evita el recorte: la
+    ventana entra entera y el pooling final, que es global, la resume."""
     feats = []
     for c in chunks:
         f = logmel(c.astype(np.float32), SR, _PANNS, _MEL_BASIS)        # (frames, 64)
-        if f.shape[0] > MAX_FRAMES:
-            off = (f.shape[0] - MAX_FRAMES) // 2
-            f = f[off:off + MAX_FRAMES]
+        if f.shape[0] > max_frames:
+            off = (f.shape[0] - max_frames) // 2
+            f = f[off:off + max_frames]
         feats.append(f)
     lens = [f.shape[0] for f in feats]
-    x = np.full((len(feats), MAX_FRAMES, 64), PAD_DB, dtype=np.float32)
+    x = np.full((len(feats), max_frames, 64), PAD_DB, dtype=np.float32)
     for j, f in enumerate(feats):
         x[j, :len(f)] = f
     return torch.from_numpy(x)[:, None], torch.tensor(lens)
@@ -218,12 +221,14 @@ def run_pulmonary(recs: pd.DataFrame, win_sec: float) -> pd.DataFrame:
     models = load_pulmonary_folds()
     recs = recs[recs["sound_type"] == "pulmonary"].merge(fold_roles(PULMONARY_KFOLD_DIR), on="subject_id")
     win, hop = int(win_sec * SR), int(win_sec * SR / 2)
+    # hasta 4 s, el recorte a MAX_FRAMES de siempre; más largas, enteras (100 frames/s + 1)
+    max_frames = MAX_FRAMES if win_sec * 100 <= MAX_FRAMES else int(round(win_sec * 100)) + 1
     rows = []
     with torch.no_grad():
         for file_id, g in _progress_groups(recs):
             y, _ = preprocess(AUDIO_DIR_V2 / file_id, target_sr=SR, highpass_cutoff=PULMONARY_HIGHPASS)
             starts = fixed_window_starts(len(y), win, hop)
-            x, lens = pulmonary_batch([y[s:s + win] for s in starts])
+            x, lens = pulmonary_batch([y[s:s + win] for s in starts], max_frames)
             for _, r in g.iterrows():
                 probs = torch.sigmoid(models[r["fold"]](x, lens)).numpy()
                 for w, (s, p) in enumerate(zip(starts, probs)):

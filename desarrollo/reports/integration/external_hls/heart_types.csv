@@ -1,0 +1,11 @@
+hls_type,prop_pred_murmullo
+AV Block,0.87
+Atrial Fibrillation,1.0
+Early Systolic Murmur,1.0
+Late Diastolic Murmur,1.0
+Late Systolic Murmur,0.96
+Mid Systolic Murmur,1.0
+Normal,0.89
+S3,0.96
+S4,0.9
+Tachycardia,0.93

@@ -1,0 +1,61 @@
+Configuración congelada (pooled_fixed, murmullo 2.5 s, pulmonar 4 s):
+ fold murmur_rule  murmur_thr pulm_rule  crackle_thr  wheeze_thr
+    0        frac         0.4       max          0.7        0.95
+    1        frac         0.4       max          0.7        0.90
+    2        frac         0.4       max          0.7        0.90
+    3        frac         0.4       max          0.7        0.95
+    4        frac         0.4       max          0.7        0.90
+
+== Gate v5 por grabación ==
+         conjunto  grabaciones  accuracy  prob_cardiaco_media  ruteadas_a_cardiaco
+0              HS           50  0.800000             0.727621                  NaN
+1              LS           50  1.000000             0.070903                  NaN
+2           Mix-H          145  0.793103             0.730038                  NaN
+3           Mix-L          145  0.972414             0.154424                  NaN
+4  Mix-M (mezcla)          145       NaN             0.688558             0.772414
+
+== Ramas con ruteo perfecto (media ± desvío, 5 modelos) ==
+                                        accuracy accuracy_4class            auc    crackle_auc crackle_recall             f1             f2    icbhi_score      precision         recall             se             sp     wheeze_auc  wheeze_recall
+rama     conjunto                                                                                                                                                                                                                                   
+murmullo HS                        0.516 ± 0.052             NaN  0.667 ± 0.087            NaN            NaN  0.664 ± 0.027  0.828 ± 0.023            NaN  0.499 ± 0.027  0.992 ± 0.019            NaN            NaN            NaN            NaN
+         Mix-H (corazón solo)      0.406 ± 0.036             NaN  0.651 ± 0.097            NaN            NaN  0.558 ± 0.024  0.743 ± 0.031            NaN  0.394 ± 0.018   0.954 ± 0.04            NaN            NaN            NaN            NaN
+         Mix-M (corazón + pulmón)  0.446 ± 0.044             NaN   0.58 ± 0.081            NaN            NaN  0.547 ± 0.019  0.696 ± 0.037            NaN   0.404 ± 0.02  0.853 ± 0.073            NaN            NaN            NaN            NaN
+pulmonar LS                                  NaN    0.57 ± 0.045            NaN  0.865 ± 0.036  0.043 ± 0.064            NaN            NaN  0.648 ± 0.049            NaN            NaN  0.362 ± 0.043   0.933 ± 0.07      1.0 ± 0.0      1.0 ± 0.0
+         Mix-L (pulmón solo)                 NaN   0.598 ± 0.082            NaN  0.782 ± 0.062  0.093 ± 0.168            NaN            NaN  0.698 ± 0.075            NaN            NaN    0.461 ± 0.1  0.936 ± 0.089      1.0 ± 0.0      1.0 ± 0.0
+         Mix-M (corazón + pulmón)            NaN   0.526 ± 0.048            NaN  0.648 ± 0.072  0.024 ± 0.034            NaN            NaN   0.614 ± 0.08            NaN            NaN  0.406 ± 0.027  0.821 ± 0.162  0.993 ± 0.002  0.971 ± 0.047
+         LS, rhonchi = wheeze                NaN   0.595 ± 0.037            NaN  0.846 ± 0.044  0.043 ± 0.064            NaN            NaN  0.694 ± 0.028            NaN            NaN  0.455 ± 0.066   0.933 ± 0.07  0.987 ± 0.005    0.84 ± 0.13
+
+== Rama pulmonar: predicción por tipo de sonido de LS ==
+pred_4class      normal  crackle  wheeze  both
+hls_type                                      
+Coarse Crackles    0.93     0.07    0.00     0
+Fine Crackles      0.92     0.00    0.08     0
+Normal             0.93     0.02    0.05     0
+Pleural Rub        0.91     0.00    0.09     0
+Rhonchi            0.30     0.00    0.70     0
+Wheezing           0.00     0.00    1.00     0
+
+== Rama de murmullo: proporción predicha con murmullo por tipo (HS) ==
+                       prop_pred_murmullo
+hls_type                                 
+AV Block                             0.87
+Atrial Fibrillation                  1.00
+Early Systolic Murmur                1.00
+Late Diastolic Murmur                1.00
+Late Systolic Murmur                 0.96
+Mid Systolic Murmur                  1.00
+Normal                               0.89
+S3                                   0.96
+S4                                   0.90
+Tachycardia                          0.93
+
+== Sistema completo sobre HS + LS ==
+                                media ± desvío (5 modelos)
+accuracy_6clases_sistema                     0.504 ± 0.038
+accuracy_6clases_ruteo_perfecto              0.537 ± 0.046
+murmullo_f2_sistema                           0.81 ± 0.021
+murmullo_f2_ruteo_perfecto                   0.828 ± 0.023
+pulmonar_score_sistema                       0.648 ± 0.049
+pulmonar_score_ruteo_perfecto                0.648 ± 0.049
+
+✓ Reportes en: C:\Users\santi\OneDrive\Documentos\CEIA\repo_ceia\proyecto_final\desarrollo\reports\integration\external_hls
