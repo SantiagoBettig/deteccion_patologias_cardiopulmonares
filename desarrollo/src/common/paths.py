@@ -154,3 +154,16 @@ CARDIAC_MURMUR_KFOLD_DIR             = UNIFIED_V2_DIR / "cardiac_murmur_kfold"
 PULMONARY_V8B_DIR                    = PULMONARY_ADV_REPORTS_DIR / "v8_cnn6_ft_B"
 INTEGRATION_REPORTS_DIR              = REPORTS_DIR / "integration"
 INTEGRATION_PROBS_DIR                = INTEGRATION_REPORTS_DIR / "window_probs"
+
+# ── Modelo único sin gate (avances/21 §3) ──────────────────────────────────────
+# Folds = unión fold a fold de murmullo y pulmonar (splits/make_unified_kfold.py)
+# e índice de ventanas fijas con etiqueta de 6 clases
+# (preprocessing/make_unified_windows.py).
+UNIFIED_KFOLD_DIR       = UNIFIED_V2_DIR / "unified_kfold"
+UNIFIED_MODEL_DIR       = DATA_DIR / "unified_model"
+UNIFIED_MODEL_REPORTS_DIR = REPORTS_DIR / "unified_model"
+
+
+def unified_windows_index(win_sec: float) -> Path:
+    """Índice de ventanas del modelo único para una duración dada."""
+    return UNIFIED_MODEL_DIR / f"windows_index_{win_sec:g}s.csv"
