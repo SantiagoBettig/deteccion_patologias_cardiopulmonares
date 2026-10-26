@@ -1,0 +1,55 @@
+% Chapter 1
+
+\chapter{Introducción general} % Main chapter title
+
+\label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1}
+\label{IntroGeneral}
+
+En este capítulo se presenta el área en la que se enmarca el trabajo, el contexto y la motivación que le dieron origen, una revisión del estado del arte en la clasificación automática de sonidos de auscultación y los objetivos y el alcance del proyecto.
+
+%----------------------------------------------------------------------------------------
+
+\section{La auscultación cardiopulmonar}
+\label{sec:auscultacion}
+
+La auscultación es la técnica de exploración clínica que consiste en escuchar los sonidos generados en el interior del cuerpo, principalmente los del corazón y los pulmones. Desde que René Laënnec inventó el estetoscopio en 1816 y lo utilizó para vincular los sonidos torácicos con los hallazgos de autopsia \citep{roguin2006laennec}, la auscultación se convirtió en uno de los pilares del examen físico. Su vigencia se explica por tres características: es no invasiva, tiene un costo muy bajo y brinda información inmediata en el lugar de atención.
+
+Los sonidos cardíacos normales se originan principalmente en el cierre de las válvulas y se perciben como dos golpes breves por ciclo, conocidos como primer y segundo ruido (S1 y S2). Distintas alteraciones modifican este patrón. Los soplos son sonidos producidos por el flujo turbulento de la sangre y se asocian, por ejemplo, a valvulopatías o a cardiopatías congénitas. También pueden aparecer ruidos adicionales, como el tercer y el cuarto ruido (S3 y S4), o irregularidades del ritmo. En el caso de los pulmones, el flujo de aire durante la respiración produce los ruidos respiratorios normales. Sobre ellos pueden superponerse sonidos adventicios, como los crepitantes, que son eventos discontinuos y de muy corta duración, y las sibilancias, que son sonidos continuos de carácter musical. Ambos se asocian a patologías como la neumonía, la fibrosis pulmonar, el asma o la enfermedad pulmonar obstructiva crónica \citep{bohadana2014fundamentals}.
+
+La principal limitación de la auscultación es su subjetividad: la interpretación de los sonidos depende en gran medida del entrenamiento y de la experiencia del profesional. En un estudio multicéntrico con más de 450 médicos en formación de medicina interna y medicina familiar, los participantes identificaron correctamente, en promedio, alrededor del 20\,\% de los eventos cardíacos que se les presentaron, sin mejoras significativas a medida que avanzaban en la residencia \citep{mangione1997cardiac}.
+
+La aparición del estetoscopio electrónico modificó este escenario. Este dispositivo convierte la señal acústica en una señal eléctrica que puede amplificarse, filtrarse, almacenarse y transmitirse \citep{leng2015electronic}. Contar con la auscultación como una señal digital la vuelve compatible con las técnicas de procesamiento de señales y de aprendizaje automático. En particular, las redes neuronales profundas pueden aprender directamente, a partir de representaciones tiempo-frecuencia como el espectrograma, los patrones acústicos que caracterizan a cada patología. En la figura \ref{fig:ejemplosAuscultacion} se muestran ejemplos de estas representaciones para sonidos cardíacos y pulmonares, normales y patológicos. Este trabajo se sitúa en ese cruce entre la auscultación digital y la inteligencia artificial.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{./Figures/ejemplos_auscultacion.pdf}
+	\caption{Forma de onda y espectrograma en escala Mel de cuatro grabaciones de auscultación: sonido cardíaco normal, sonido cardíaco con soplo, sonido pulmonar normal y sonido pulmonar con crepitantes.}
+	\label{fig:ejemplosAuscultacion}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+
+\section{Contexto y motivación}
+\label{sec:motivacion}
+
+Las enfermedades cardiovasculares y respiratorias se encuentran entre las principales causas de muerte y de discapacidad en el mundo. Según la Organización Mundial de la Salud, en 2019 las enfermedades cardiovasculares causaron alrededor de 17,9 millones de muertes, el 32\,\% del total mundial, y más de tres cuartas partes de ellas ocurrieron en países de ingresos bajos y medios \citep{who2021cvd}. Por su parte, en 2017 se estimaba que unas 545 millones de personas vivían con alguna enfermedad respiratoria crónica, que en conjunto constituían la tercera causa de muerte a nivel mundial \citep{gbd2020chronic}. En ambos grupos de enfermedades, la detección temprana resulta determinante para el pronóstico del paciente y para reducir los costos que la enfermedad avanzada impone al sistema de salud.
+
+El acceso a esa detección temprana no es homogéneo. En América del Sur, los profesionales de la salud se concentran en las capitales y en las grandes ciudades, mientras que las zonas rurales y desatendidas sufren faltantes que afectan de manera directa la disponibilidad de especialistas \citep{paho2026brechas}. En esos contextos, suele ser el médico generalista quien realiza la primera evaluación del paciente con el estetoscopio y quien decide, a partir de lo que escucha, si derivarlo o no a un cardiólogo o a un neumólogo. Como se señaló en la sección \ref{sec:auscultacion}, la precisión de esa evaluación depende fuertemente del entrenamiento del profesional. Un soplo o un crepitante que pasan inadvertidos pueden retrasar el diagnóstico de una enfermedad tratable. A la inversa, una derivación innecesaria consume recursos escasos.
+
+Este escenario motiva el desarrollo de herramientas de apoyo a la decisión clínica basadas en inteligencia artificial. Un sistema capaz de analizar la señal registrada por un estetoscopio digital y de indicar la presencia de hallazgos patológicos ofrecería al médico generalista una segunda opinión objetiva y reproducible, sin reemplazar su criterio. Además, en la práctica clínica el corazón y los pulmones se auscultan durante el mismo examen, por lo que resulta de interés que una misma herramienta pueda analizar ambos tipos de sonido.
+
+El trabajo se desarrolló en el marco de la Carrera de Especialización en Inteligencia Artificial de la Universidad de Buenos Aires, en colaboración con el Centro de Investigación y Desarrollo en Ingeniería Biomédica (CIBIO) de la Universidad Tecnológica Nacional, Facultad Regional Buenos Aires. Sus resultados son de carácter académico y de acceso abierto, para que puedan incorporarse a futuras líneas de investigación clínica del centro. Desde el punto de vista del autor, el proyecto integra su experiencia previa en procesamiento digital de señales y en desarrollos aplicados al ámbito médico con las técnicas de aprendizaje profundo estudiadas durante la especialización.
+
+%----------------------------------------------------------------------------------------
+
+\section{Estado del arte}
+\label{sec:estadoArte}
+
+% Pendiente.
+
+%----------------------------------------------------------------------------------------
+
+\section{Objetivos y alcance}
+\label{sec:objetivos}
+
+% Pendiente.

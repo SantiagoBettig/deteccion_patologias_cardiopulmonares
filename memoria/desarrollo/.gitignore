@@ -1,0 +1,13 @@
+# Archivos auxiliares de la compilación LaTeX (se regeneran al compilar).
+# El PDF final (memorianueva.pdf) sí se versiona.
+*.aux
+*.bbl
+*.blg
+*.lof
+*.lot
+*.log
+*.out
+*.toc
+*.run.xml
+*.synctex.gz
+*-blx.bib

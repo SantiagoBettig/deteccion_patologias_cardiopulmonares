@@ -1,0 +1,152 @@
+%----------------------------------------------------------------------------------------
+% Preambulo y Configuración
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+    11pt,
+    spanish,
+    singlespacing,
+    parskip,
+    headsepline,
+    bookmarks=true,
+    unicode=true,
+    pdftoolbar=true,
+    pdfmenubar=true,
+    pdffitwindow=false,
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+]{MastersDoctoralThesis}
+
+\usepackage[utf8]{inputenc} % Codificación de entrada UTF-8
+\usepackage[T1]{fontenc}    % Codificación de salida para caracteres especiales
+\usepackage{graphicx}       % Manejo de gráficos
+\usepackage{eso-pic}        % Permite agregar fondos
+\usepackage{hyperref}       % Manejo de hipervínculos y marcadores
+
+% Redefinición de caracteres problemáticos en marcadores
+\hypersetup{
+    pdftitle={Detección de patologías cardiopulmonares mediante redes neuronales aplicadas a señales de auscultación},
+    pdfauthor={Santiago Federico Bettig},
+    pdfkeywords={auscultación, sonidos cardíacos, sonidos pulmonares, aprendizaje profundo, redes neuronales convolucionales},
+    pdfstartview={FitH},
+    unicode=true,
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\pdfstringdefDisableCommands{%
+  \def\texttt#1{#1}%
+  \def\textbf#1{#1}%
+  \def\textit#1{#1}%
+  \def\"{\"}%
+  \def\~{~}%
+  \def\'{'}%
+  \def\^{}%
+  \def\textunderscore{\_} % Manejo del subrayado en marcadores
+}
+
+
+% Definir comandos requeridos por la clase
+\newcommand{\degreename}{Especialización en Inteligencia Artificial}
+\newcommand{\univname}{Universidad de Buenos Aires}
+\newcommand{\keywordnames}{Palabras clave:}
+
+% Comandos para separar el formato del contenido (antes definidos en Chapter1.tex)
+\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\tabhead}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{\bfseries#1}}
+\newcommand{\option}[1]{\texttt{\itshape#1}}
+\newcommand{\grados}{$^{\circ}$}
+%----------------------------------------------------------------------------------------
+% Documento Principal
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Configuración de la portada
+\posgrado{Carrera de Especialización en Inteligencia Artificial}
+\keywords{auscultación, sonidos cardíacos, sonidos pulmonares, aprendizaje profundo, redes neuronales convolucionales}
+
+% Incluir la portada desde un archivo separado
+\include{portada}
+
+% Configuración del contenido preliminar
+\frontmatter % Usar numeración romana para las páginas preliminares
+\pagestyle{plain} % Estilo de encabezado simple
+
+%----------------------------------------------------------------------------------------
+% Resumen
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+\addchaptertocentry{\abstractname} % Agregar resumen al índice
+El resumen debe escribirse en uno o dos párrafos. Debe ser breve y conciso, sin ningún elemento de formato en el texto como itálicas o negritas. Tampoco se deben usar siglas ni acrónimos que no resulten obvios para un lector promedio de la memoria, ni referencias bibliográficas o notas al pie de página. No debe faltar qué es lo que se hizo/logró, qué importancia/valor tiene el proyecto/resultado, qué va a encontrar el lector en la memoria y qué contenidos de la especialización/maestría se aplicaron en el proyecto.
+\end{abstract}
+
+%----------------------------------------------------------------------------------------
+% Agradecimientos
+%----------------------------------------------------------------------------------------
+
+\begin{acknowledgements}
+\vspace{1.5cm}
+Esta sección es para agradecimientos personales y es totalmente \textbf{OPCIONAL}.
+\end{acknowledgements}
+
+%----------------------------------------------------------------------------------------
+% Índice
+%----------------------------------------------------------------------------------------
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+%----------------------------------------------------------------------------------------
+% Dedicatoria
+%----------------------------------------------------------------------------------------
+
+\dedicatory{\textbf{Dedicado a... [OPCIONAL]}}
+
+%----------------------------------------------------------------------------------------
+% Capítulos
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Iniciar numeración numérica para el contenido principal
+\pagestyle{thesis} % Estilo de encabezado de tesis
+
+% Incluir capítulos desde archivos separados
+\include{Chapters/Chapter1}
+\include{Chapters/Chapter2}
+\include{Chapters/Chapter3}
+\include{Chapters/Chapter4}
+\include{Chapters/Chapter5}
+
+%----------------------------------------------------------------------------------------
+% Apéndices
+%----------------------------------------------------------------------------------------
+
+\appendix
+
+% Incluir apéndices desde archivos separados si es necesario
+%\include{Appendices/AppendixA}
+
+%----------------------------------------------------------------------------------------
+% Bibliografía
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\bibname}{Bibliografía} % Para asegurarte de que el título sea correcto
+\phantomsection % Necesario para que el enlace del marcador sea correcto
+
+\printbibliography[heading=bibintoc]
+
+\end{document}
+
+
+
+
+
+
