@@ -45,7 +45,35 @@ El trabajo se desarrolló en el marco de la Carrera de Especialización en Intel
 \section{Estado del arte}
 \label{sec:estadoArte}
 
-% Pendiente.
+El análisis automático de sonidos de auscultación tuvo un fuerte crecimiento durante la última década, impulsado en buena medida por la publicación de bases de datos abiertas y por desafíos científicos que permitieron comparar algoritmos bajo condiciones comunes. En el dominio cardíaco se destacan el desafío PhysioNet/Computing in Cardiology 2016, orientado a distinguir grabaciones normales de anormales \citep{clifford2016classification}, y el George B. Moody PhysioNet Challenge 2022, centrado en la detección de soplos \citep{reyna2023heart} sobre la base CirCor DigiScope, compuesta por grabaciones de pacientes pediátricos \citep{oliveira2022circor}. En el dominio pulmonar, la referencia principal es la base del desafío ICBHI 2017, con 920 grabaciones de 126 pacientes y anotaciones de crepitantes y sibilancias por ciclo respiratorio \citep{rocha2019open}. Revisiones recientes de ambos dominios muestran que el aprendizaje profundo desplazó a los métodos basados en características diseñadas manualmente \citep{ren2024comprehensive, sfayyih2023review}.
+
+El enfoque predominante consiste en transformar la señal de audio en una representación tiempo-frecuencia, como el espectrograma en escala Mel o los coeficientes cepstrales en frecuencia Mel (MFCC, \textit{Mel-Frequency Cepstral Coefficients}), y procesarla con una red neuronal convolucional (CNN, \textit{Convolutional Neural Network}). En el desafío de 2016, la mejor propuesta combinó un clasificador basado en características con una CNN \citep{potes2016ensemble}, mientras que en el de 2022 el primer puesto en la detección de soplos correspondió a una CNN liviana que recibe el espectrograma Mel junto con datos demográficos del paciente \citep{lu2022lightweight}. En el dominio pulmonar, los trabajos más recientes incorporan transferencia de aprendizaje desde modelos preentrenados sobre grandes volúmenes de imágenes o de audio general. RespireNet adaptó una ResNet-34 preentrenada en ImageNet con técnicas de aumentación específicas para sonidos respiratorios \citep{gairola2021respirenet}, y trabajos posteriores emplearon arquitecturas basadas en \textit{transformers}, como el \textit{Audio Spectrogram Transformer}, combinadas con aprendizaje contrastivo \citep{bae2023patchmix}. La tabla \ref{tab:estadoArte} resume los trabajos más representativos.
+
+\begin{table}[htbp]
+	\centering
+	\caption[Comparación de trabajos representativos del estado del arte]{Comparación de trabajos representativos en la clasificación automática de sonidos de auscultación. Se informa la métrica principal de cada trabajo sobre su conjunto de prueba; los valores no son directamente comparables entre filas porque difieren las tareas, los datos y los protocolos de partición.}
+	\label{tab:estadoArte}
+	\small
+	\begin{tabular}{>{\raggedright\arraybackslash}p{2.0cm} >{\raggedright\arraybackslash}p{2.3cm} >{\raggedright\arraybackslash}p{2.3cm} >{\raggedright\arraybackslash}p{2.9cm} >{\raggedright\arraybackslash}p{2.1cm}}
+		\toprule
+		\textbf{Trabajo} & \textbf{Tarea} & \textbf{Datos} & \textbf{Modelo} & \textbf{Resultado} \\
+		\midrule
+		Potes et al. \citep{potes2016ensemble} & Cardíaco: normal o anormal & PhysioNet/ CinC 2016 & Ensamble de AdaBoost sobre características y CNN & Puntaje 0,860 (1.\textsuperscript{er} puesto) \\
+		\addlinespace
+		Lu et al. \citep{lu2022lightweight} & Cardíaco: soplo presente, ausente o desconocido & CirCor DigiScope & CNN liviana sobre espectrograma Mel y datos demográficos & Exactitud ponderada 0,780 (1.\textsuperscript{er} puesto) \\
+		\addlinespace
+		Gairola et al. \citep{gairola2021respirenet} & Pulmonar: 4 clases de sonidos adventicios por ciclo & ICBHI 2017 (partición oficial) & ResNet-34 preentrenada en ImageNet & Puntaje ICBHI 56,2\,\% (Se 40,1\,\%, Sp 72,3\,\%) \\
+		\addlinespace
+		Bae et al. \citep{bae2023patchmix} & Pulmonar: 4 clases de sonidos adventicios por ciclo & ICBHI 2017 (partición oficial) & \textit{Audio Spectrogram Transformer} con aprendizaje contrastivo & Puntaje ICBHI 62,4\,\% (Se 43,1\,\%, Sp 81,7\,\%) \\
+		\addlinespace
+		Tariq et al. \citep{tariq2022feature} & Pulmonar y cardíaco, con un modelo para cada dominio & ICBHI 2017 y una base pública de 656 grabaciones cardíacas & Fusión de tres CNN (espectrograma, MFCC y cromagrama) & Exactitud 99,1\,\% (pulmonar) y 97\,\% (cardíaco) \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+La comparación entre trabajos debe hacerse con cautela. Cada desafío define su propia métrica: el de 2016 y el ICBHI utilizan el promedio entre sensibilidad (Se) y especificidad (Sp), mientras que el de 2022 emplea una exactitud ponderada que penaliza más los soplos no detectados. Además, la forma de particionar los datos influye fuertemente en los resultados. Sobre la partición oficial del ICBHI, los trabajos de la tabla \ref{tab:estadoArte} obtienen puntajes de entre el 56 y el 62\,\%, con sensibilidades por debajo del 45\,\%. En cambio, algunos trabajos informan exactitudes cercanas al 99\,\% con una partición 80/20 de las grabaciones, sin indicar si las grabaciones de un mismo paciente quedan separadas entre entrenamiento y prueba \citep{tariq2022feature}. Cuando esa separación no se garantiza, el modelo puede aprender características propias de cada paciente o de cada equipo de grabación, y el resultado sobreestima su desempeño ante pacientes nuevos.
+
+Por último, la gran mayoría de los sistemas existentes aborda los sonidos cardíacos y pulmonares como dominios independientes: cada modelo se entrena con una única base de datos y reconoce solo patologías de un órgano. Incluso los trabajos que estudian ambos tipos de sonido, como el de Tariq et al., entrenan y evalúan un modelo distinto para cada dominio \citep{tariq2022feature}. Esta separación contrasta con la práctica clínica, en la que el médico ausculta el corazón y los pulmones durante un mismo examen. Recién en los últimos años aparecieron bases de datos que registran ambos sonidos de forma conjunta, como HLS-CMDS, grabada sobre un maniquí clínico \citep{torabi2025hlscmds}, lo que refleja un interés creciente por el análisis cardiopulmonar integrado. El presente trabajo se enfoca en ese vacío: abordar los sonidos cardíacos y pulmonares dentro de un mismo sistema de clasificación.
 
 %----------------------------------------------------------------------------------------
 
