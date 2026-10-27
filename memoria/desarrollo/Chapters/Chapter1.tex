@@ -80,4 +80,17 @@ Por último, la gran mayoría de los sistemas existentes aborda los sonidos card
 \section{Objetivos y alcance}
 \label{sec:objetivos}
 
-% Pendiente.
+El objetivo general del trabajo fue desarrollar un sistema de clasificación automática de sonidos de auscultación basado en redes neuronales, capaz de detectar hallazgos patológicos tanto en sonidos cardíacos como pulmonares, como herramienta de apoyo al diagnóstico del médico generalista.
+
+Para alcanzar este objetivo se plantearon los siguientes objetivos específicos:
+
+\begin{enumerate}
+	\item Analizar las bases de datos públicas de sonidos cardíacos y pulmonares, caracterizando la distribución de clases, la calidad de las grabaciones y los desbalances que debían corregirse antes del modelado.
+	\item Implementar un proceso de preprocesamiento común a ambos tipos de sonido, que incluyera el remuestreo a una frecuencia única, la normalización de amplitud y la extracción de representaciones tiempo-frecuencia, como el espectrograma Mel y los MFCC.
+	\item Diseñar y entrenar modelos de clasificación basados en redes neuronales convolucionales para la detección de patologías cardíacas y pulmonares.
+	\item Comparar el desempeño de modelos entrenados por separado para cada tipo de sonido con el de un enfoque integrado, para determinar cuál resulta más adecuado.
+	\item Evaluar los modelos con particiones independientes por paciente, informando la exactitud, la sensibilidad, la especificidad, el F1-\textit{score} por clase, la matriz de confusión y la curva ROC (\textit{Receiver Operating Characteristic}), y analizar los errores en el contexto clínico del problema.
+	\item Comparar los resultados obtenidos con los trabajos del estado del arte presentados en la sección \ref{sec:estadoArte}, identificando en qué aspectos el sistema los iguala, los supera o queda por debajo.
+\end{enumerate}
+
+El alcance del trabajo comprendió la recopilación y el preprocesamiento de grabaciones provenientes de bases de datos públicas, la extracción de representaciones de la señal, el diseño, el entrenamiento y la validación de los modelos, y su evaluación con métricas estándar. Quedaron fuera del alcance el desarrollo de \textit{hardware} y la integración con un estetoscopio digital físico, la validación clínica con pacientes reales y la obtención de aprobaciones regulatorias, y el despliegue del sistema en un entorno de producción. Por último, el sistema fue concebido exclusivamente como una herramienta de apoyo: sus resultados no constituyen un diagnóstico definitivo ni reemplazan el criterio del profesional de la salud.
