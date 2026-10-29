@@ -1,0 +1,47 @@
+Run v1_base | estrategia para OOF y capa 1: pooled_fixed
+
+Umbrales por ventana (val de cada fold):
+ fold  murmur_threshold  val_f2  crackle_threshold  wheeze_threshold  val_icbhi_score
+    0              0.45   0.680               0.50              0.95            0.515
+    1              0.55   0.652               0.60              0.55            0.523
+    2              0.65   0.709               0.90              0.85            0.511
+    3              0.55   0.757               0.50              0.95            0.509
+    4              0.40   0.682               0.65              0.60            0.559
+
+== Capa 2 — murmur por grabación, regla elegida (media ± desvío en 5 folds) ==
+          setting     strategy     val_score        recall     precision            f2           auc                   chosen
+     modelo único    fold_auto 0.767 ± 0.044 0.821 ± 0.065 0.548 ± 0.068 0.743 ± 0.028  0.91 ± 0.024   mean/p75/frac/max/frac
+     modelo único   fixed_rule  0.755 ± 0.03 0.811 ± 0.086  0.571 ± 0.12 0.736 ± 0.019  0.906 ± 0.03 frac/frac/frac/frac/frac
+     modelo único       pooled   0.75 ± 0.01 0.826 ± 0.073 0.578 ± 0.082 0.755 ± 0.033  0.906 ± 0.03 frac/frac/frac/frac/frac
+     modelo único pooled_fixed   0.75 ± 0.01 0.826 ± 0.073 0.578 ± 0.082 0.755 ± 0.033  0.906 ± 0.03 frac/frac/frac/frac/frac
+pipeline con gate    fold_auto  0.784 ± 0.03 0.764 ± 0.053  0.63 ± 0.125 0.725 ± 0.017 0.899 ± 0.012  mean/frac/frac/frac/p75
+pipeline con gate   fixed_rule 0.778 ± 0.035 0.762 ± 0.053 0.627 ± 0.119 0.724 ± 0.008 0.898 ± 0.014 frac/frac/frac/frac/frac
+pipeline con gate       pooled 0.759 ± 0.013 0.773 ± 0.048   0.61 ± 0.12 0.727 ± 0.015 0.898 ± 0.014  frac/frac/frac/frac/p75
+pipeline con gate pooled_fixed 0.759 ± 0.013 0.767 ± 0.047  0.618 ± 0.12 0.725 ± 0.013 0.898 ± 0.014 frac/frac/frac/frac/frac
+
+== Capa 2 — pulmonary por grabación, regla elegida (media ± desvío en 5 folds) ==
+          setting     strategy     val_score            se            sp   icbhi_score   crackle_auc    wheeze_auc                   chosen
+     modelo único    fold_auto 0.538 ± 0.021 0.164 ± 0.057 0.758 ± 0.097 0.461 ± 0.064 0.561 ± 0.056 0.626 ± 0.077  frac/frac/max/frac/mean
+     modelo único   fixed_rule 0.534 ± 0.022 0.143 ± 0.075  0.809 ± 0.06 0.476 ± 0.045 0.534 ± 0.058 0.624 ± 0.084 frac/frac/frac/frac/frac
+     modelo único       pooled 0.503 ± 0.002  0.04 ± 0.037  0.94 ± 0.066  0.49 ± 0.023  0.544 ± 0.06 0.618 ± 0.075 frac/frac/frac/frac/mean
+     modelo único pooled_fixed 0.502 ± 0.005 0.043 ± 0.033  0.94 ± 0.066 0.492 ± 0.024 0.534 ± 0.058 0.624 ± 0.084 frac/frac/frac/frac/frac
+pipeline con gate    fold_auto  0.58 ± 0.052   0.35 ± 0.08  0.683 ± 0.14 0.516 ± 0.053 0.656 ± 0.034 0.808 ± 0.034    max/frac/max/p75/mean
+pipeline con gate   fixed_rule 0.565 ± 0.072  0.28 ± 0.097 0.774 ± 0.124 0.527 ± 0.036 0.661 ± 0.032 0.821 ± 0.021      max/max/max/max/max
+pipeline con gate       pooled  0.53 ± 0.008 0.255 ± 0.052  0.81 ± 0.078 0.532 ± 0.026 0.658 ± 0.029 0.807 ± 0.033      p75/max/max/p75/max
+pipeline con gate pooled_fixed 0.526 ± 0.007 0.297 ± 0.072 0.756 ± 0.058 0.526 ± 0.014 0.661 ± 0.032 0.821 ± 0.021      max/max/max/max/max
+
+== Dominio por grabación (todas, rol test): accuracy 0.9963
+
+== Capa 1 ==
+                                   test del gate (161 pacientes)  todos los pacientes  pipeline con gate (test del gate)
+grabaciones                                             591.0000            4083.0000                           591.0000
+pacientes                                               161.0000            1068.0000                           161.0000
+accuracy_dominio                                          0.9983               0.9963                             0.9865
+errores_cardiaco_a_pulmonar                               0.0000               5.0000                             3.0000
+errores_pulmonar_a_cardiaco                               1.0000              10.0000                             5.0000
+accuracy_6clases_sistema                                  0.7580               0.7468                             0.8122
+accuracy_6clases_dominio_perfecto                         0.7597               0.7482                             0.8240
+murmullo_f2_sistema                                       0.6870               0.7580                                NaN
+pulmonar_score_sistema                                    0.4494               0.4881                                NaN
+
+✓ Reportes en: C:\Users\santi\OneDrive\Documentos\CEIA\repo_ceia\proyecto_final\desarrollo\reports\unified_model\runs\v1_base\eval

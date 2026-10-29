@@ -1,0 +1,7 @@
+,card: sin murmullo,card: murmullo,pulm: normal,pulm: crackle,pulm: wheeze,pulm: both,ruteo erróneo
+card: sin murmullo,369,30,0,0,0,0,2
+card: murmullo,18,55,0,0,0,0,1
+pulm: normal,0,0,30,2,0,0,3
+pulm: crackle,0,0,29,20,0,0,1
+pulm: wheeze,0,0,7,0,6,0,0
+pulm: both,0,0,15,0,2,0,1

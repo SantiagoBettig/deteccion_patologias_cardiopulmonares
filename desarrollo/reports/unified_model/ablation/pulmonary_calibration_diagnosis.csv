@@ -1,0 +1,5 @@
+modelo,regla_elegida_val,score_icbhi_val_grilla005,score_icbhi_val_grilla001,score_icbhi_oraculo_test,argmax_4clases,argmax_4clases_sesgo_val,auc_normal_vs_anormal
+v1_base (integrado),mean,0.493,0.484,0.518,0.371,0.459,0.543
+abl_pulm (solo pulmonar),mean,0.502,0.497,0.526,0.354,0.483,0.540
+cnn6 (pipeline actual),mean,0.537,0.533,0.578,,,0.687
+v1_wide (integrado ancho),,,,,,,0.573

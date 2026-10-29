@@ -162,8 +162,29 @@ INTEGRATION_PROBS_DIR                = INTEGRATION_REPORTS_DIR / "window_probs"
 UNIFIED_KFOLD_DIR       = UNIFIED_V2_DIR / "unified_kfold"
 UNIFIED_MODEL_DIR       = DATA_DIR / "unified_model"
 UNIFIED_MODEL_REPORTS_DIR = REPORTS_DIR / "unified_model"
+UNIFIED_AUDIO_CACHE_NPY   = UNIFIED_MODEL_DIR / "audio_4k_int16.npy"
+UNIFIED_AUDIO_OFFSETS_CSV = UNIFIED_MODEL_DIR / "audio_4k_offsets.csv"
+UNIFIED_MODEL_SRC_DIR     = SRC_ROOT / "unified_model"
 
 
 def unified_windows_index(win_sec: float) -> Path:
     """Índice de ventanas del modelo único para una duración dada."""
     return UNIFIED_MODEL_DIR / f"windows_index_{win_sec:g}s.csv"
+
+
+# ── SPRSound: base pulmonar pediátrica nueva (avances/22 §8, avances/23) ───────
+# Exploración en eda/explore_sprsound.py y eda/sprsound_preprocessing_check.py.
+# Índice de ventanas, folds por paciente y cache de audio propios, con el mismo
+# formato que los del modelo único, para entrenar con unified_model/run_kfold.py
+# --data sprsound sin tocar nada de la v2.
+SPRSOUND_RAW_DIR          = DATA_DIR / "raw" / "SPRSound"
+SPRSOUND_DIR              = DATA_DIR / "sprsound"
+SPRSOUND_RECORDINGS_CSV   = SPRSOUND_DIR / "recordings.csv"
+SPRSOUND_KFOLD_DIR        = SPRSOUND_DIR / "kfold"
+SPRSOUND_AUDIO_CACHE_NPY  = SPRSOUND_DIR / "audio_4k_int16.npy"
+SPRSOUND_AUDIO_OFFSETS_CSV = SPRSOUND_DIR / "audio_4k_offsets.csv"
+SPRSOUND_REPORTS_DIR      = REPORTS_DIR / "sprsound"
+
+
+def sprsound_windows_index(win_sec: float) -> Path:
+    return SPRSOUND_DIR / f"windows_index_{win_sec:g}s.csv"

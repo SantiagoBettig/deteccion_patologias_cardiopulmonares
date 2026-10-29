@@ -1,0 +1,23 @@
+Ablación: cardíaca abl_card, pulmonar abl_pulm | estrategia pooled_fixed
+
+== Capa 2 — murmur por grabación, regla elegida (media ± desvío en 5 folds) ==
+                 setting     strategy     val_score        recall     precision            f2           auc                   chosen
+     ablación (abl_card) pooled_fixed 0.811 ± 0.016 0.833 ± 0.041 0.675 ± 0.079 0.794 ± 0.034 0.927 ± 0.027 frac/frac/frac/frac/frac
+  modelo único (v1_base) pooled_fixed   0.75 ± 0.01 0.826 ± 0.073 0.578 ± 0.082 0.755 ± 0.033  0.906 ± 0.03 frac/frac/frac/frac/frac
+rama del pipeline actual pooled_fixed 0.759 ± 0.013 0.767 ± 0.047  0.618 ± 0.12 0.725 ± 0.013 0.898 ± 0.014 frac/frac/frac/frac/frac
+
+== Capa 2 — pulmonary por grabación, regla elegida (media ± desvío en 5 folds) ==
+                 setting     strategy     val_score            se            sp   icbhi_score   crackle_auc    wheeze_auc                   chosen
+     ablación (abl_pulm) pooled_fixed  0.53 ± 0.007 0.125 ± 0.103 0.855 ± 0.112  0.49 ± 0.024 0.533 ± 0.044  0.61 ± 0.094 frac/frac/frac/frac/frac
+  modelo único (v1_base) pooled_fixed 0.502 ± 0.005 0.043 ± 0.033  0.94 ± 0.066 0.492 ± 0.024 0.534 ± 0.058 0.624 ± 0.084 frac/frac/frac/frac/frac
+rama del pipeline actual pooled_fixed 0.526 ± 0.007 0.297 ± 0.072 0.756 ± 0.058 0.526 ± 0.014 0.661 ± 0.032 0.821 ± 0.021      max/max/max/max/max
+
+== Capa 1 — test del gate (161 pacientes) ==
+                                              accuracy_6clases_sistema  accuracy_6clases_ruteo_perfecto  murmullo_f2_sistema  pulmonar_score_sistema
+gate v5 + ramas de la ablación                                  0.8122                           0.8223               0.7218                  0.5891
+gate v5 + murmullo ablación + pulmonar CNN6                     0.8257                           0.8376               0.7218                  0.6060
+gate v5 + MurmurCNN + pulmonar ablación                         0.7986                           0.8088               0.6596                  0.5891
+gate v5 + MurmurCNN + CNN6 (pipeline actual)                    0.8122                           0.8240               0.6596                  0.6060
+modelo único (v1_base)                                          0.7580                           0.7597               0.6870                  0.4494
+
+✓ Reportes en: C:\Users\santi\OneDrive\Documentos\CEIA\repo_ceia\proyecto_final\desarrollo\reports\unified_model\ablation

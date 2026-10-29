@@ -1,0 +1,19 @@
+{
+  "fold": 4,
+  "best_epoch": 8,
+  "epochs_run": 16,
+  "val_train_loss": 0.329946278195617,
+  "val_val_loss": 0.42031821608543396,
+  "val_auc_murmur": 0.9093296758818177,
+  "val_auc_crackle": NaN,
+  "val_auc_wheeze": NaN,
+  "val_domain_acc": NaN,
+  "val_bal_acc_6": 0.7884396713648243,
+  "val_select": 0.9093296758818177,
+  "test_auc_murmur": 0.8936926346320456,
+  "test_auc_crackle": NaN,
+  "test_auc_wheeze": NaN,
+  "test_domain_acc": NaN,
+  "test_bal_acc_6": 0.7743006290571676,
+  "test_select": 0.8936926346320456
+}

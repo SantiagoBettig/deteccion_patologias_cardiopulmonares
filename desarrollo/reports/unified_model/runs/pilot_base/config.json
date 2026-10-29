@@ -1,0 +1,12 @@
+{
+  "width": "base",
+  "class_weights": "inv",
+  "win_sec": 4.0,
+  "epochs": 30,
+  "patience": 8,
+  "folds": [
+    0
+  ],
+  "run_name": "pilot_base",
+  "n_params": 23910
+}

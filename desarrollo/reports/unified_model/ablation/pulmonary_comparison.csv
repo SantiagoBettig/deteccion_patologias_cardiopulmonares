@@ -1,0 +1,4 @@
+setting,strategy,val_score,se,sp,icbhi_score,crackle_auc,wheeze_auc,chosen
+ablación (abl_pulm),pooled_fixed,0.53 ± 0.007,0.125 ± 0.103,0.855 ± 0.112,0.49 ± 0.024,0.533 ± 0.044,0.61 ± 0.094,frac/frac/frac/frac/frac
+modelo único (v1_base),pooled_fixed,0.502 ± 0.005,0.043 ± 0.033,0.94 ± 0.066,0.492 ± 0.024,0.534 ± 0.058,0.624 ± 0.084,frac/frac/frac/frac/frac
+rama del pipeline actual,pooled_fixed,0.526 ± 0.007,0.297 ± 0.072,0.756 ± 0.058,0.526 ± 0.014,0.661 ± 0.032,0.821 ± 0.021,max/max/max/max/max

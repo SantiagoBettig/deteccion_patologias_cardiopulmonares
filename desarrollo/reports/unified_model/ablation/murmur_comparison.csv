@@ -1,0 +1,4 @@
+setting,strategy,val_score,recall,precision,f2,auc,chosen
+ablación (abl_card),pooled_fixed,0.811 ± 0.016,0.833 ± 0.041,0.675 ± 0.079,0.794 ± 0.034,0.927 ± 0.027,frac/frac/frac/frac/frac
+modelo único (v1_base),pooled_fixed,0.75 ± 0.01,0.826 ± 0.073,0.578 ± 0.082,0.755 ± 0.033,0.906 ± 0.03,frac/frac/frac/frac/frac
+rama del pipeline actual,pooled_fixed,0.759 ± 0.013,0.767 ± 0.047,0.618 ± 0.12,0.725 ± 0.013,0.898 ± 0.014,frac/frac/frac/frac/frac

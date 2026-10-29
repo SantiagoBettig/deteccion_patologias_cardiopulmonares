@@ -1,0 +1,17 @@
+{
+  "width": "wide",
+  "feature": "logmel",
+  "pooling": "avg_max",
+  "n_fft": 512,
+  "hop": 160,
+  "time_keep_blocks": 0,
+  "specaug": 0,
+  "class_weights": "inv",
+  "balance_domains": false,
+  "domain": "both",
+  "win_sec": 4.0,
+  "epochs": 30,
+  "patience": 8,
+  "run_name": "v1_wide",
+  "n_params": 94662
+}

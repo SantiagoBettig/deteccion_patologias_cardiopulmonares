@@ -1,0 +1,10 @@
+,test del gate (161 pacientes),todos los pacientes,pipeline con gate (test del gate)
+grabaciones,591.0,4083.0,591.0
+pacientes,161.0,1068.0,161.0
+accuracy_dominio,0.9983079526226735,0.9980406563801126,0.9864636209813876
+errores_cardiaco_a_pulmonar,0.0,3.0,3.0
+errores_pulmonar_a_cardiaco,1.0,5.0,5.0
+accuracy_6clases_sistema,0.7918781725888325,0.7651236835660054,0.8121827411167513
+accuracy_6clases_dominio_perfecto,0.7935702199661591,0.7658584374234632,0.8240270727580372
+murmullo_f2_sistema,0.7416879795396419,0.7676348547717843,
+pulmonar_score_sistema,0.4948853615520282,0.4774042087069482,

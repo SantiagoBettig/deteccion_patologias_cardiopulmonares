@@ -1,0 +1,14 @@
+{
+  "width": "wide",
+  "feature": "logmel",
+  "pooling": "avg_max",
+  "class_weights": "inv",
+  "win_sec": 4.0,
+  "epochs": 30,
+  "patience": 8,
+  "folds": [
+    0
+  ],
+  "run_name": "pilot2_wide",
+  "n_params": 94662
+}
