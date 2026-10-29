@@ -1,0 +1,116 @@
+SPRSound: 6337 grabaciones | ICBHI: 920 grabaciones
+
+── Fracción de energía por banda, audio nativo 8 kHz
+         n_eventos  <100 Hz  100-2048 Hz  >2048 Hz (lo borra el pasa-bajos)
+normal     18772.0   0.0814       0.9186                                0.0
+crackle     3707.0   0.0634       0.9366                                0.0
+wheeze      1722.0   0.0492       0.9507                                0.0
+both         303.0   0.0262       0.9738                                0.0
+
+── |dB clase − dB normal| medio por banda (nativo)
+         100-2048 Hz  2048-4000 Hz
+crackle         4.49          4.79
+wheeze          8.08         14.93
+both            7.55          2.88
+
+── dB medios por banda (preprocesado): contraste de cada clase con la normal de su base, y normal SPR vs normal ICBHI
+                           50-150  150-500  500-1000  1000-2000
+SPR crackle-normal           0.23     1.67      0.87      -2.25
+SPR wheeze-normal            2.67     6.59      3.00      -1.83
+SPR both-normal             -0.86     1.80     -3.07      -7.04
+ICBHI crackle-normal         0.83    -3.01     -5.28      -6.30
+ICBHI wheeze-normal          2.18     1.44      1.12       4.34
+ICBHI both-normal            2.36    -1.40     -4.27      -8.68
+normal SPR - normal ICBHI    3.32     7.77     -4.89      -7.90
+
+── Fracción de muestras recortadas a ±1 tras rms_normalize, por grabación
+         SPRSound      ICBHI
+count  6337.00000  920.00000
+mean      0.00130    0.00006
+std       0.00069    0.00026
+min       0.00000    0.00000
+50%       0.00127    0.00000
+90%       0.00216    0.00001
+99%       0.00305    0.00116
+max       0.00629    0.00385
+
+── Grabaciones con algún recorte: SPRSound 97.5%, ICBHI 10.4%
+
+── Pico/RMS dentro de cada evento (preprocesado) y eventos con alguna muestra recortada
+                      n  peak_to_rms_med  peak_to_rms_p90  eventos_con_recorte
+base     group                                                                
+ICBHI    both       506            3.885            6.913                0.032
+         crackle   1864            3.950            6.361                0.023
+         normal    3642            3.937            6.452                0.024
+         wheeze     886            3.900            6.675                0.041
+SPRSound both       303            7.766           11.186                0.158
+         crackle   3707            9.138           14.005                0.241
+         normal   18772            8.146           13.966                0.190
+         wheeze    1722            6.016            9.828                0.137
+
+RMS antes de normalizar (SPRSound): mediana 0.0122, p1 0.0022, p99 0.0923; pico nativo máximo 1.000
+
+── Huecos ≥ 0.5 s sin anotar: 11856 en 5661 grabaciones
+count    11856.00
+mean         2.34
+std          2.18
+min          0.50
+25%          0.89
+50%          1.54
+75%          2.95
+max         14.74
+
+── Trozos de 0.5 s: curtosis en banda 150-1800 Hz (transitorios) y RMS relativo (1 = nivel medio de la grabación)
+                                   n_trozos  curtosis_med  curtosis_p75  frac_curtosis_gt3  rms_rel_med
+grupo                                                                                                  
+ICBHI crackle                          9435         2.126         8.519              0.433        0.950
+ICBHI normal                          17210         1.689         6.195              0.373        0.923
+evento crackle                         9874         9.126        22.143              0.752        0.540
+evento normal                         59106         3.642        13.219              0.545        0.449
+hueco en grabación (sin etiqueta)     15705         7.318        21.552              0.695        0.559
+hueco en grabación CAS                 4865         8.067        20.845              0.745        0.498
+hueco en grabación CAS & DAS           1738        12.859        29.040              0.843        0.542
+hueco en grabación DAS                 6206        12.285        29.402              0.818        0.482
+hueco en grabación Normal             21380        10.366        28.775              0.749        0.445
+
+── Ventanas de 4 s: 32331; sin ningún evento (se descartan): 3351
+Fracción de la ventana cubierta por eventos:
+count    28980.00
+mean         0.69
+std          0.28
+min          0.00
+25%          0.45
+50%          0.75
+75%          0.96
+max          1.13
+
+── Clases con la regla actual (umbral 0.5 vs 1 s)
+                          0.5s     1s
+pulm_normal              22395  22562
+pulm_crackle              4151   4046
+pulm_wheeze               1780   1741
+pulm_both                  654    631
+borderline                 306    473
+cambian entre 0.5 y 1 s    173    173
+Ventanas que tocan estridor (≥ regla): 98
+
+── Por clase (umbral 1 s) contra ICBHI (avances/22 §1)
+              ventanas  pacientes  ventanas_sin_id  ICBHI ventanas  ICBHI pacientes
+label_name                                                                         
+pulm_both          631         66                0             972               36
+pulm_crackle      4046        257              113            2713               71
+pulm_normal      22562        904             1474            4086              116
+pulm_wheeze       1741        177              101            1204               60
+
+── Ventanas por split y clase
+label_name      pulm_both  pulm_crackle  pulm_normal  pulm_wheeze    All
+split                                                                   
+test2022_inter         48            61         1147          245   1501
+test2022_intra         33           217          974          128   1352
+test2023               32           394         2958          359   3743
+test2024                5           203         8553          256   9017
+test2025              305          2222         2813          335   5675
+train2022             208           949         6117          418   7692
+All                   631          4046        22562         1741  28980
+
+✓ C:\Users\santi\OneDrive\Documentos\CEIA\repo_ceia\proyecto_final\desarrollo\reports\sprsound\preprocessing

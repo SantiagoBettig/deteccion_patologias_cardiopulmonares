@@ -1,0 +1,222 @@
+
+── Grabaciones por split y etiqueta de grabación ─────────────────────────
+record_annotation  (sin etiqueta)  CAS  CAS & DAS  DAS  Normal  Poor Quality   All
+split                                                                             
+test2022_inter                  0   65         17   24     241             8   355
+test2022_intra                  0   42         19   75     241             2   379
+test2023                        0  135         21  133     539            43   871
+test2024                     1704    0          0    0       0             0  1704
+test2025                     1309    0          0    0       0             0  1309
+train2022                       0  126         95  248    1303           177  1949
+All                          3013  368        152  480    2324           230  6567
+
+── Frecuencia de muestreo / canales ──────────────────────────────────────
+sample_rate_hz  channels
+8000            1           6567
+
+── Duración de las grabaciones (s) ───────────────────────────────────────
+                 count   mean   std   min   25%    50%    75%    max
+split                                                               
+test2022_inter   355.0  12.04  3.07  9.18  9.22   9.22  15.36  15.36
+test2022_intra   379.0  10.49  2.49  9.22  9.22   9.22   9.22  15.36
+test2023         871.0  11.77  3.35  0.93  9.22   9.22  15.36  15.36
+test2024        1704.0  12.54  3.28  2.34  9.22  15.36  15.36  15.36
+test2025        1309.0  10.63  2.65  4.10  9.22   9.22   9.22  15.36
+train2022       1949.0  10.84  2.73  0.30  9.22   9.22  15.36  15.36
+
+── Focos ─────────────────────────────────────────────────────────────────
+location         p1   p2   p3   p4  p5  p6  p7  p8
+split                                             
+test2022_inter   92   83   90   90   0   0   0   0
+test2022_intra   81  104   99   95   0   0   0   0
+test2023        207  211  230  223   0   0   0   0
+test2024        456  476  386  386   0   0   0   0
+test2025        316  317  309  310   9   4  10  34
+train2022       499  493  466  491   0   0   0   0
+
+── Edad (años) por paciente ──────────────────────────────────────────────
+count    952.00
+mean       5.44
+std        3.20
+min        0.00
+25%        3.40
+50%        4.90
+75%        7.20
+max       16.80
+
+── Pacientes por split ───────────────────────────────────────────────────
+split
+test2022_inter     41
+test2022_intra    162
+test2023           94
+test2024          334
+test2025          232
+train2022         251
+
+── Pacientes únicos: 952 — combinaciones de splits ───────────────────────
+split
+(test2024,)                    334
+(test2025,)                    232
+(test2022_intra, train2022)    162
+(test2023,)                     94
+(train2022,)                    89
+(test2022_inter,)               41
+
+── Sin número de paciente: 390 grabaciones, 84 pseudo-pacientes (split+edad+sexo); cuántos comparten edad+sexo con algún paciente identificado 
+          pseudo  n_rec  con_coincidencia
+split                                    
+test2023       2     47                 2
+test2024      11    106                10
+test2025      71    237                66
+
+── Patient Summary: cobertura ────────────────────────────────────────────
+summary
+Grand_Challenge'23_patient_summary      94 en el CSV, 93 con audio
+Grand_Challenge'24_patient_summary    782 en el CSV, 748 con audio
+SPRSound_patient_summary              292 en el CSV, 292 con audio
+
+── Pacientes con diagnóstico distinto entre summaries ────────────────────
+patient_num
+40638274            Bronchiectasia|Other respiratory diseases
+40797382             Chronic cough|Other respiratory diseases
+40965308       Airway foreign body|Other respiratory diseases
+40978034    Acute upper respiratory infection|Other respir...
+41050041            Bronchiectasia|Other respiratory diseases
+41099241             Chronic cough|Other respiratory diseases
+41223618             Bronchiolitis|Other respiratory diseases
+41227367                Hemoptysis|Other respiratory diseases
+41244654             Bronchiolitis|Other respiratory diseases
+41246413             Chronic cough|Other respiratory diseases
+41267028                    Bronchitis|Pneumonia (non-severe)
+41273150         Other respiratory|Other respiratory diseases
+41282750                   Kawasaki disease|Other respiratory
+41286238                      Bronchiolitis|Other respiratory
+64425810                     Bronchiectasia|Other respiratory
+64914400            Bronchiectasia|Other respiratory diseases
+64951742             Bronchiolitis|Other respiratory diseases
+65044711             Bronchiolitis|Other respiratory diseases
+65045840                Hemoptysis|Other respiratory diseases
+65049153             Bronchiolitis|Other respiratory diseases
+65057715                Hemoptysis|Other respiratory diseases
+65057904             Chronic cough|Other respiratory diseases
+65076987    Other respiratory diseases|Pulmonary hemosider...
+65090966                Hemoptysis|Other respiratory diseases
+66229783                     Bronchiectasia|Other respiratory
+66252562                     Bronchiectasia|Other respiratory
+66330319    Acute upper respiratory infection|Other respir...
+66332023         Other respiratory|Other respiratory diseases
+66338802                     Bronchiectasia|Other respiratory
+
+── Pacientes con audio sin diagnóstico ───────────────────────────────────
+204
+
+── Eventos por tipo ──────────────────────────────────────────────────────
+                n_events  n_recordings  n_patients  total_sec  median_sec  p10_sec  p90_sec
+type                                                                                       
+Normal             18772          4980         860   34240.82        1.74     0.96     2.76
+Fine Crackle        3530          1140         241    5610.22        1.58     0.74     2.48
+Wheeze              1505           548         151    1578.26        0.78     0.39     2.09
+Wheeze+Crackle       303            97          36     579.64        1.99     1.10     2.48
+Rhonchi              217            77          39     371.34        1.67     0.67     2.83
+Coarse Crackle       177            74          44     241.04        1.40     0.70     2.10
+Stridor               74            31          10     131.68        1.55     0.80     3.05
+
+── Eventos por split y tipo ──────────────────────────────────────────────
+type            Coarse Crackle  Fine Crackle  Normal  Rhonchi  Stridor  Wheeze  Wheeze+Crackle    All
+split                                                                                                
+test2022_inter               3            80    1040        0        0     305               1   1429
+test2022_intra              14           175     688       14        2     108               3   1004
+test2023                    34           309    2458       95       32     194               2   3124
+test2024                    12           169    7252       62       17     141               6   7659
+test2025                    65          1885    2175        7        8     305             261   4706
+train2022                   49           912    5159       39       15     452              30   6656
+All                        177          3530   18772      217       74    1505             303  24578
+
+── Fracción de la grabación cubierta por eventos (sin Poor Quality) ──────
+                 count  mean   std   min   25%   50%   75%   max
+split                                                           
+test2022_inter   347.0  0.48  0.27  0.03  0.25  0.46  0.71  0.97
+test2022_intra   377.0  0.34  0.21  0.03  0.16  0.30  0.47  0.95
+test2023         828.0  0.53  0.27  0.03  0.30  0.56  0.76  0.98
+test2024        1704.0  0.76  0.23  0.06  0.66  0.83  0.93  1.00
+test2025        1309.0  0.68  0.22  0.05  0.55  0.74  0.85  0.98
+train2022       1772.0  0.44  0.19  0.03  0.29  0.43  0.57  0.97
+
+── Inicio del primer evento (s) ──────────────────────────────────────────
+count    6337.00
+mean        1.87
+std         2.25
+min         0.00
+25%         0.41
+50%         1.11
+75%         2.35
+max        14.58
+
+── Eventos con duración ≤ 0 o que terminan después del audio ─────────────
+0
+
+── Etiqueta de grabación (filas) vs la que implican los eventos (columnas) 
+implied            (sin eventos)  CAS  CAS & DAS  DAS  Normal
+record_annotation                                            
+CAS                            0  368          0    0       0
+CAS & DAS                      0    0        152    0       0
+DAS                            0    0          0  480       0
+Normal                         0    0          0    0    2324
+Poor Quality                 230    0          0    0       0
+
+── Pacientes con al menos un evento de cada tipo (crackle incluye Wheeze+Crackle; wheeze incluye Rhonchi y Wheeze+Crackle) 
+crackle    272
+wheeze     194
+both        36
+stridor     10
+
+── Pacientes por diagnóstico y presencia de eventos ──────────────────────
+                                                             crackle    n wheeze   both
+disease                                                                                
+Pneumonia (non-severe)                                           112  404     75     12
+(sin diagnóstico)                                                103  204     42     20
+Bronchitis                                                        17  105     25      0
+Control group                                                      2   74      9      0
+Asthma                                                            10   66     16      0
+Pneumonia (severe)                                                14   41     13      3
+Other respiratory diseases                                         2   14      3      1
+Acute upper respiratory infection                                  1    9      0      0
+Bronchiolitis|Other respiratory diseases                           4    5      4      0
+Bronchiectasia|Other respiratory                                   1    4      3      0
+Hemoptysis|Other respiratory diseases                              1    4      0      0
+Chronic cough|Other respiratory diseases                           1    4      0      0
+Bronchiectasia|Other respiratory diseases                          1    3      1      0
+Bronchiolitis                                                      0    2      0      0
+Other respiratory|Other respiratory diseases                       0    2      0      0
+Acute upper respiratory infection|Other respiratory            False    1  False  False
+Airway foreign body                                            False    1  False  False
+Airway foreign body|Other respiratory diseases                 False    1  False  False
+Bronchiectasia                                                  True    1  False  False
+Acute upper respiratory infection|Other respiratory diseases    True    1  False  False
+Bronchitis|Pneumonia (non-severe)                               True    1   True  False
+Bronchiolitis|Other respiratory                                False    1   True  False
+Other respiratory diseases|Pulmonary hemosiderosis             False    1  False  False
+Kawasaki disease|Other respiratory                             False    1   True  False
+Protracted bacterial bronchitis                                False    1  False  False
+Pulmonary hemosiderosis                                        False    1  False  False
+
+── Grabaciones por paciente ──────────────────────────────────────────────
+count    952.00
+mean       6.90
+std        7.18
+min        1.00
+25%        3.00
+50%        5.00
+75%        8.00
+max       83.00
+
+── Classification/Detection vs BioCAS20xx ────────────────────────────────
+                                          in_biocas  alt_has_record  same_record  same_events  same_event_types     n
+alt_dir                                                                                                              
+Classification/train_classification_json       1949            1949         1949         1949              1949  1949
+Classification/valid_classification_json       1605            1605         1605         1605              1605  1605
+Detection/test2024_detection_json              1704               0         1704         1704              1704  1704
+Detection/train_detection_json                 2660               0         2660         2660              2660  2660
+Detection/valid_detection_json                  664               0          664          664               664   664
+
+✓ Tablas en C:\Users\santi\OneDrive\Documentos\CEIA\repo_ceia\proyecto_final\desarrollo\reports\sprsound

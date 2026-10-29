@@ -1,0 +1,953 @@
+patient,n_recordings,age,gender,splits,n_good_recordings,crackle,wheeze,both,stridor,disease
+00014365,1,4.3,F,test2023,1,False,True,False,False,Control group
+00015105,2,5.3,M,test2025,2,True,False,False,False,
+00015808,1,4.3,F,test2025,1,False,False,False,False,
+00016281,7,3.7,F,test2024,7,False,False,False,False,Pneumonia (non-severe)
+00017520,4,3.6,M,test2024,4,False,False,False,False,Bronchitis
+40069321,4,15.3,M,train2022,0,False,False,False,False,Pneumonia (severe)
+40138127,3,14.7,M,train2022,2,False,False,False,False,Pneumonia (non-severe)
+40463323,3,11.1,M,test2024,3,False,False,False,False,Bronchitis
+40481151,6,10.0,M,test2025,6,False,False,False,False,
+40490865,4,8.4,F,train2022,4,False,False,False,False,Pneumonia (non-severe)
+40508015,3,9.6,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+40512331,7,8.1,F,test2022_inter,6,False,False,False,False,Pneumonia (non-severe)
+40527873,8,9.2,F,test2024,8,False,False,False,False,Control group
+40553956,2,14.3,M,test2024,2,False,False,False,False,Bronchitis
+40638274,26,9.7,F,test2022_intra|train2022,25,True,True,False,False,Bronchiectasia|Other respiratory diseases
+40672181,4,13.1,M,test2022_intra|train2022,4,False,False,False,False,Asthma
+40680114,1,6.7,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+40686765,7,6.7,F,train2022,7,False,False,False,False,Asthma
+40697794,5,6.2,M,test2024,5,False,False,False,False,Pneumonia (non-severe)
+40717763,6,6.3,F,test2024,6,False,True,False,False,Bronchitis
+40723822,2,6.5,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+40723829,5,6.4,M,test2025,5,True,False,False,False,Pneumonia (non-severe)
+40728258,10,11.9,F,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+40729356,3,6.0,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+40733006,2,5.9,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+40746591,5,8.9,F,test2024,5,False,False,False,False,Pneumonia (non-severe)
+40760829,1,5.4,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+40761017,7,8.3,F,test2024,7,False,False,False,False,Pneumonia (non-severe)
+40794666,12,4.4,F,test2022_intra|train2022,12,False,False,False,False,Pneumonia (non-severe)
+40794825,4,4.2,M,train2022,4,False,False,False,False,Pneumonia (non-severe)
+40794852,4,4.2,M,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+40797293,4,5.5,F,test2022_intra|train2022,4,False,False,False,False,Control group
+40797382,4,4.8,M,train2022,4,True,False,False,False,Chronic cough|Other respiratory diseases
+40801342,4,4.0,F,test2022_intra|train2022,4,True,False,False,False,Pneumonia (non-severe)
+40811582,2,8.6,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+40812727,2,7.0,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+40813160,6,4.1,F,test2022_intra|train2022,6,False,False,False,False,Pneumonia (severe)
+40822278,27,5.7,F,test2024,27,False,False,False,False,Control group
+40828146,4,10.0,M,test2024,4,False,False,False,False,Asthma
+40841531,4,3.7,F,test2022_intra|train2022,4,True,True,False,False,Pneumonia (severe)
+40844382,1,4.9,F,test2023,0,False,False,False,False,Bronchitis
+40845795,7,3.6,M,test2022_intra|train2022,6,False,False,False,False,Pneumonia (non-severe)
+40851652,1,5.0,F,test2024,1,False,False,False,False,Asthma
+40856389,14,6.4,F,test2024,14,False,False,False,False,Acute upper respiratory infection
+40876967,3,4.3,M,test2023,3,True,False,False,False,Bronchitis
+40877113,1,3.9,M,test2024,1,False,False,False,False,Bronchitis
+40877908,7,4.0,M,test2022_intra|train2022,7,True,True,False,False,Asthma
+40883851,7,4.0,M,test2024,7,False,False,False,False,Bronchitis
+40884475,1,3.8,F,test2023,1,False,True,False,False,Pneumonia (non-severe)
+40887142,4,3.9,F,test2024,4,False,False,False,False,Pneumonia (non-severe)
+40888395,3,3.4,M,test2022_inter,3,False,False,False,False,Pneumonia (non-severe)
+40890035,7,4.4,F,test2024,7,False,False,False,False,Bronchitis
+40890405,14,3.3,M,test2022_inter,14,False,False,False,False,Pneumonia (non-severe)
+40897762,1,11.0,F,test2024,1,False,False,False,False,Control group
+40905489,3,6.1,M,test2024,3,False,False,False,False,Control group
+40906558,4,8.1,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+40908606,4,3.7,F,train2022,4,False,False,False,False,Pneumonia (non-severe)
+40911272,3,8.6,F,test2025,3,False,False,False,False,Pneumonia (severe)
+40913817,3,10.0,M,test2025,3,True,False,False,False,
+40914997,2,3.4,M,test2025,2,False,True,False,False,Bronchitis
+40919639,8,4.9,M,train2022,8,False,False,False,False,Asthma
+40919812,8,7.5,F,test2024,8,False,False,False,False,Asthma
+40921345,4,2.7,M,train2022,4,False,False,False,False,Pneumonia (non-severe)
+40922098,12,13.5,M,test2024,12,False,False,False,False,Pneumonia (non-severe)
+40933046,8,3.4,M,test2022_intra|train2022,8,False,False,False,False,Pneumonia (non-severe)
+40934925,3,3.4,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+40935418,2,10.1,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+40936340,1,3.3,F,test2024,1,False,False,False,False,Bronchitis
+40938576,4,3.3,M,test2022_inter,3,False,False,False,False,Pneumonia (non-severe)
+40939119,4,5.8,M,test2025,4,True,False,False,False,
+40939271,11,6.8,M,test2022_intra|train2022,10,True,False,False,False,Pneumonia (non-severe)
+40939729,3,9.2,M,test2024,3,False,True,False,False,Asthma
+40941866,4,5.3,F,test2024,4,False,False,False,False,Asthma
+40943224,3,9.7,M,test2022_intra|train2022,2,False,False,False,False,Pneumonia (non-severe)
+40943710,6,6.4,M,test2024,6,False,False,False,False,Control group
+40944281,9,8.7,M,test2024,9,False,False,False,False,Control group
+40946890,1,8.1,F,test2024,1,False,False,False,False,Other respiratory diseases
+40947626,2,10.6,F,test2025,2,False,False,False,False,
+40950490,15,8.1,M,test2024,15,False,False,False,False,Pneumonia (severe)
+40954260,1,3.5,M,test2024,1,False,False,False,False,Pneumonia (non-severe)
+40955465,1,6.9,F,test2023,0,False,False,False,False,Pneumonia (non-severe)
+40958634,4,7.5,F,test2023,4,True,False,False,False,Pneumonia (non-severe)
+40958856,1,4.7,F,test2025,1,True,False,False,False,
+40960262,1,9.3,F,test2025,1,False,False,False,False,
+40965308,7,6.5,M,test2022_intra|train2022,7,False,False,False,False,Airway foreign body|Other respiratory diseases
+40966300,7,10.3,M,test2024,7,False,False,False,False,Pneumonia (non-severe)
+40967102,6,3.5,M,test2024,6,False,True,False,False,Bronchitis
+40968057,4,9.1,M,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+40969263,6,4.0,M,test2022_intra|train2022,6,True,True,True,False,Pneumonia (non-severe)
+40970076,4,5.6,F,test2022_inter,3,False,False,False,False,Control group
+40970808,8,6.5,F,test2024,8,False,False,False,False,Pneumonia (non-severe)
+40973971,5,3.7,F,test2024,5,False,False,False,False,Bronchitis
+40974013,3,6.0,M,train2022,3,False,False,False,False,Asthma
+40976541,8,2.7,F,test2022_intra|train2022,8,True,True,False,False,Asthma
+40978034,4,2.8,F,train2022,3,True,False,False,False,Acute upper respiratory infection|Other respiratory diseases
+40979876,1,3.6,F,test2025,1,False,False,False,False,Asthma
+40981907,6,7.8,F,test2024,6,False,False,False,False,Pneumonia (non-severe)
+40985693,6,3.4,M,test2023,6,True,True,False,False,Bronchitis
+40987987,1,11.2,F,test2024,1,False,False,False,False,Pneumonia (severe)
+40990257,2,6.2,M,test2024,2,False,False,False,False,Acute upper respiratory infection
+40990420,1,8.7,F,test2023,0,False,False,False,False,Pneumonia (non-severe)
+40991890,1,3.4,M,test2024,1,False,False,False,False,Bronchitis
+40993807,3,4.2,F,test2022_inter,3,False,False,False,False,Pneumonia (non-severe)
+40995522,1,9.2,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+40995749,32,10.5,F,test2022_intra|train2022,32,True,True,False,False,Pneumonia (non-severe)
+40996284,8,3.0,M,test2023,8,True,True,False,False,Bronchitis
+40998698,5,8.4,F,test2023,0,False,False,False,False,Pneumonia (non-severe)
+40998984,2,12.0,M,test2025,2,False,False,False,False,Pneumonia (non-severe)
+41002537,9,8.6,M,test2024,9,False,False,False,False,Pneumonia (non-severe)
+41002684,2,8.5,F,test2025,2,False,False,False,False,Pneumonia (non-severe)
+41004529,11,5.2,F,test2022_intra|train2022,11,True,True,False,False,Pneumonia (non-severe)
+41004635,3,3.7,M,test2024,3,False,False,False,False,Pneumonia (non-severe)
+41006394,10,5.5,F,train2022,9,False,False,False,False,Control group
+41007443,3,10.1,M,test2025,3,True,True,True,False,
+41012107,4,7.9,M,train2022,4,False,False,False,False,Pneumonia (non-severe)
+41015138,1,6.7,M,test2025,1,False,False,False,False,Pneumonia (non-severe)
+41017156,12,1.6,M,test2022_intra|train2022,5,False,False,False,False,Pneumonia (non-severe)
+41018098,1,3.2,F,test2024,1,False,False,False,False,Bronchitis
+41020298,4,4.2,F,test2022_intra|train2022,4,False,False,False,False,Bronchitis
+41021518,6,3.1,F,test2024,6,False,False,False,False,Control group
+41022108,4,3.2,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41026101,4,7.0,F,train2022,4,False,False,False,False,Pneumonia (non-severe)
+41027299,1,3.1,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+41031554,11,10.7,M,test2022_inter,9,False,False,False,False,Control group
+41031579,1,8.0,F,test2025,1,False,False,False,False,
+41031836,7,2.4,M,test2022_intra|train2022,6,False,False,False,False,Bronchitis
+41033149,2,6.5,F,test2025,2,True,False,False,False,
+41038169,3,3.9,F,test2023,3,False,True,False,False,Bronchitis
+41038697,7,8.1,M,test2022_intra|train2022,6,False,False,False,False,Pneumonia (non-severe)
+41040573,3,6.7,M,test2024,3,False,False,False,False,Pneumonia (non-severe)
+41042359,8,9.0,F,test2024,8,False,False,False,False,Pneumonia (non-severe)
+41042780,10,6.5,F,test2024,10,True,False,False,False,Pneumonia (non-severe)
+41044592,5,8.3,M,test2024,5,True,False,False,False,Pneumonia (non-severe)
+41044973,12,6.1,M,test2024,12,False,False,False,False,Pneumonia (non-severe)
+41047166,5,8.8,F,test2025,5,False,False,False,False,
+41048422,3,8.2,M,test2025,3,True,False,False,False,
+41048847,8,3.2,M,test2024,8,False,False,False,False,Bronchitis
+41049035,2,3.2,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41050041,12,5.6,M,test2022_intra|train2022,12,False,False,False,False,Bronchiectasia|Other respiratory diseases
+41051499,2,6.8,F,test2025,2,False,False,False,False,
+41052158,4,6.3,F,train2022,4,True,False,False,False,Pneumonia (non-severe)
+41055397,4,3.0,M,test2024,4,False,False,False,False,Airway foreign body
+41055938,1,3.4,F,test2025,1,False,False,False,False,Bronchitis
+41056352,8,4.3,M,test2022_intra|train2022,8,True,True,False,False,Asthma
+41056868,4,2.5,F,train2022,4,True,False,False,False,Pneumonia (non-severe)
+41056913,1,8.7,M,test2024,1,False,False,False,False,Asthma
+41057523,12,2.2,M,test2024,12,False,True,False,False,Bronchitis
+41057528,2,7.0,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41058188,16,9.4,M,test2024,16,False,False,False,False,Pneumonia (non-severe)
+41058524,5,4.5,F,test2024,5,False,True,False,False,Pneumonia (non-severe)
+41059845,1,2.9,M,test2025,1,False,True,False,False,
+41060197,2,6.0,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41060494,4,8.8,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41061543,2,14.8,M,test2024,2,False,False,False,False,Acute upper respiratory infection
+41063116,8,5.1,M,train2022,8,True,True,False,False,Pneumonia (non-severe)
+41063917,4,4.0,F,test2024,4,False,False,False,False,Bronchitis
+41063995,7,3.8,M,test2025,7,True,False,False,False,
+41064910,7,1.6,M,train2022,7,False,False,False,False,Pneumonia (non-severe)
+41064945,4,5.0,F,test2022_intra|train2022,3,False,False,False,False,Asthma
+41065704,7,5.0,F,test2022_intra|train2022,4,True,False,False,False,Pneumonia (non-severe)
+41066730,7,2.5,M,train2022,7,False,False,False,False,Pneumonia (non-severe)
+41067823,11,6.1,M,test2022_intra|train2022,10,True,True,False,False,Pneumonia (non-severe)
+41067837,4,2.6,M,test2024,4,False,False,False,False,Protracted bacterial bronchitis
+41067862,4,9.3,M,train2022,4,False,False,False,False,Bronchitis
+41068211,9,3.5,M,test2024,9,False,False,False,False,Asthma
+41068313,15,6.1,F,test2022_intra|train2022,13,False,False,False,False,Pneumonia (non-severe)
+41068478,5,12.0,M,test2024,5,False,False,False,False,Asthma
+41069224,8,7.0,F,train2022,8,False,False,False,False,Asthma
+41069986,5,4.2,F,test2022_intra|train2022,4,True,False,False,False,Pneumonia (non-severe)
+41070300,6,3.8,F,test2024,6,False,False,False,False,Pneumonia (non-severe)
+41071278,4,4.4,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41073762,4,4.6,F,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+41073831,4,5.1,F,train2022,4,False,False,False,False,Pneumonia (non-severe)
+41074090,8,5.8,F,test2024,8,False,False,False,False,Other respiratory diseases
+41074281,4,5.0,F,train2022,4,False,False,False,False,Pneumonia (non-severe)
+41074422,6,6.8,M,test2024,6,False,False,False,False,Pneumonia (severe)
+41074522,4,7.1,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41074892,7,10.0,F,test2022_intra|train2022,7,False,False,False,False,Asthma
+41076950,5,4.3,F,test2024,5,False,True,False,False,Bronchitis
+41077948,14,6.6,M,test2025,14,True,False,False,False,
+41080062,6,2.4,M,test2022_intra|train2022,6,False,True,False,False,Pneumonia (non-severe)
+41080228,2,5.8,F,test2025,2,False,False,False,False,Pneumonia (non-severe)
+41080454,2,2.0,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41082553,8,11.0,F,test2022_intra|train2022,8,True,False,False,False,Pneumonia (non-severe)
+41083332,1,5.5,F,test2024,1,False,False,False,False,Pneumonia (severe)
+41085148,6,5.8,F,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+41085918,2,6.4,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41086026,7,5.9,F,test2025,7,True,False,False,False,
+41086921,17,2.3,F,test2024,17,True,False,False,False,Pneumonia (non-severe)
+41087486,11,3.8,M,test2022_intra|train2022,11,True,True,False,False,Pneumonia (non-severe)
+41087577,7,3.9,F,test2024,7,False,False,False,False,Pneumonia (severe)
+41089311,5,8.5,M,test2024,5,False,False,False,False,Pneumonia (severe)
+41090326,4,5.7,M,train2022,3,False,False,False,False,Pneumonia (non-severe)
+41090614,8,4.5,F,test2025,8,True,False,False,False,
+41090976,5,3.7,M,test2023,5,True,True,False,False,Control group
+41091768,4,7.7,M,train2022,4,True,False,False,False,Pneumonia (non-severe)
+41091988,2,3.1,F,train2022,2,False,False,False,False,Bronchitis
+41092032,8,7.2,F,test2024,8,False,False,False,False,Pneumonia (non-severe)
+41092159,6,8.6,F,test2024,6,False,False,False,False,Pneumonia (non-severe)
+41092434,4,4.8,M,test2022_inter,4,False,True,False,False,Asthma
+41093777,1,5.7,M,test2024,1,False,False,False,False,Asthma
+41094322,15,7.0,M,test2025,15,True,False,False,False,
+41096062,6,2.3,F,test2025,6,False,False,False,False,Acute upper respiratory infection
+41096262,1,7.5,M,test2025,1,False,False,False,False,Asthma
+41096663,4,5.5,F,test2022_intra|train2022,3,False,False,False,False,Pneumonia (non-severe)
+41097602,4,8.9,M,train2022,4,True,False,False,False,Pneumonia (non-severe)
+41097985,7,4.9,M,test2022_intra|train2022,7,False,False,False,False,Pneumonia (non-severe)
+41097986,8,3.6,F,test2022_intra|train2022,7,True,False,False,False,Pneumonia (non-severe)
+41098856,1,3.9,F,train2022,0,False,False,False,False,Pneumonia (non-severe)
+41098871,2,6.5,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41099241,4,4.0,M,train2022,4,False,False,False,False,Chronic cough|Other respiratory diseases
+41100415,2,6.2,F,train2022,2,False,False,False,False,Asthma
+41101032,5,5.2,M,test2024,5,False,False,False,True,Asthma
+41101309,2,3.3,F,test2022_inter,2,False,False,False,False,Pneumonia (non-severe)
+41101939,4,5.4,F,test2024,4,False,False,False,False,Bronchitis
+41102359,8,12.6,M,test2022_intra|train2022,8,False,False,False,False,Asthma
+41102611,3,14.0,F,test2022_intra|train2022,2,True,False,False,False,Pneumonia (non-severe)
+41102944,1,4.8,F,train2022,1,False,False,False,False,Bronchitis
+41103138,12,3.6,M,test2024,12,False,False,False,False,Acute upper respiratory infection
+41103336,2,5.9,F,test2025,2,True,False,False,False,
+41103864,14,7.6,F,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+41104324,8,3.3,F,test2022_intra|train2022,8,True,True,False,False,Pneumonia (non-severe)
+41106111,3,2.1,M,train2022,3,False,True,False,False,Pneumonia (non-severe)
+41106116,11,11.4,M,train2022,10,False,False,False,False,Pneumonia (non-severe)
+41106260,9,4.2,M,test2025,9,False,False,False,False,Bronchitis
+41107159,6,2.9,M,test2025,6,True,True,True,False,
+41107567,4,2.8,F,test2024,4,False,False,False,False,Pneumonia (severe)
+41107670,8,10.7,M,test2025,8,True,False,False,False,
+41107870,1,4.7,M,test2025,1,False,False,False,False,Pneumonia (non-severe)
+41108858,15,5.0,M,test2022_intra|train2022,9,False,False,False,False,Pneumonia (non-severe)
+41111703,3,6.7,M,test2024,3,False,False,False,False,Pneumonia (non-severe)
+41112159,8,4.9,F,test2022_intra|train2022,7,False,False,False,False,Control group
+41112999,4,3.2,M,test2022_intra|train2022,4,False,False,False,False,Bronchitis
+41114213,11,3.5,F,test2025,11,True,False,False,False,
+41114600,1,4.1,M,test2022_inter,1,False,False,False,False,Pneumonia (non-severe)
+41115029,13,8.3,M,test2024,13,False,False,False,False,Pneumonia (non-severe)
+41115183,12,4.8,M,test2022_intra|train2022,11,False,True,False,False,Control group
+41115356,3,4.0,M,test2024,3,False,False,False,False,Bronchitis
+41115663,34,8.0,F,test2025,34,True,False,False,False,
+41116403,10,6.6,M,test2024,10,True,False,False,False,Bronchiectasia
+41116404,1,9.0,M,test2024,1,False,False,False,False,Pneumonia (non-severe)
+41116882,10,6.9,F,test2023,10,True,True,True,False,Pneumonia (non-severe)
+41117046,4,4.2,F,test2023,3,True,True,False,False,Pneumonia (non-severe)
+41117419,5,4.1,F,test2025,5,False,True,False,False,
+41117797,1,8.3,F,test2025,1,False,False,False,False,
+41118244,8,3.6,F,test2022_intra|train2022,8,False,False,False,False,Asthma
+41118440,2,7.3,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41119941,1,7.4,F,test2024,1,False,False,False,False,Bronchitis
+41119946,4,2.5,F,test2024,4,False,False,False,False,Bronchitis
+41121354,1,1.8,M,test2025,1,False,True,False,False,
+41121632,9,7.3,M,test2025,9,True,False,False,False,
+41122685,4,5.9,M,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+41123147,3,2.7,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+41125353,4,4.3,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41125983,12,6.8,M,test2022_intra|train2022,12,False,False,False,False,Asthma
+41126050,4,7.6,M,test2024,4,False,False,False,False,Acute upper respiratory infection
+41126500,4,4.8,M,train2022,4,False,False,False,False,Asthma
+41126642,8,8.8,M,test2022_intra|train2022,7,False,False,False,False,Asthma
+41126701,3,3.6,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+41128214,3,3.6,F,test2024,3,False,False,False,False,Control group
+41129442,6,6.5,F,test2024,6,False,False,False,False,Pneumonia (non-severe)
+41129868,8,5.7,M,train2022,6,False,False,False,False,Pneumonia (non-severe)
+41130021,2,5.1,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41130419,43,1.8,M,test2023,43,True,True,False,False,Pneumonia (non-severe)
+41132510,10,7.6,M,test2025,10,True,False,False,False,
+41132911,13,3.0,M,test2023,13,True,True,False,False,Pneumonia (non-severe)
+41134603,7,3.5,M,test2024,7,False,False,False,False,Bronchitis
+41134874,5,13.2,F,test2022_intra|train2022,4,True,True,False,False,Pneumonia (severe)
+41137516,1,3.7,F,test2025,1,False,False,False,False,
+41140509,9,4.5,F,test2024,9,False,False,False,False,Bronchitis
+41140882,4,5.9,F,test2025,4,False,False,False,False,Pneumonia (non-severe)
+41142196,3,3.2,M,test2025,3,False,False,False,False,Pneumonia (severe)
+41142628,8,3.7,M,test2025,8,True,False,False,False,Pneumonia (non-severe)
+41144816,4,3.5,F,test2025,4,False,False,False,False,Pneumonia (non-severe)
+41146360,5,13.2,M,test2023,0,False,False,False,False,Control group
+41148917,11,5.9,F,test2024,11,True,False,False,False,Bronchitis
+41152270,4,5.1,F,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41152442,4,3.5,M,train2022,4,False,False,False,False,Pneumonia (non-severe)
+41152770,8,3.5,F,test2025,8,True,False,False,False,
+41153118,1,5.6,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+41155308,3,4.2,M,test2025,3,False,False,False,False,Bronchitis
+41156743,7,5.6,M,test2024,7,False,False,False,False,Bronchitis
+41156815,4,7.2,F,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+41159145,10,3.3,M,test2022_intra|train2022,10,True,False,False,False,Pneumonia (non-severe)
+41161033,4,10.1,M,test2025,4,True,False,False,False,
+41161556,36,1.7,M,test2022_intra|train2022,36,True,True,True,False,Pneumonia (non-severe)
+41161901,3,4.0,M,test2024,3,False,False,False,False,Pneumonia (non-severe)
+41162041,5,2.4,F,test2025,5,True,True,True,False,
+41163586,4,3.9,F,train2022,4,False,False,False,False,Control group
+41164435,6,5.5,F,test2025,6,True,False,False,False,
+41166273,12,3.9,M,test2022_intra|train2022,12,False,False,False,False,Control group
+41167576,5,5.1,F,test2022_intra|train2022,5,False,False,False,False,Pneumonia (non-severe)
+41168645,5,3.8,M,test2024,5,False,False,False,False,Pneumonia (non-severe)
+41171600,21,7.8,F,test2022_intra|train2022,19,True,True,False,False,Pneumonia (non-severe)
+41172223,7,3.6,F,test2025,7,True,False,False,False,
+41173352,2,3.9,F,test2024,2,False,False,False,False,Bronchitis
+41173389,8,4.1,F,test2022_intra|train2022,8,True,True,False,False,Pneumonia (non-severe)
+41174332,9,5.5,F,test2024,9,False,False,False,False,Pneumonia (non-severe)
+41175566,18,10.2,M,test2024,18,True,True,False,False,Asthma
+41175894,1,4.6,F,test2025,1,False,False,False,False,
+41177679,3,10.8,F,test2025,3,False,False,False,False,Pneumonia (non-severe)
+41178330,2,4.3,M,test2025,2,False,False,False,False,Pneumonia (severe)
+41179741,7,8.8,M,test2024,7,False,False,False,False,Pneumonia (non-severe)
+41182207,6,9.4,M,train2022,0,False,False,False,False,Control group
+41182662,2,7.2,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41184079,4,6.2,M,test2023,4,False,True,False,False,Asthma
+41186340,61,6.6,M,test2022_intra|train2022,61,True,False,False,False,Pneumonia (non-severe)
+41187065,2,4.0,F,test2023,2,False,True,False,False,Asthma
+41187871,20,3.8,F,test2022_intra|train2022,20,True,False,False,False,Pneumonia (non-severe)
+41187982,3,2.6,F,test2022_intra|train2022,3,False,False,False,False,Bronchitis
+411882337,4,6.5,M,test2025,4,False,True,False,False,
+41190586,5,8.1,F,test2024,5,False,False,False,False,Pneumonia (non-severe)
+41190734,16,9.5,M,train2022,6,True,False,False,False,Pneumonia (non-severe)
+41190886,10,3.8,M,test2024,10,False,False,False,False,Pneumonia (non-severe)
+41191269,8,3.1,F,test2022_intra|train2022,8,False,False,False,False,Pneumonia (non-severe)
+41191335,1,6.1,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+41192393,6,3.5,M,test2024,6,False,True,False,False,Bronchitis
+41192645,4,4.3,F,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41194591,10,7.3,F,test2024,10,False,False,False,False,Pneumonia (non-severe)
+41195090,2,5.6,F,train2022,0,False,False,False,False,Pneumonia (non-severe)
+41197002,1,5.0,F,test2025,1,False,False,False,False,Pneumonia (non-severe)
+41198128,6,6.5,F,test2024,6,True,False,False,False,Control group
+41200159,8,7.3,M,test2024,8,False,False,False,False,Pneumonia (severe)
+41201876,4,4.0,F,test2025,4,False,False,False,False,Bronchitis
+41202647,4,2.2,M,test2022_intra|train2022,4,True,False,False,False,Pneumonia (non-severe)
+41202895,1,4.0,M,test2024,1,False,False,False,False,Pneumonia (non-severe)
+41203687,11,11.8,M,train2022,11,False,False,False,False,Control group
+41204680,19,5.2,M,test2025,19,True,False,False,False,
+41205122,12,8.5,F,test2022_intra|train2022,8,False,False,False,False,Pneumonia (non-severe)
+41205245,1,3.6,M,test2025,1,False,False,False,False,Pneumonia (non-severe)
+41205994,12,9.3,M,train2022,12,True,False,False,False,Pneumonia (non-severe)
+41208467,2,3.4,F,test2023,2,True,True,False,False,Pneumonia (non-severe)
+41209060,8,4.4,F,test2022_inter,8,False,False,False,False,Pneumonia (non-severe)
+41211954,51,5.3,M,test2025,51,True,False,False,False,
+41213125,10,6.2,M,test2025,10,True,False,False,False,
+41213203,1,3.6,M,test2024,1,False,False,False,False,Pneumonia (non-severe)
+41213911,4,6.0,M,test2025,4,False,False,False,False,Pneumonia (non-severe)
+41213916,6,3.1,F,test2023,6,True,True,False,False,Pneumonia (non-severe)
+41214272,7,8.3,M,train2022,7,False,False,False,False,Pneumonia (non-severe)
+41216257,6,3.3,F,test2024,6,False,False,False,False,Pneumonia (non-severe)
+41218399,1,2.7,F,test2025,1,True,True,True,False,
+41220728,5,5.1,M,test2024,5,False,False,False,False,Bronchitis
+41221824,2,1.4,M,test2024,2,False,True,False,False,Bronchitis
+41222414,4,3.7,F,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41222985,1,3.4,M,test2022_inter,1,False,True,False,False,Pneumonia (non-severe)
+41223618,23,1.0,M,test2022_inter,23,False,True,False,False,Bronchiolitis|Other respiratory diseases
+41223713,9,4.4,M,test2024,9,False,False,False,False,Pneumonia (non-severe)
+41224599,18,6.6,M,test2025,18,True,True,False,False,
+41225279,2,7.7,M,test2024,2,False,False,False,False,Control group
+41225759,19,7.2,F,test2022_inter,19,True,True,True,False,Pneumonia (non-severe)
+41226005,4,3.9,F,train2022,4,False,True,False,False,Bronchitis
+41226962,9,4.4,M,test2024,9,False,False,False,False,Pneumonia (non-severe)
+41226965,8,4.6,M,test2024,8,False,False,False,False,Pneumonia (non-severe)
+41227367,31,6.7,F,test2022_intra|train2022,30,True,False,False,False,Hemoptysis|Other respiratory diseases
+41228434,9,2.2,F,test2024,9,True,True,True,False,Other respiratory diseases
+41231817,4,5.8,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41232369,8,1.9,M,test2024,8,True,True,True,False,Pneumonia (non-severe)
+41232666,9,5.2,M,test2025,9,True,False,False,False,
+41233462,1,4.7,M,test2022_inter,1,True,False,False,False,Pneumonia (non-severe)
+41238251,5,3.5,M,test2024,5,False,False,False,False,Control group
+41239207,7,5.3,F,test2024,7,False,False,False,False,Pneumonia (non-severe)
+41240007,29,6.0,M,test2025,29,True,False,False,False,
+41240513,10,6.8,M,test2025,10,True,False,False,False,
+41240554,2,6.5,F,test2024,2,False,False,False,False,Control group
+41240937,6,6.8,M,test2025,6,False,False,False,False,
+41241440,7,3.8,F,test2024,7,True,False,False,False,Pneumonia (non-severe)
+41243139,12,5.1,F,test2022_inter,12,True,True,False,False,Pneumonia (non-severe)
+41243989,2,6.8,F,test2025,2,True,False,False,False,
+41244654,5,0.6,M,test2022_intra|train2022,5,True,True,False,False,Bronchiolitis|Other respiratory diseases
+41246413,2,10.7,F,train2022,2,False,False,False,False,Chronic cough|Other respiratory diseases
+41246720,24,4.2,M,train2022,24,True,True,False,False,Pneumonia (non-severe)
+41247791,8,4.3,F,test2022_intra|train2022,8,True,False,False,False,Pneumonia (non-severe)
+41249093,8,4.2,F,test2022_inter,8,True,False,False,False,Asthma
+41250816,4,4.4,F,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41251473,65,2.7,F,test2022_intra|train2022,65,True,True,False,False,Pneumonia (non-severe)
+41251525,6,4.4,M,test2024,6,False,False,False,False,Bronchitis
+41252549,5,0.8,M,test2023,5,True,True,False,False,Bronchitis
+41253572,1,3.6,M,test2025,1,True,False,False,False,
+41255139,4,3.1,F,test2024,4,False,False,False,False,Pneumonia (non-severe)
+41255551,4,4.4,M,test2024,4,True,False,False,False,Acute upper respiratory infection
+41257969,8,7.0,F,test2024,8,True,False,False,False,Pneumonia (non-severe)
+41259325,14,5.1,M,test2022_intra|train2022,12,True,True,False,False,Asthma
+41260242,4,1.5,M,test2022_intra|train2022,4,False,False,False,False,Control group
+41260370,21,6.6,F,test2022_intra|train2022,20,True,False,False,False,Pneumonia (non-severe)
+41260684,8,3.8,F,test2022_intra|train2022,7,False,True,False,False,Pneumonia (non-severe)
+41260844,4,4.4,F,train2022,2,False,False,False,False,Pneumonia (non-severe)
+41260853,4,9.7,F,test2022_intra|train2022,3,True,False,False,False,Pneumonia (non-severe)
+41261485,7,7.0,F,test2022_intra|train2022,7,True,False,False,False,Pneumonia (non-severe)
+41261802,7,10.5,M,test2022_intra|train2022,7,False,True,False,False,Pneumonia (severe)
+41262231,4,11.3,F,test2022_intra|train2022,2,False,False,False,False,Pneumonia (non-severe)
+41262295,4,4.1,M,train2022,4,False,False,False,False,Bronchitis
+41262399,11,0.4,F,test2022_intra|train2022,11,True,True,True,False,Pneumonia (severe)
+41262439,4,11.7,M,test2022_intra|train2022,4,True,True,False,False,Asthma
+41262442,4,2.5,M,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+41263355,8,3.4,M,test2022_intra|train2022,8,True,False,False,False,Pneumonia (non-severe)
+41263406,7,5.2,F,test2022_intra|train2022,7,False,False,False,False,Pneumonia (non-severe)
+41263490,3,8.0,F,test2022_intra|train2022,3,False,False,False,False,Pneumonia (non-severe)
+41263533,7,6.8,F,test2022_intra|train2022,6,True,True,False,False,Pneumonia (non-severe)
+41264623,1,0.8,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+41264697,3,2.4,M,test2022_intra|train2022,3,False,False,False,False,Pneumonia (non-severe)
+41265677,12,10.8,F,test2024,12,False,True,False,False,Asthma
+41266225,2,6.1,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41266405,4,16.2,M,test2022_intra|train2022,3,False,False,False,False,Pneumonia (severe)
+41267024,8,0.3,M,test2022_intra|train2022,8,True,True,True,False,Pneumonia (non-severe)
+41267028,22,0.2,M,test2022_intra|train2022,22,True,True,False,True,Bronchitis|Pneumonia (non-severe)
+41268627,6,9.5,F,test2025,6,True,False,False,False,
+41269095,4,5.2,M,train2022,4,False,False,False,False,Pneumonia (non-severe)
+41269667,1,7.1,F,test2025,1,False,False,False,False,Pneumonia (non-severe)
+41270150,11,3.4,M,test2024,11,False,False,False,False,Pneumonia (non-severe)
+41270841,16,6.8,F,test2025,16,True,False,False,False,
+41271028,4,3.4,F,train2022,4,True,True,False,False,Pneumonia (non-severe)
+41273150,6,0.5,M,test2023,6,False,False,False,True,Other respiratory|Other respiratory diseases
+41273341,19,6.9,M,train2022,19,False,False,False,False,Control group
+41274201,2,7.8,F,test2024,2,True,False,False,False,Pneumonia (non-severe)
+41274453,11,4.3,F,test2022_intra|train2022,11,False,True,False,False,Pneumonia (non-severe)
+41275173,12,4.4,F,train2022,12,True,False,False,False,Pneumonia (non-severe)
+41275242,11,10.3,F,test2022_intra|train2022,10,True,False,False,False,Pneumonia (non-severe)
+41275381,7,2.6,M,test2022_intra|train2022,7,False,False,False,False,Pneumonia (non-severe)
+41275680,8,2.3,M,test2022_intra|train2022,8,True,False,False,False,Pneumonia (non-severe)
+41276107,16,5.3,F,train2022,16,False,False,False,False,Pneumonia (non-severe)
+41277654,12,11.7,M,test2022_intra|train2022,12,False,False,False,False,Asthma
+41277716,2,3.7,M,test2022_intra|train2022,2,False,False,False,False,Pneumonia (non-severe)
+41277943,3,3.3,M,train2022,3,False,False,False,False,Pneumonia (non-severe)
+41278165,1,3.9,F,test2025,1,False,False,False,False,
+41279299,20,4.3,M,train2022,18,False,True,False,False,Pneumonia (non-severe)
+41279516,11,4.0,M,test2024,11,False,False,False,False,Asthma
+41279835,17,14.1,M,test2022_intra|train2022,12,True,True,False,False,Pneumonia (non-severe)
+41280784,4,2.6,M,train2022,4,False,False,False,False,Pneumonia (non-severe)
+41281088,3,10.6,F,test2022_intra|train2022,3,False,False,False,False,Control group
+41281333,6,0.2,F,test2022_intra|train2022,6,True,True,False,False,Pneumonia (non-severe)
+41281695,8,0.3,M,test2022_intra|train2022,8,True,True,False,False,Pneumonia (non-severe)
+41282750,3,1.5,M,test2023,3,False,True,False,False,Kawasaki disease|Other respiratory
+41283394,4,2.8,F,train2022,4,False,False,False,False,Pneumonia (non-severe)
+41283612,11,0.2,M,test2022_intra|train2022,11,True,True,False,False,Pneumonia (severe)
+41283662,4,3.4,M,train2022,4,False,False,False,False,Bronchitis
+41283664,8,5.2,M,train2022,8,False,False,False,False,Asthma
+41283744,8,4.2,M,train2022,8,False,False,False,False,Control group
+41284716,12,4.2,M,train2022,12,False,False,False,False,Control group
+41285583,38,7.9,M,test2025,38,True,False,False,False,
+41285705,4,1.5,M,train2022,4,True,False,False,False,Pneumonia (non-severe)
+41286238,1,0.9,M,test2023,1,False,True,False,False,Bronchiolitis|Other respiratory
+41286973,1,3.5,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+41288165,2,1.7,M,test2024,2,False,False,False,False,Bronchitis
+41289851,16,8.0,M,test2025,16,True,False,False,False,
+41291765,3,3.2,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+41292351,2,6.9,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+41292638,2,10.9,F,test2025,2,False,False,False,False,
+41293002,2,3.5,M,test2024,2,False,False,False,False,Bronchitis
+41294548,1,1.5,M,test2025,1,True,False,False,False,
+41294667,16,4.6,M,test2024,16,False,False,False,False,Control group
+42272778,10,7.5,M,test2022_intra|train2022,7,False,False,False,False,Pneumonia (non-severe)
+518404,2,4.0,F,test2025,2,False,False,False,False,Bronchitis
+55474332,1,0.2,M,test2024,1,False,False,False,False,Pneumonia (non-severe)
+61194700,1,13.9,M,test2023,1,True,False,False,False,Bronchitis
+62868793,6,9.1,M,test2024,6,True,False,False,False,Pneumonia (non-severe)
+63211196,19,9.1,M,train2022,19,False,False,False,False,Bronchitis
+63524070,1,7.0,F,test2022_inter,1,False,False,False,False,Pneumonia (non-severe)
+63573658,5,7.7,M,test2022_intra|train2022,5,True,False,False,False,Pneumonia (severe)
+63613821,13,9.2,F,test2022_intra|train2022,13,True,False,False,False,Pneumonia (non-severe)
+63640958,20,7.6,F,test2024,20,False,True,False,False,Other respiratory diseases
+63658468,19,7.2,M,test2022_inter,19,False,False,False,False,Pneumonia (non-severe)
+63702758,4,0.0,M,test2025,4,True,False,False,False,
+63723123,16,8.9,M,test2022_intra|train2022,14,True,False,False,False,Pneumonia (non-severe)
+63753057,9,8.0,M,test2024,9,False,False,False,False,Control group
+63902360,3,5.5,M,test2022_inter,3,False,False,False,False,Asthma
+63906783,20,5.1,F,test2022_intra|train2022,18,True,False,False,False,Pneumonia (non-severe)
+64007452,12,4.6,M,train2022,11,True,True,False,False,Pneumonia (non-severe)
+64028588,2,6.4,F,test2023,2,False,True,False,False,Pneumonia (non-severe)
+64034493,7,6.0,M,test2024,7,False,False,False,False,Pneumonia (non-severe)
+64070366,19,5.0,F,test2024,19,True,False,False,False,Pneumonia (non-severe)
+64075086,7,5.2,F,test2024,7,False,False,False,False,Pneumonia (non-severe)
+64075300,11,5.2,F,test2024,11,False,True,False,False,Control group
+64076634,7,7.4,F,train2022,5,True,False,False,False,Asthma
+64160367,7,5.2,M,test2025,7,True,True,True,False,
+64256930,2,5.2,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+64264935,2,4.8,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+64281672,14,6.1,M,test2025,14,True,False,False,False,
+64326482,2,9.6,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+64337098,10,8.4,F,test2025,10,True,False,False,False,
+64369787,4,6.7,F,train2022,4,False,False,False,False,Asthma
+64377009,2,4.4,F,test2025,2,False,True,False,False,
+64381609,2,6.3,F,test2024,2,False,False,False,False,Pneumonia (severe)
+64425810,4,5.3,F,test2023,3,True,True,False,False,Bronchiectasia|Other respiratory
+64448234,7,4.1,F,test2024,7,False,False,False,False,Pneumonia (non-severe)
+64451219,1,5.9,F,test2025,1,False,False,False,False,
+64451936,13,5.5,F,test2025,13,False,False,False,False,Pneumonia (non-severe)
+64470647,2,6.9,M,test2025,2,False,False,False,False,
+64484620,3,3.5,F,test2025,3,False,False,False,False,Pneumonia (non-severe)
+64536365,7,5.8,M,test2024,7,False,False,False,False,Pneumonia (non-severe)
+64540514,10,7.2,F,train2022,10,False,False,False,False,Pneumonia (non-severe)
+64543791,3,5.5,M,test2024,3,False,False,False,False,Bronchitis
+64545213,8,6.1,M,test2024,8,False,False,False,False,Pneumonia (non-severe)
+64551564,8,4.7,M,test2024,8,False,False,False,False,Bronchitis
+64552260,28,3.3,F,train2022,28,False,False,False,False,Pneumonia (severe)
+64556671,1,3.3,F,test2024,1,False,False,False,False,Control group
+64561565,2,6.7,F,train2022,2,True,False,False,False,Pneumonia (non-severe)
+64562044,4,3.5,M,test2024,4,False,True,False,False,Pneumonia (non-severe)
+64574403,3,8.9,F,test2024,3,False,True,False,False,Pneumonia (non-severe)
+64577946,8,6.6,F,test2024,8,False,False,False,False,Asthma
+64580651,2,3.8,F,test2023,2,True,False,False,False,Pneumonia (non-severe)
+64585803,11,5.8,M,test2022_inter,11,False,False,False,False,Asthma
+64601539,8,5.3,F,test2022_inter,8,False,False,False,False,Asthma
+64605093,8,6.6,M,test2024,8,False,False,False,False,Pneumonia (non-severe)
+64618861,16,9.0,M,train2022,16,False,True,False,False,Asthma
+64634665,12,3.3,M,test2022_intra|train2022,11,False,False,False,False,Bronchitis
+64678063,18,4.3,F,train2022,18,False,True,False,False,Pneumonia (severe)
+64714172,12,3.6,F,test2022_inter,12,False,True,False,False,Pneumonia (non-severe)
+64719544,7,3.5,F,test2022_intra|train2022,7,True,True,False,False,Pneumonia (non-severe)
+64726697,4,4.1,M,test2022_intra|train2022,4,False,True,False,False,Pneumonia (non-severe)
+64726870,3,13.1,F,train2022,3,True,False,False,False,Pneumonia (non-severe)
+64727249,11,7.1,F,test2022_intra|train2022,10,False,False,False,False,Pneumonia (non-severe)
+64727486,9,4.2,F,test2022_intra|train2022,9,True,True,True,False,Pneumonia (severe)
+64739121,12,2.0,M,test2024,12,False,True,False,False,Bronchitis
+64743918,83,7.0,M,test2022_intra|train2022,80,True,True,True,False,Pneumonia (non-severe)
+64745572,1,2.3,M,test2024,1,False,False,False,False,Bronchitis
+64771356,8,4.0,M,test2024,8,True,False,False,False,Bronchitis
+64779933,12,1.3,M,test2022_inter,12,True,True,False,False,Pneumonia (severe)
+64783073,35,1.3,M,test2022_intra|train2022,35,True,True,False,False,Pneumonia (non-severe)
+64797476,3,3.6,M,test2024,3,False,False,False,False,Asthma
+64824049,4,1.5,F,test2023,4,True,True,False,False,Pneumonia (severe)
+64827886,4,3.4,M,test2022_intra|train2022,3,False,False,False,False,Control group
+64835860,4,5.7,F,test2022_intra|train2022,4,False,False,False,False,Asthma
+64837947,4,4.0,F,test2022_intra|train2022,4,True,False,False,False,Bronchitis
+64840083,4,1.6,M,train2022,4,False,False,False,False,Pneumonia (non-severe)
+64858851,2,4.0,M,test2025,2,False,False,False,False,Bronchitis
+64875857,8,5.8,F,test2022_intra|train2022,8,True,False,False,False,Bronchitis
+64876470,6,10.3,F,train2022,6,False,False,False,False,Asthma
+64878787,7,10.4,M,test2022_intra|train2022,5,False,False,False,False,Control group
+64891918,9,3.1,F,test2024,9,False,False,False,False,Pneumonia (non-severe)
+64904397,7,1.9,F,test2025,7,True,False,False,False,
+64913238,23,0.6,F,test2022_intra|train2022,23,True,True,False,False,Pneumonia (severe)
+64914400,11,12.1,M,test2022_intra|train2022,11,False,False,False,False,Bronchiectasia|Other respiratory diseases
+64935322,11,4.3,F,test2024,11,True,False,False,False,Pneumonia (non-severe)
+64940479,7,4.0,M,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+64951742,3,1.0,F,test2022_intra|train2022,3,True,False,False,False,Bronchiolitis|Other respiratory diseases
+64960343,1,1.3,M,train2022,1,True,True,True,False,Pneumonia (non-severe)
+64965954,8,4.2,F,test2024,8,False,False,False,False,Pneumonia (non-severe)
+64969358,11,12.3,M,test2022_intra|train2022,10,False,False,False,False,Other respiratory diseases
+64973610,8,2.2,F,test2023,8,True,True,False,False,Pneumonia (non-severe)
+64974732,7,0.5,F,test2022_intra|train2022,7,False,True,False,False,Pneumonia (non-severe)
+64992395,2,5.5,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+64998815,2,1.4,F,test2024,2,False,False,False,False,Control group
+64999124,3,1.5,M,test2023,3,False,False,False,True,Control group
+64999419,11,4.5,M,test2024,11,False,False,False,False,Control group
+64999484,2,4.2,F,test2024,2,False,False,False,False,Bronchitis
+65005529,8,4.9,M,test2022_inter,8,True,False,False,False,Pneumonia (non-severe)
+65008174,3,11.5,M,test2024,3,False,False,False,False,Pneumonia (non-severe)
+65008913,8,4.9,M,test2024,8,False,True,False,False,Bronchitis
+65019620,24,3.4,M,test2022_intra|train2022,23,True,True,False,False,Pneumonia (non-severe)
+65027819,3,1.4,M,test2022_intra|train2022,3,False,False,False,False,Pneumonia (non-severe)
+65028783,4,2.0,M,test2022_intra|train2022,4,False,False,False,False,Other respiratory diseases
+65031322,2,3.5,M,test2024,2,False,True,False,False,Pneumonia (non-severe)
+65031500,7,13.1,F,train2022,5,False,False,False,False,Pneumonia (non-severe)
+65032402,4,1.5,F,test2022_intra|train2022,4,True,True,True,False,Pneumonia (non-severe)
+65034376,4,1.5,F,train2022,4,False,False,False,False,Pneumonia (non-severe)
+65036167,7,2.2,F,train2022,7,True,False,False,False,Pneumonia (non-severe)
+65037547,2,3.6,F,train2022,2,False,False,False,False,Pneumonia (non-severe)
+65038439,16,5.7,F,test2022_inter,16,True,False,False,False,Bronchitis
+65039232,4,6.4,F,test2022_intra|train2022,3,False,False,False,False,Pneumonia (severe)
+65042563,4,9.6,F,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+65043263,8,2.0,M,test2022_intra|train2022,8,True,True,True,False,Pneumonia (non-severe)
+65044049,8,0.8,F,test2022_intra|train2022,7,True,False,False,False,Bronchitis
+65044157,4,1.2,F,test2022_intra|train2022,4,True,True,False,False,Pneumonia (non-severe)
+65044484,7,6.1,F,test2022_intra|train2022,7,False,True,False,False,Pneumonia (non-severe)
+65044711,3,0.4,F,test2022_intra|train2022,3,True,True,False,False,Bronchiolitis|Other respiratory diseases
+65045385,2,0.4,M,test2022_intra|train2022,1,False,False,False,True,Pneumonia (non-severe)
+65045423,20,5.0,F,test2022_intra|train2022,19,True,True,False,False,Pneumonia (non-severe)
+65045840,9,13.2,F,test2022_intra|train2022,6,False,False,False,False,Hemoptysis|Other respiratory diseases
+65048146,6,6.6,F,train2022,6,False,False,False,False,Pneumonia (non-severe)
+65049153,11,0.8,M,test2022_inter,11,True,True,False,False,Bronchiolitis|Other respiratory diseases
+65050748,4,2.8,F,test2022_inter,4,True,False,False,False,Pneumonia (non-severe)
+65051326,8,3.2,F,train2022,6,False,True,False,False,Pneumonia (non-severe)
+65052443,2,0.4,F,test2022_inter,2,False,False,False,False,Pneumonia (non-severe)
+65052739,4,1.7,F,train2022,4,False,False,False,False,Pneumonia (non-severe)
+65052776,10,5.3,F,test2022_intra|train2022,9,False,False,False,False,Control group
+65055195,8,4.0,F,test2022_intra|train2022,8,False,False,False,False,Pneumonia (non-severe)
+65056075,14,6.1,M,test2022_intra|train2022,13,True,False,False,False,Pneumonia (non-severe)
+65056986,4,1.2,M,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+65057715,25,11.4,M,test2022_intra|train2022,17,False,False,False,False,Hemoptysis|Other respiratory diseases
+65057904,4,10.2,M,test2022_intra|train2022,3,False,False,False,False,Chronic cough|Other respiratory diseases
+65058398,4,4.1,M,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+65058931,4,3.4,F,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+65060531,20,7.7,M,test2022_intra|train2022,20,True,False,False,False,Pneumonia (non-severe)
+65061246,7,3.6,F,test2022_intra|train2022,6,False,False,False,False,Pneumonia (severe)
+65063170,3,5.1,M,test2022_intra|train2022,3,False,False,False,False,Pneumonia (non-severe)
+65064302,4,3.2,F,test2022_intra|train2022,4,False,False,False,False,Pneumonia (non-severe)
+65066035,7,1.7,M,train2022,7,False,True,False,False,Pneumonia (non-severe)
+65066244,3,3.5,M,test2024,3,False,False,False,False,Bronchitis
+65066754,11,9.0,M,test2022_intra|train2022,11,True,False,False,False,Pneumonia (non-severe)
+65068248,8,2.2,M,test2022_intra|train2022,7,True,False,False,False,Pneumonia (non-severe)
+65068514,5,5.7,M,test2024,5,False,False,False,False,Bronchitis
+65070606,15,5.0,F,test2022_intra|train2022,12,False,False,False,False,Pneumonia (non-severe)
+65071184,10,4.8,M,test2022_inter,9,False,False,False,False,Bronchitis
+65074779,28,9.2,F,test2022_intra|train2022,20,False,False,False,False,Pneumonia (non-severe)
+65076987,13,5.5,F,train2022,11,False,False,False,False,Other respiratory diseases|Pulmonary hemosiderosis
+65077374,12,5.0,F,train2022,12,False,False,False,False,Pneumonia (non-severe)
+65078476,8,6.3,M,test2022_intra|train2022,8,False,False,False,False,Other respiratory diseases
+65079896,12,5.0,M,test2022_intra|train2022,12,True,True,False,False,Pneumonia (non-severe)
+65080696,11,11.1,F,test2022_intra|train2022,9,True,False,False,False,Pneumonia (non-severe)
+65083184,1,2.6,M,test2023,1,False,True,False,False,Bronchitis
+65084284,3,1.7,F,test2024,3,False,False,False,False,Bronchitis
+65088494,51,2.4,F,test2023,51,True,True,True,False,Pneumonia (non-severe)
+65090048,3,1.0,F,train2022,3,True,True,True,False,Pneumonia (severe)
+65090966,11,13.0,M,test2022_intra|train2022,8,False,False,False,False,Hemoptysis|Other respiratory diseases
+65091224,24,2.9,M,train2022,24,False,True,False,True,Bronchitis
+65091359,11,10.4,M,test2022_intra|train2022,10,True,False,False,False,Other respiratory diseases
+65094564,11,5.2,F,train2022,10,False,False,False,False,Pneumonia (non-severe)
+65094936,5,1.5,M,test2024,5,False,False,False,True,Other respiratory diseases
+65096140,8,9.7,M,test2022_intra|train2022,4,False,False,False,False,Control group
+65097128,25,5.6,F,test2022_intra|train2022,25,True,False,False,False,Pneumonia (non-severe)
+65098675,8,0.7,F,test2024,8,False,False,False,False,Pneumonia (non-severe)
+65099422,23,0.5,M,test2022_intra|train2022,23,True,True,True,False,Pneumonia (non-severe)
+65100087,4,7.2,M,train2022,4,False,False,False,False,Control group
+65101170,4,0.4,M,test2022_intra|train2022,4,True,True,False,False,Pneumonia (non-severe)
+65101997,2,0.2,M,test2022_inter,2,False,False,False,False,Pneumonia (non-severe)
+65106469,18,0.7,M,test2022_inter,18,True,False,False,False,Pneumonia (severe)
+65107404,8,4.4,F,test2022_inter,8,False,False,False,False,Asthma
+65107666,10,9.6,M,test2022_inter,10,False,False,False,False,Asthma
+65109516,18,0.2,M,test2022_inter,17,True,True,False,False,Pneumonia (severe)
+65109649,1,4.2,M,test2023,1,True,False,False,False,Asthma
+65110711,7,5.9,M,test2023,4,False,True,False,False,Asthma
+65114385,7,0.2,M,test2022_inter,6,False,False,False,False,Bronchitis
+65114631,9,3.5,F,test2022_inter,9,True,False,False,False,Pneumonia (severe)
+65114720,7,0.9,M,test2022_inter,7,False,True,False,False,Asthma
+65115243,5,1.8,F,test2022_inter,5,False,True,False,False,Pneumonia (non-severe)
+65118898,11,0.7,M,test2022_inter,11,False,True,False,False,Pneumonia (non-severe)
+65121853,18,1.5,M,test2022_inter,18,True,True,False,False,Pneumonia (non-severe)
+66006902,1,6.8,F,test2024,1,False,True,False,False,Other respiratory diseases
+66209426,2,0.3,M,test2023,2,True,True,False,False,Pneumonia (non-severe)
+66210493,10,1.4,M,test2025,10,True,True,True,False,
+66220883,4,3.9,F,test2025,4,True,False,False,False,
+66221159,1,3.1,F,test2025,1,False,False,False,False,
+66222081,1,6.0,M,test2024,1,True,False,False,False,Pneumonia (non-severe)
+662293914,1,7.9,M,test2023,1,True,True,False,False,Pneumonia (non-severe)
+66229783,13,12.9,M,test2023,12,False,True,False,False,Bronchiectasia|Other respiratory
+66232959,18,4.2,F,test2023,18,True,True,False,False,Pneumonia (severe)
+66236170,8,1.1,M,test2023,8,False,False,False,False,Control group
+66236931,4,2.0,F,test2023,4,False,True,False,False,Control group
+66239166,13,9.6,F,test2023,13,True,True,False,False,Asthma
+6624420,12,0.2,M,test2023,12,True,True,False,False,Pneumonia (non-severe)
+66245245,9,9.9,F,test2023,9,False,False,False,False,Asthma
+66247373,1,3.4,F,test2024,1,False,False,False,False,Pneumonia (severe)
+66250132,1,6.6,M,test2025,1,False,False,False,False,Pneumonia (non-severe)
+66252562,20,11.7,F,test2023,20,False,True,False,False,Bronchiectasia|Other respiratory
+66253447,3,5.6,M,test2025,3,True,True,True,False,
+66257443,24,3.5,M,test2023,24,True,False,False,False,Pneumonia (non-severe)
+66258485,3,13.0,M,test2024,3,False,False,False,False,Control group
+66264302,19,3.0,F,test2023,19,False,False,False,False,Pneumonia (non-severe)
+66268083,12,10.0,M,test2023,12,True,False,False,False,Pneumonia (non-severe)
+66269666,3,4.5,F,test2025,3,False,False,False,False,Pneumonia (non-severe)
+66273805,9,1.9,F,test2023,9,False,True,False,False,Pneumonia (non-severe)
+66274684,4,5.5,M,test2024,4,False,False,False,False,Control group
+66275576,1,0.3,F,test2023,1,False,False,False,False,Pneumonia (non-severe)
+66276695,12,0.5,M,test2023,12,True,True,False,False,Pneumonia (non-severe)
+66278400,1,8.5,F,test2023,1,False,False,False,False,Pneumonia (non-severe)
+66289600,1,0.4,M,test2024,1,False,False,False,False,Control group
+66290055,23,3.4,F,test2023,22,False,True,False,False,Pneumonia (non-severe)
+66292414,8,6.8,M,test2023,8,False,False,False,False,Pneumonia (non-severe)
+66293753,8,1.3,M,test2023,8,False,False,False,True,Control group
+66294963,2,3.0,F,test2024,2,False,False,False,False,Control group
+66299107,5,8.3,M,test2024,5,False,False,False,False,Other respiratory diseases
+66304841,2,0.4,M,test2023,2,False,False,False,False,Control group
+66307144,6,2.5,F,test2024,6,False,False,False,False,Pneumonia (non-severe)
+66307790,4,1.0,M,test2024,4,False,True,False,False,Control group
+66310495,9,0.2,M,test2023,8,False,False,False,False,Control group
+66311310,8,0.2,F,test2023,8,False,False,False,False,Pneumonia (non-severe)
+66312077,7,0.5,F,test2023,7,False,False,False,False,Pneumonia (non-severe)
+66312661,6,5.8,F,test2024,6,False,False,False,False,Control group
+66312820,4,1.6,F,test2023,4,False,False,False,False,Control group
+66313998,8,13.9,F,test2023,2,False,False,False,False,Asthma
+66314758,13,5.7,F,test2023,10,False,False,False,False,Pneumonia (non-severe)
+66315067,4,0.5,M,test2024,4,True,False,False,False,Pneumonia (non-severe)
+66315218,5,4.8,F,test2024,5,False,False,False,False,Control group
+66315749,5,1.4,F,test2023,5,False,True,False,False,Pneumonia (non-severe)
+66316273,4,0.9,F,test2024,4,False,False,False,False,Control group
+66317270,3,2.1,M,test2024,3,False,True,False,False,Pneumonia (non-severe)
+66317867,3,2.8,F,test2024,3,False,False,False,False,Control group
+66318539,9,10.7,F,test2023,8,False,False,False,False,Pneumonia (non-severe)
+66319374,12,0.6,F,test2023,12,False,False,False,False,Bronchitis
+66320073,23,2.5,F,test2023,23,True,True,False,False,Pneumonia (non-severe)
+66322652,3,11.7,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66323353,4,5.2,M,test2023,4,False,False,False,False,Pneumonia (non-severe)
+66323637,14,5.9,F,test2023,13,False,True,False,False,Control group
+66323982,1,1.8,M,test2025,1,False,False,False,False,
+66325603,16,8.8,F,test2023,12,False,False,False,False,Pneumonia (non-severe)
+66326035,3,0.9,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66326235,3,3.0,M,test2024,3,False,False,False,False,Bronchitis
+66326334,3,7.2,F,test2024,3,False,False,False,False,Asthma
+66326686,1,10.5,F,test2024,1,False,False,False,False,Bronchitis
+66327035,6,0.1,F,test2023,6,False,False,False,False,Pneumonia (non-severe)
+66327381,6,2.1,M,test2023,6,False,False,False,False,Control group
+66327579,14,5.9,F,test2023,14,False,False,False,False,Control group
+66327610,12,2.4,F,test2023,12,False,True,False,False,Bronchitis
+66327912,16,2.4,F,test2023,16,False,False,False,False,Control group
+66328238,6,4.5,M,test2024,6,False,False,False,False,Bronchitis
+66328498,12,4.3,M,test2024,12,False,False,False,False,Control group
+66328722,24,6.4,M,test2023,24,False,False,False,False,Pneumonia (non-severe)
+66329061,1,9.9,M,test2023,1,False,False,False,False,Pneumonia (non-severe)
+66330111,1,2.6,M,test2025,1,True,False,False,False,
+66330319,15,3.6,F,test2023,15,False,False,False,False,Acute upper respiratory infection|Other respiratory
+663311623,3,1.9,F,test2024,3,False,True,False,False,Bronchitis
+66331727,6,5.4,F,test2023,6,False,False,False,False,Bronchitis
+66332023,17,2.5,M,test2023,17,False,False,False,False,Other respiratory|Other respiratory diseases
+66332140,13,6.7,M,test2024,13,False,False,False,False,Control group
+66332198,3,16.8,F,test2023,3,False,False,False,False,Bronchitis
+66332353,12,8.6,F,test2023,12,False,False,False,False,Pneumonia (non-severe)
+66333381,7,0.5,M,test2024,7,False,False,False,False,Pneumonia (non-severe)
+66333420,9,10.7,M,test2023,9,False,False,False,False,Asthma
+66335563,4,3.4,M,test2024,4,True,False,False,False,Bronchitis
+66336085,8,0.8,M,test2024,8,False,False,False,False,Control group
+66336087,3,1.0,M,test2024,3,True,False,False,False,Bronchitis
+66336391,19,3.3,M,test2023,19,False,False,False,False,Asthma
+66337333,6,2.7,M,test2024,6,False,False,False,False,Asthma
+66338802,15,4.0,M,test2023,15,False,False,False,False,Bronchiectasia|Other respiratory
+66339653,8,3.2,M,test2024,8,False,False,False,False,Bronchitis
+66340177,4,9.8,M,test2024,4,False,False,False,False,Bronchitis
+66342447,3,3.3,M,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66342776,13,7.6,F,test2023,12,False,False,False,False,Pneumonia (non-severe)
+66345098,18,13.7,F,test2023,15,False,False,False,False,Pneumonia (non-severe)
+66346111,2,3.7,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+66346138,2,0.9,M,test2024,2,False,False,False,False,Bronchitis
+66346515,6,3.9,F,test2024,6,False,True,False,False,Bronchitis
+66347704,7,6.8,F,test2024,7,False,False,False,False,Control group
+66352067,13,2.7,F,test2023,13,False,False,False,False,Pneumonia (non-severe)
+66353843,3,3.2,F,test2023,3,False,True,False,False,Bronchitis
+66355113,6,4.2,F,test2024,6,False,False,False,False,Pneumonia (severe)
+66356932,1,1.9,M,test2025,1,False,True,False,False,
+66359168,4,2.6,M,test2024,4,False,False,False,False,Control group
+66359987,1,3.1,M,test2024,1,False,False,False,False,Asthma
+66360097,2,7.3,F,test2024,2,False,False,False,False,Other respiratory diseases
+66363062,8,9.0,M,test2024,8,False,False,False,False,Pneumonia (non-severe)
+66364853,11,6.7,F,test2024,11,True,False,False,False,Pneumonia (non-severe)
+66365315,3,10.0,M,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66365575,3,12.0,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66365613,11,10.3,F,test2023,11,False,True,False,True,Control group
+66365891,2,10.7,M,test2024,2,False,False,False,False,Other respiratory diseases
+66366217,2,2.0,M,test2024,2,False,False,False,False,Control group
+66366234,6,3.8,F,test2023,6,True,True,False,False,Bronchitis
+66366279,7,4.9,M,test2023,7,True,True,False,False,Bronchitis
+66367271,7,2.0,F,test2025,7,True,True,True,False,
+66367371,7,5.7,F,test2024,7,False,False,False,False,Bronchitis
+66367428,1,4.6,M,test2024,1,False,False,False,False,Other respiratory diseases
+66368456,3,3.4,F,test2024,3,True,False,False,False,Pneumonia (non-severe)
+66370433,5,6.6,M,test2024,5,False,False,False,False,Asthma
+66372986,2,2.6,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+66373126,1,2.2,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66374261,4,10.8,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+66375014,2,8.5,F,test2024,2,False,False,False,False,Control group
+66375189,1,3.4,M,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66375733,3,13.8,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66375937,3,3.8,M,test2024,3,False,False,False,False,Bronchitis
+66376618,1,0.4,M,test2025,1,False,False,False,False,Bronchitis
+66377806,2,7.2,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+66380594,9,3.8,M,test2024,9,True,False,False,False,Bronchitis
+66381755,4,9.1,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+66381902,2,5.8,M,test2024,2,False,False,False,False,Acute upper respiratory infection
+66384611,5,3.8,F,test2024,5,False,False,False,False,Pneumonia (non-severe)
+66385429,1,2.1,M,test2024,1,False,False,False,False,Pneumonia (severe)
+66385915,8,10.4,M,test2024,8,False,False,False,False,Pneumonia (severe)
+66388444,2,3.4,F,test2024,2,False,False,False,False,Bronchitis
+66389182,6,11.7,F,test2024,6,False,False,False,False,Pneumonia (non-severe)
+66389551,11,4.0,F,test2024,11,False,False,False,False,Bronchitis
+66391086,9,8.3,F,test2024,9,False,True,False,False,Pneumonia (non-severe)
+66392541,6,8.6,F,test2024,6,False,False,False,False,Pneumonia (non-severe)
+66392754,1,8.7,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66392755,4,5.9,F,test2025,4,False,False,False,False,Bronchitis
+66393561,6,10.0,F,test2024,6,False,False,False,False,Pneumonia (non-severe)
+66394512,2,7.4,M,test2025,2,False,False,False,False,Pneumonia (non-severe)
+66395967,1,6.5,M,test2024,1,False,False,False,False,Acute upper respiratory infection
+66396467,5,3.7,M,test2024,5,False,False,False,False,Control group
+66397025,2,7.1,M,test2025,2,False,False,False,False,Pneumonia (non-severe)
+66397090,1,14.6,M,test2024,1,False,True,False,False,Control group
+66398838,1,8.5,M,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66399021,1,8.4,M,test2024,1,True,False,False,False,Pneumonia (non-severe)
+66401305,8,3.8,M,test2024,8,False,True,False,False,Bronchitis
+66402421,7,7.4,M,test2024,7,False,False,False,False,Asthma
+66403300,9,4.7,F,test2024,9,False,False,False,False,Pulmonary hemosiderosis
+66403671,18,5.0,M,test2024,18,False,False,False,False,Pneumonia (non-severe)
+66406762,1,15.3,M,test2024,1,False,False,False,False,Control group
+66408021,8,3.3,M,test2024,8,False,False,False,False,Bronchitis
+66408495,4,9.1,M,test2024,4,False,False,False,False,Pneumonia (non-severe)
+66410429,3,9.1,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66411037,2,9.1,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+66411044,2,4.4,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+66411885,3,5.5,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66412549,2,7.6,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+66413952,7,6.7,F,test2024,7,False,False,False,False,Pneumonia (non-severe)
+66414072,2,5.0,F,test2024,2,False,False,False,False,Pneumonia (non-severe)
+66418252,2,4.7,M,test2025,2,True,False,False,False,
+66418379,5,13.0,F,test2025,5,False,False,False,False,Pneumonia (non-severe)
+66419188,5,4.9,F,test2024,5,False,True,False,False,Pneumonia (non-severe)
+66420196,2,13.6,F,test2024,2,False,False,False,False,Control group
+66424252,1,3.0,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66425158,2,1.1,F,test2025,2,False,True,False,False,
+66425579,4,3.6,F,test2024,4,False,False,False,False,Bronchitis
+66425913,2,0.6,M,test2025,2,False,True,False,False,Bronchitis
+66426840,8,5.1,M,test2025,8,True,True,False,False,Bronchitis
+66432409,6,8.1,M,test2024,6,False,False,False,False,Pneumonia (non-severe)
+66432872,2,10.2,M,test2024,2,False,False,False,False,Pneumonia (non-severe)
+66434025,10,3.7,F,test2025,10,True,False,False,False,
+66434708,1,4.9,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66436031,3,6.5,M,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66437360,4,0.7,F,test2025,4,True,True,True,False,
+66438754,11,5.0,M,test2024,11,False,False,False,False,Pneumonia (non-severe)
+66439285,3,7.0,M,test2024,3,True,False,False,False,Pneumonia (non-severe)
+66439580,3,0.4,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66442870,1,0.5,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66452565,3,0.3,M,test2025,3,False,True,False,False,Pneumonia (non-severe)
+66459034,2,0.5,M,test2025,2,True,True,True,False,
+66460999,1,0.5,M,test2025,1,True,False,False,False,
+66462834,2,8.1,M,test2024,2,False,False,False,False,Pneumonia (severe)
+66465552,1,4.5,M,test2025,1,False,False,False,False,
+66466542,5,10.0,M,test2024,5,False,False,False,False,Pneumonia (non-severe)
+66466764,4,5.1,M,test2024,4,False,False,False,False,Asthma
+66467950,1,11.2,F,test2025,1,False,False,False,False,Bronchitis
+66468644,1,5.8,M,test2024,1,False,False,False,False,Bronchiolitis
+66469511,4,10.6,M,test2024,4,False,False,False,False,Control group
+66470318,1,10.8,M,test2024,1,False,True,False,False,Asthma
+66479513,3,11.6,F,test2024,3,False,False,False,False,Pneumonia (non-severe)
+66490400,7,3.5,F,test2024,7,False,False,False,False,Pneumonia (severe)
+66497066,1,0.3,M,test2024,1,False,False,False,False,Bronchiolitis
+66498831,1,14.2,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66503012,7,4.2,F,test2025,7,True,False,False,False,Pneumonia (non-severe)
+66504994,12,3.7,F,test2025,12,True,True,True,False,
+66506675,1,1.1,M,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66509216,14,5.7,F,test2024,14,True,False,False,False,Pneumonia (non-severe)
+66509773,1,9.7,F,test2024,1,False,False,False,False,Pneumonia (non-severe)
+66512062,3,8.4,F,test2024,3,False,False,False,False,Pneumonia (severe)
+66518703,2,7.6,F,test2025,2,False,False,False,False,
+66521635,2,12.9,F,test2025,2,True,False,False,False,
+66532344,7,5.6,F,test2025,7,True,False,False,False,
+66543214,1,3.4,M,test2025,1,False,False,False,False,
+66544845,10,9.8,M,test2025,10,False,True,False,False,
+66549561,2,0.2,M,test2025,2,False,True,False,False,
+66549989,16,8.9,M,test2025,16,True,False,False,False,
+66558993,7,4.1,F,test2025,7,True,False,False,False,
+66564039,4,3.7,M,test2025,4,False,False,False,False,
+66567154,17,4.6,M,test2025,17,True,False,False,False,
+66567172,8,5.1,M,test2025,8,True,False,False,False,
+66579289,5,4.2,M,test2025,5,True,False,False,False,
+66579472,1,9.4,M,test2025,1,False,False,False,False,
+66579973,2,5.7,M,test2025,2,True,False,False,False,
+66583101,6,1.5,F,test2025,6,True,False,False,False,
+66587782,14,3.9,F,test2025,14,True,False,False,False,
+66611995,8,1.7,M,test2025,8,True,True,True,False,
+66613101,7,1.6,M,test2025,7,True,True,True,False,
+66617051,19,1.3,F,test2025,19,True,True,True,False,
+66626634,1,0.2,M,test2025,1,True,False,False,False,
+66627070,18,1.4,M,test2025,18,True,True,True,False,
+66631250,2,1.1,M,test2025,2,True,True,True,False,
+66649179,16,6.5,M,test2025,16,True,False,False,False,
+66678632,3,3.4,F,test2025,3,True,False,False,False,
+66681739,32,3.5,M,test2025,32,True,True,True,False,
+66701779,6,5.1,M,test2025,6,True,True,True,False,
+66708437,20,5.5,F,test2025,20,True,False,False,False,
+66710211,8,8.3,M,test2025,8,False,False,False,False,
+66711109,18,11.2,M,test2025,18,True,False,False,False,
+66754628,22,11.1,M,test2025,22,True,True,True,False,
+66786738,1,3.9,F,test2025,1,True,False,False,False,
+66803098,11,8.9,F,test2025,11,True,False,False,False,
+66814298,9,3.6,F,test2025,9,True,False,False,False,
+66851551,16,6.3,F,test2025,16,True,True,True,False,
+66859095,13,10.7,M,test2025,13,False,False,False,False,
+66870540,9,3.8,M,test2025,9,True,False,False,False,
+66870794,12,6.6,M,test2025,12,True,False,False,False,
+66872768,6,3.5,M,test2025,6,True,False,False,False,
+66877439,16,9.3,F,test2025,16,False,False,False,False,
+66884520,6,6.9,F,test2025,6,True,False,False,False,
+noid_test2023_3.9_0,29,3.9,M,test2023,28,False,False,False,False,
+noid_test2023_3.9_1,18,3.9,F,test2023,16,False,False,False,False,
+noid_test2024_2.2_0,1,2.2,M,test2024,1,False,True,False,False,
+noid_test2024_3.4_1,8,3.4,F,test2024,8,False,False,False,False,
+noid_test2024_3.7_0,1,3.7,M,test2024,1,False,False,False,False,
+noid_test2024_3.9_0,31,3.9,M,test2024,31,False,False,False,False,
+noid_test2024_3.9_1,14,3.9,F,test2024,14,False,False,False,False,
+noid_test2024_4.4_0,4,4.4,M,test2024,4,False,False,False,False,
+noid_test2024_4.5_0,6,4.5,M,test2024,6,True,False,False,False,
+noid_test2024_4.6_1,11,4.6,F,test2024,11,False,False,False,False,
+noid_test2024_5.8_0,9,5.8,M,test2024,9,False,False,False,False,
+noid_test2024_7.0_1,5,7.0,F,test2024,5,False,False,False,False,
+noid_test2024_8.2_1,16,8.2,F,test2024,16,False,False,False,False,
+noid_test2025_0.5_1,4,0.5,F,test2025,4,False,True,False,False,
+noid_test2025_0.6_1,4,0.6,F,test2025,4,False,False,False,False,
+noid_test2025_0.7_0,2,0.7,M,test2025,2,False,False,False,True,
+noid_test2025_0.7_1,6,0.7,F,test2025,6,True,True,False,False,
+noid_test2025_0.8_0,1,0.8,M,test2025,1,True,False,False,False,
+noid_test2025_0.9_0,3,0.9,M,test2025,3,False,False,False,False,
+noid_test2025_1.5_0,3,1.5,M,test2025,3,False,False,False,False,
+noid_test2025_1.8_1,4,1.8,F,test2025,4,False,True,False,False,
+noid_test2025_10.1_1,1,10.1,F,test2025,1,False,False,False,False,
+noid_test2025_10.3_0,2,10.3,M,test2025,2,False,True,False,False,
+noid_test2025_10.5_0,1,10.5,M,test2025,1,True,False,False,False,
+noid_test2025_10.7_0,1,10.7,M,test2025,1,False,False,False,False,
+noid_test2025_11.5_0,5,11.5,M,test2025,5,False,True,False,False,
+noid_test2025_11.6_0,1,11.6,M,test2025,1,False,False,False,False,
+noid_test2025_11.7_0,1,11.7,M,test2025,1,False,False,False,False,
+noid_test2025_12.2_1,1,12.2,F,test2025,1,False,False,False,False,
+noid_test2025_13.2_0,3,13.2,M,test2025,3,False,False,False,False,
+noid_test2025_13.3_0,1,13.3,M,test2025,1,False,False,False,False,
+noid_test2025_2.0_0,3,2.0,M,test2025,3,False,True,False,False,
+noid_test2025_2.2_0,4,2.2,M,test2025,4,True,True,False,False,
+noid_test2025_2.2_1,5,2.2,F,test2025,5,True,False,False,False,
+noid_test2025_2.4_0,5,2.4,M,test2025,5,False,True,False,False,
+noid_test2025_2.5_0,7,2.5,M,test2025,7,False,True,False,False,
+noid_test2025_2.5_1,7,2.5,F,test2025,7,False,False,False,False,
+noid_test2025_2.7_0,6,2.7,M,test2025,6,True,True,False,False,
+noid_test2025_2.7_1,1,2.7,F,test2025,1,False,True,False,False,
+noid_test2025_2.8_1,1,2.8,F,test2025,1,False,False,False,False,
+noid_test2025_2.9_1,1,2.9,F,test2025,1,False,False,False,False,
+noid_test2025_3.0_1,1,3.0,F,test2025,1,False,False,False,False,
+noid_test2025_3.2_1,8,3.2,F,test2025,8,False,False,False,False,
+noid_test2025_3.3_0,5,3.3,M,test2025,5,False,False,False,False,
+noid_test2025_3.4_1,5,3.4,F,test2025,5,True,False,False,False,
+noid_test2025_3.5_0,2,3.5,M,test2025,2,False,False,False,False,
+noid_test2025_3.5_1,3,3.5,F,test2025,3,False,False,False,False,
+noid_test2025_3.6_0,4,3.6,M,test2025,4,False,False,False,False,
+noid_test2025_3.7_0,8,3.7,M,test2025,8,False,False,False,False,
+noid_test2025_3.9_0,4,3.9,M,test2025,4,True,False,False,False,
+noid_test2025_4.0_1,2,4.0,F,test2025,2,False,False,False,False,
+noid_test2025_4.1_0,4,4.1,M,test2025,4,True,False,False,False,
+noid_test2025_4.2_0,7,4.2,M,test2025,7,False,False,False,False,
+noid_test2025_4.2_1,1,4.2,F,test2025,1,False,False,False,False,
+noid_test2025_4.3_0,6,4.3,M,test2025,6,False,False,False,False,
+noid_test2025_4.4_1,2,4.4,F,test2025,2,False,False,False,False,
+noid_test2025_4.5_0,9,4.5,M,test2025,9,True,False,False,False,
+noid_test2025_4.5_1,9,4.5,F,test2025,9,True,False,False,False,
+noid_test2025_4.6_0,2,4.6,M,test2025,2,False,False,False,False,
+noid_test2025_4.6_1,4,4.6,F,test2025,4,False,False,False,False,
+noid_test2025_4.7_1,2,4.7,F,test2025,2,False,False,False,False,
+noid_test2025_4.8_1,3,4.8,F,test2025,3,True,False,False,False,
+noid_test2025_4.9_0,5,4.9,M,test2025,5,False,False,False,False,
+noid_test2025_5.1_1,6,5.1,F,test2025,6,False,False,False,False,
+noid_test2025_5.3_1,2,5.3,F,test2025,2,False,False,False,False,
+noid_test2025_5.8_0,3,5.8,M,test2025,3,False,False,False,False,
+noid_test2025_5.9_0,2,5.9,M,test2025,2,False,False,False,False,
+noid_test2025_6.0_1,3,6.0,F,test2025,3,True,False,False,False,
+noid_test2025_6.1_1,1,6.1,F,test2025,1,False,False,False,False,
+noid_test2025_6.2_0,1,6.2,M,test2025,1,False,False,False,False,
+noid_test2025_6.3_0,2,6.3,M,test2025,2,False,False,False,False,
+noid_test2025_6.4_1,1,6.4,F,test2025,1,False,False,False,False,
+noid_test2025_6.6_0,5,6.6,M,test2025,5,False,False,False,False,
+noid_test2025_6.9_0,1,6.9,M,test2025,1,False,False,False,False,
+noid_test2025_6.9_1,2,6.9,F,test2025,2,False,False,False,False,
+noid_test2025_7.0_1,2,7.0,F,test2025,2,True,False,False,False,
+noid_test2025_7.2_0,5,7.2,M,test2025,5,True,False,False,False,
+noid_test2025_7.3_1,3,7.3,F,test2025,3,True,False,False,False,
+noid_test2025_7.7_0,3,7.7,M,test2025,3,False,False,False,False,
+noid_test2025_8.0_0,2,8.0,M,test2025,2,False,False,False,False,
+noid_test2025_8.2_1,5,8.2,F,test2025,5,False,False,False,False,
+noid_test2025_8.3_0,1,8.3,M,test2025,1,False,False,False,False,
+noid_test2025_8.4_0,6,8.4,M,test2025,6,False,False,False,False,
+noid_test2025_9.5_0,1,9.5,M,test2025,1,False,False,False,False,

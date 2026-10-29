@@ -1,0 +1,5 @@
+label_name,ventanas,pacientes,ventanas_sin_id,ICBHI ventanas,ICBHI pacientes
+pulm_both,631,66,0,972,36
+pulm_crackle,4046,257,113,2713,71
+pulm_normal,22562,904,1474,4086,116
+pulm_wheeze,1741,177,101,1204,60

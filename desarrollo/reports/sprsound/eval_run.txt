@@ -1,0 +1,34 @@
+    model     test  n_recordings  auc_normal_vs_abnormal_pooled                     rule auc_crackle_window auc_wheeze_window auc_normal_vs_abnormal   icbhi_score            se            sp
+ abl_pulm    ICBHI           920                          0.532 frac/frac/frac/frac/frac      0.606 ± 0.026     0.747 ± 0.052          0.570 ± 0.057 0.490 ± 0.024 0.125 ± 0.103 0.855 ± 0.112
+  spr_inv SPRSound          5920                          0.697 frac/frac/frac/frac/frac      0.741 ± 0.049     0.869 ± 0.024          0.776 ± 0.036 0.603 ± 0.022 0.328 ± 0.078 0.879 ± 0.043
+  spr_inv    ICBHI           920                          0.517 mean/mean/mean/mean/mean      0.546 ± 0.085     0.700 ± 0.047          0.542 ± 0.064 0.406 ± 0.089 0.095 ± 0.045 0.716 ± 0.191
+  spr_inv conjunto          6840                          0.597 frac/frac/frac/frac/frac      0.501 ± 0.038     0.772 ± 0.078          0.640 ± 0.021 0.568 ± 0.013 0.261 ± 0.052 0.875 ± 0.046
+ spr_sqrt SPRSound          5920                          0.707 frac/frac/frac/frac/frac      0.750 ± 0.056     0.837 ± 0.023          0.781 ± 0.054 0.604 ± 0.033 0.295 ± 0.083 0.913 ± 0.037
+ spr_sqrt    ICBHI           920                          0.559 mean/mean/mean/mean/mean      0.548 ± 0.078     0.718 ± 0.052          0.551 ± 0.069 0.476 ± 0.045 0.060 ± 0.047 0.892 ± 0.082
+ spr_sqrt conjunto          6840                          0.611 frac/frac/frac/frac/frac      0.520 ± 0.053     0.778 ± 0.072          0.659 ± 0.059 0.570 ± 0.026 0.234 ± 0.057 0.905 ± 0.038
+joint_inv SPRSound          5920                          0.703 frac/frac/frac/frac/frac      0.730 ± 0.047     0.848 ± 0.049          0.765 ± 0.040 0.581 ± 0.015 0.272 ± 0.078 0.890 ± 0.054
+joint_inv    ICBHI           920                          0.559 frac/frac/frac/frac/frac      0.619 ± 0.032     0.737 ± 0.042          0.558 ± 0.057 0.490 ± 0.045 0.140 ± 0.100 0.841 ± 0.081
+joint_inv conjunto          6840                          0.741 frac/frac/frac/frac/frac      0.732 ± 0.042     0.833 ± 0.036          0.786 ± 0.030 0.582 ± 0.015 0.328 ± 0.067 0.836 ± 0.045
+
+AUC normal vs anormal por año de SPRSound (test, todos los folds)
+    model        release  n_recordings  abnormal_frac  auc_normal_vs_abnormal
+  spr_inv test2022_inter           347          0.305                   0.738
+  spr_inv test2022_intra           376          0.359                   0.623
+  spr_inv       test2023           765          0.354                   0.725
+  spr_inv       test2024          1591          0.066                   0.774
+  spr_inv       test2025          1072          0.577                   0.635
+  spr_inv      train2022          1769          0.263                   0.683
+ spr_sqrt test2022_inter           347          0.305                   0.663
+ spr_sqrt test2022_intra           376          0.359                   0.610
+ spr_sqrt       test2023           765          0.354                   0.824
+ spr_sqrt       test2024          1591          0.066                   0.794
+ spr_sqrt       test2025          1072          0.577                   0.626
+ spr_sqrt      train2022          1769          0.263                   0.718
+joint_inv test2022_inter           347          0.305                   0.700
+joint_inv test2022_intra           376          0.359                   0.631
+joint_inv       test2023           765          0.354                   0.716
+joint_inv       test2024          1591          0.066                   0.841
+joint_inv       test2025          1072          0.577                   0.609
+joint_inv      train2022          1769          0.263                   0.727
+
+✓ C:\Users\santi\OneDrive\Documentos\CEIA\repo_ceia\proyecto_final\desarrollo\reports\sprsound\eval

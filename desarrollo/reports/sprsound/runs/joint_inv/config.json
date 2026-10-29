@@ -1,0 +1,18 @@
+{
+  "width": "base",
+  "feature": "logmel",
+  "pooling": "avg_max",
+  "n_fft": 512,
+  "hop": 160,
+  "time_keep_blocks": 0,
+  "specaug": 0,
+  "class_weights": "inv",
+  "balance_domains": false,
+  "domain": "pulmonary",
+  "data": "joint",
+  "win_sec": 4.0,
+  "epochs": 30,
+  "patience": 8,
+  "run_name": "joint_inv",
+  "n_params": 24294
+}
