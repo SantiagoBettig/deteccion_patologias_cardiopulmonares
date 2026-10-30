@@ -1,0 +1,12 @@
+{
+  "fold": 4,
+  "best_epoch": 1,
+  "val_window_acc": 0.9943347361605698,
+  "val_window_f1": 0.9949545913218971,
+  "val_recording_acc": 0.9981185324553151,
+  "val_recording_errors": 2,
+  "test_window_acc": 0.9962058566008366,
+  "test_window_f1": 0.9964406315597335,
+  "test_recording_acc": 0.9994444444444445,
+  "test_recording_errors": 1
+}

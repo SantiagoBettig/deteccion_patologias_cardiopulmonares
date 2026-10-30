@@ -103,16 +103,21 @@ def test_sets() -> dict[str, tuple]:
     return out
 
 
-def infer(run_dir: Path, run: str, test: str, sets: dict) -> pd.DataFrame:
-    path = OUT_DIR / f"{run}_{test}_windows.csv"
+def infer(run_dir: Path, run: str, test: str, sets: dict, criterion: str | None = None,
+          cols: tuple = ("p_pulm_normal", "p_crackle", "p_wheeze")) -> pd.DataFrame:
+    """criterion: el checkpoint del criterio no principal (run_kfold
+    --select), fold{i}_best_<criterion>.pt; None, el principal."""
+    tag = f"{run}_{criterion}" if criterion else run
+    path = OUT_DIR / f"{tag}_{test}_windows.csv"
     if path.exists():
         return pd.read_csv(path)
     args = argparse.Namespace(**json.loads((run_dir / "config.json").read_text()))
     recs, _, audio, offsets, fold_dir = sets[test]
+    ckpt = f"best_{criterion}" if criterion else "best"
     parts = []
     for i in range(K):
         model = build_model(args)
-        model.load_state_dict(torch.load(UNIFIED_MODEL_SRC_DIR / f"checkpoints_{run}" / f"fold{i}_best.pt",
+        model.load_state_dict(torch.load(UNIFIED_MODEL_SRC_DIR / f"checkpoints_{run}" / f"fold{i}_{ckpt}.pt",
                                          map_location="cpu"))
         fold = pd.read_csv(fold_dir / f"fold{i}.csv")
         for role in ("val", "test"):
@@ -120,10 +125,10 @@ def infer(run_dir: Path, run: str, test: str, sets: dict) -> pd.DataFrame:
             ds = FullRecordingDataset(recs[recs["subject_id"].isin(subj)], audio, offsets)
             probs = predict(model, DataLoader(ds, batch_size=256, shuffle=False, collate_fn=collate))
             part = ds.df[["file_id", "subject_id", "window_idx", "start_sec"]].assign(fold=i, role=role)
-            for k in ("p_pulm_normal", "p_crackle", "p_wheeze"):
+            for k in cols:
                 part[k] = derived_probs(probs)[k]
             parts.append(part)
-        print(f"  {run} → {test}: fold {i} ({sum(len(p) for p in parts)} ventanas)", flush=True)
+        print(f"  {tag} → {test}: fold {i} ({sum(len(p) for p in parts)} ventanas)", flush=True)
     w = pd.concat(parts, ignore_index=True)
     w.to_csv(path, index=False)
     return w

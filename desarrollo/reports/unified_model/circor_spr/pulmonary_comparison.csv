@@ -1,0 +1,4 @@
+setting,strategy,val_score,se,sp,icbhi_score,crackle_auc,wheeze_auc,chosen
+cs_base (B),pooled_fixed,0.598 ± 0.008,0.267 ± 0.055,0.88 ± 0.052,0.573 ± 0.027,0.658 ± 0.045,0.803 ± 0.051,frac/frac/frac/frac/frac
+cs_base (A),pooled_fixed,0.599 ± 0.007,0.261 ± 0.064,0.885 ± 0.055,0.573 ± 0.026,0.653 ± 0.049,0.806 ± 0.051,frac/frac/frac/frac/frac
+spr_inv,pooled_fixed,0.612 ± 0.006,0.306 ± 0.06,0.87 ± 0.046,0.588 ± 0.02,0.686 ± 0.048,0.783 ± 0.066,frac/frac/frac/frac/frac

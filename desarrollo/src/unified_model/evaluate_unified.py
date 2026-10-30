@@ -59,8 +59,10 @@ from pulmonary_adventitious_model.metrics import calibrate_thresholds
 DOMAIN_THRESHOLD = 0.5
 
 
-def load_window_probs(run_dir: Path) -> pd.DataFrame:
-    paths = sorted(run_dir.glob("window_probs_fold*.csv"))
+def load_window_probs(run_dir: Path, criterion: str | None = None) -> pd.DataFrame:
+    """criterion: las probabilidades del criterio no principal (run_kfold
+    --select, window_probs_fold{i}_<criterion>.csv); None, las del principal."""
+    paths = sorted(run_dir.glob(f"window_probs_fold?_{criterion}.csv" if criterion else "window_probs_fold?.csv"))
     w = pd.concat([pd.read_csv(p) for p in paths], ignore_index=True)
     assert sorted(w["fold"].unique()) == list(range(K)), f"faltan folds: {sorted(w['fold'].unique())}"
     return w.rename(columns={"p_murmur": "prob"})   # nombre que usa MurmurTask
