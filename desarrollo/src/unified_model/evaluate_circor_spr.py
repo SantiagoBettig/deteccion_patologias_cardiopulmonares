@@ -40,7 +40,7 @@ grabaciones de un paciente no son independientes).
 Salida: reports/unified_model/circor_spr/
 
 Uso:
-    python unified_model/evaluate_circor_spr.py [--run cs_base] [--card-ref abl_card] [--pulm-ref spr_inv] [--gate-run kfold_cs]
+    python unified_model/evaluate_circor_spr.py [--run cs_base] [--card-ref abl_card] [--pulm-ref spr_inv] [--gate-run kfold_cs] [--base-run cs_base]
 """
 
 import argparse
@@ -146,8 +146,12 @@ def main() -> None:
     parser.add_argument("--card-ref", default="abl_card")
     parser.add_argument("--pulm-ref", default="spr_inv")
     parser.add_argument("--strategy", default="pooled_fixed", choices=STRATEGIES)
+    parser.add_argument("--base-run", help="corrida de 6 clases contra la que comparar --run con la diferencia apareada (avances/25)")
     parser.add_argument("--gate-run", help="gate k-fold (reports/gate/runs/<run>) para el pipeline separado")
     args = parser.parse_args()
+    global OUT_DIR
+    if args.base_run:   # no pisa las tablas de cs_base; base y ablaciones se reevalúan con los mismos cachés
+        OUT_DIR = OUT_DIR / f"{args.run}_vs_{args.base_run}"
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     pd.set_option("display.width", 250)
     pd.set_option("display.max_columns", 30)
@@ -159,6 +163,9 @@ def main() -> None:
               (f"{args.run} (A)", args.run, run_dir, "select"),
               (args.card_ref, args.card_ref, UNIFIED_MODEL_REPORTS_DIR / "runs" / args.card_ref, None),
               (args.pulm_ref, args.pulm_ref, SPRSOUND_REPORTS_DIR / "runs" / args.pulm_ref, None)]
+    if args.base_run:
+        base_dir = UNIFIED_MODEL_REPORTS_DIR / "runs" / args.base_run
+        models[2:2] = [(f"{args.base_run} (B)", args.base_run, base_dir, None)]
     results = [evaluate_model(*m, sets, recs, spr, args.strategy) for m in models]
 
     for task, key in [("murmur", ["recall", "precision", "f2", "auc"]),
@@ -172,7 +179,7 @@ def main() -> None:
     print(f"\n== SPRSound — AUC normal contra anormal por grabación ==\n{rec_auc.round(3).to_string(index=False)}")
     l1 = pd.DataFrame({r["setting"]: r["layer1"] for r in results if "layer1" in r})
     if args.gate_run:
-        card, pulm = results[2], results[3]
+        card, pulm = results[-2], results[-1]
         l1[f"pipeline separado ({args.gate_run} + {args.card_ref} + {args.pulm_ref})"] = separate_pipeline(
             args.gate_run, card["oof_m"], pulm["oof_p"])
     l1.to_csv(OUT_DIR / "layer1_system.csv")
@@ -181,6 +188,10 @@ def main() -> None:
         diff = pd.Series(paired_difference(OUT_DIR / f"{args.run}_B", OUT_DIR / f"pipeline_{args.gate_run}"))
         diff.to_csv(OUT_DIR / "layer1_paired_difference.csv", header=["valor"])
         print(f"\n== Capa 1 — a: {args.run} (B), b: pipeline separado ==\n{diff.to_string()}")
+    if args.base_run:
+        diff = pd.Series(paired_difference(OUT_DIR / f"{args.run}_B", OUT_DIR / f"{args.base_run}_B"))
+        diff.to_csv(OUT_DIR / "layer1_paired_difference.csv", header=["valor"])
+        print(f"\n== Capa 1 — a: {args.run} (B), b: {args.base_run} (B) ==\n{diff.to_string()}")
     print(f"\n✓ Reportes en: {OUT_DIR}")
 
 

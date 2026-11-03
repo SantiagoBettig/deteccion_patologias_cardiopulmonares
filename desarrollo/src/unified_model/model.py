@@ -34,6 +34,10 @@ de los dos cambia la cantidad de parámetros.
 SpecAugment (ajuste 3): en train, `specaug` máscaras de hasta 8 bandas y
 de hasta 10% de los frames, en 0 (la media tras el z-score).
 
+Doble resolución (avances/25): con `n_fft2`, la entrada lleva un segundo
+canal con ese n_fft y el mismo hop, cada uno con su z-score. Crackle mejora
+con la FFT corta y murmullo con la larga (avances/22 §3), y la red elige.
+
 Ablación por dominio (avances/22): `active_classes` restringe la softmax a
 las clases de un dominio (logits del otro en -inf), así la misma red se
 entrena solo como rama cardíaca (2 clases) o pulmonar (4) sin cambiar el
@@ -80,14 +84,15 @@ def spec_augment(x: torch.Tensor, n_masks: int, max_bands: int = 8, max_time_fra
 class UnifiedCNN(nn.Module):
     def __init__(self, width: int = 16, n_classes: int = N_CLASSES, dropout: float = 0.3,
                  feature: str = "mfcc", pooling: str = "avg", n_fft: int = 512, hop_length: int = 160,
-                 time_keep_blocks: int = 0, specaug: int = 0, active_classes=None):
+                 time_keep_blocks: int = 0, specaug: int = 0, active_classes=None, n_fft2: int = 0):
         super().__init__()
         if pooling not in POOLING_TYPES:
             raise ValueError(f"pooling debe ser uno de {POOLING_TYPES}, recibido: {pooling!r}")
         self.pooling = pooling
         self.specaug = specaug
         self.frontend = SpectralFrontend(feature, n_fft=n_fft, hop_length=hop_length)
-        chans = [1, width, 2 * width, 4 * width]
+        self.frontend2 = SpectralFrontend(feature, n_fft=n_fft2, hop_length=hop_length) if n_fft2 else None
+        chans = [2 if n_fft2 else 1, width, 2 * width, 4 * width]
         self.features = nn.Sequential(*[
             _conv_block(chans[k], chans[k + 1], keep_time=k >= 3 - time_keep_blocks) for k in range(3)
         ])
@@ -102,6 +107,8 @@ class UnifiedCNN(nn.Module):
 
     def forward(self, y):
         x = self.frontend(y)
+        if self.frontend2 is not None:
+            x = torch.cat([x, self.frontend2(y)], dim=1)
         if self.training and self.specaug:
             x = spec_augment(x, self.specaug)
         x = self.features(x)                        # (batch, canales, frecuencia, tiempo)

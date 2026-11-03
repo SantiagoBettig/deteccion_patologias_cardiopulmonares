@@ -1,0 +1,5 @@
+setting,auc_normal_anormal_pooled,auc_normal_anormal_por_fold
+cs_wide (B),0.7664711529514547,0.793 ± 0.035
+cs_wide (A),0.7491780233446383,0.795 ± 0.035
+cs_base (B),0.7147566887810565,0.767 ± 0.037
+spr_inv,0.6879894459367525,0.767 ± 0.035

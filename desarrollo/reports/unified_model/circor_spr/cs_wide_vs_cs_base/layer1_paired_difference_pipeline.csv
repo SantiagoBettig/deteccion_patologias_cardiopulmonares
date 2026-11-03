@@ -1,0 +1,9 @@
+,valor
+accuracy_a,0.7758449851370692
+accuracy_b,0.7706704833204888
+diferencia_a_menos_b,0.005174501816580412
+ic95_bootstrap_paciente,"[-0.0025, 0.0129]"
+solo_a_acierta,483
+solo_b_acierta,436
+grabaciones,9083
+pacientes,1796

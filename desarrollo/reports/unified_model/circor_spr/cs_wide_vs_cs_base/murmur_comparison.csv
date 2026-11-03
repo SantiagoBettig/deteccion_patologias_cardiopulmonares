@@ -1,0 +1,5 @@
+setting,strategy,val_score,recall,precision,f2,auc,chosen
+cs_wide (B),pooled_fixed,0.795 ± 0.012,0.827 ± 0.076,0.685 ± 0.105,0.789 ± 0.05,0.933 ± 0.031,frac/frac/frac/frac/frac
+cs_wide (A),pooled_fixed,0.78 ± 0.01,0.833 ± 0.04,0.64 ± 0.103,0.782 ± 0.032,0.924 ± 0.027,frac/frac/frac/frac/frac
+cs_base (B),pooled_fixed,0.773 ± 0.012,0.833 ± 0.047,0.605 ± 0.082,0.772 ± 0.044,0.919 ± 0.03,frac/frac/frac/frac/frac
+abl_card,pooled_fixed,0.811 ± 0.016,0.833 ± 0.041,0.675 ± 0.079,0.794 ± 0.034,0.927 ± 0.027,frac/frac/frac/frac/frac

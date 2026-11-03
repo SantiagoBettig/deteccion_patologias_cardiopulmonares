@@ -104,10 +104,13 @@ def test_sets() -> dict[str, tuple]:
 
 
 def infer(run_dir: Path, run: str, test: str, sets: dict, criterion: str | None = None,
-          cols: tuple = ("p_pulm_normal", "p_crackle", "p_wheeze")) -> pd.DataFrame:
+          cols: tuple = ("p_pulm_normal", "p_crackle", "p_wheeze"), folds: tuple | None = None) -> pd.DataFrame:
     """criterion: el checkpoint del criterio no principal (run_kfold
-    --select), fold{i}_best_<criterion>.pt; None, el principal."""
+    --select), fold{i}_best_<criterion>.pt; None, el principal. folds: solo
+    esos folds, con su propia cache (filtro de variantes, avances/25)."""
     tag = f"{run}_{criterion}" if criterion else run
+    if folds is not None:
+        tag += "_folds" + "".join(map(str, folds))
     path = OUT_DIR / f"{tag}_{test}_windows.csv"
     if path.exists():
         return pd.read_csv(path)
@@ -115,7 +118,7 @@ def infer(run_dir: Path, run: str, test: str, sets: dict, criterion: str | None 
     recs, _, audio, offsets, fold_dir = sets[test]
     ckpt = f"best_{criterion}" if criterion else "best"
     parts = []
-    for i in range(K):
+    for i in (range(K) if folds is None else folds):
         model = build_model(args)
         model.load_state_dict(torch.load(UNIFIED_MODEL_SRC_DIR / f"checkpoints_{run}" / f"fold{i}_{ckpt}.pt",
                                          map_location="cpu"))

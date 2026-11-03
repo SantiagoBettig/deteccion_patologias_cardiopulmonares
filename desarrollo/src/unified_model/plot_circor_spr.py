@@ -14,9 +14,15 @@ Salida: reports/unified_model/circor_spr/figures/
     confusion_system.png     capa 1 por grabación: clase real contra salida del sistema (o dominio erróneo)
     recording_metrics.png    métricas por grabación del modelo de 6 clases contra las ablaciones (por fold)
     domain_separation.png    P(cardíaco) media por grabación, según el dominio real
+    class_accuracy.png       con --base-run: aciertos del sistema por clase, contra la base y el pipeline separado
+
+Con --base-run (avances/25) lee los reportes de
+evaluate_circor_spr.py --base-run, suma la corrida base a las comparaciones y
+guarda en circor_spr/<run>_vs_<base>/figures/.
 
 Uso:
     python unified_model/plot_circor_spr.py [--run cs_base] [--card-ref abl_card] [--pulm-ref spr_inv]
+    python unified_model/plot_circor_spr.py --run cs_wide --base-run cs_base
 """
 
 import argparse
@@ -39,7 +45,8 @@ from unified_model.evaluate_unified import K, load_window_probs
 
 EVAL_DIR = UNIFIED_MODEL_REPORTS_DIR / "circor_spr"
 CLASSES = ["card normal", "card murmullo", "pulm normal", "pulm crackle", "pulm wheeze", "pulm both"]
-MODEL_COLORS = {"modelo de 6 clases": "tab:blue", "ablación": "tab:orange"}
+MODEL_COLORS = {"modelo de 6 clases": "tab:blue", "ablación": "tab:orange", "base": "#7f7f7f"}
+MODEL_MARKERS = {"modelo de 6 clases": "o", "ablación": "s", "base": "D"}
 
 
 def learning_curves(run: str, d: Path, out: Path) -> None:
@@ -149,38 +156,36 @@ def rec_auc_per_fold(tag: str, spr: pd.DataFrame) -> np.ndarray:
     return np.array([auc(g["abnormal"], g["score"]) for _, g in sc.groupby("fold")])
 
 
-def recording_metrics(run: str, card_ref: str, pulm_ref: str, out: Path) -> None:
+def recording_metrics(run: str, card_ref: str, pulm_ref: str, base_run: str | None, eval_dir: Path, out: Path) -> None:
     spr = pd.read_csv(SPRSOUND_RECORDINGS_CSV)
-    main_dir, card_dir, pulm_dir = EVAL_DIR / f"{run}_B", EVAL_DIR / card_ref, EVAL_DIR / pulm_ref
-    metrics = [("F2 murmullo", lambda d: per_fold_metric(d, "murmur", "f2"), card_dir),
-               ("AUC murmullo", lambda d: per_fold_metric(d, "murmur", "auc"), card_dir),
-               ("score pulmonar", lambda d: per_fold_metric(d, "pulmonary", "icbhi_score"), pulm_dir),
-               ("AUC crackle", lambda d: per_fold_metric(d, "pulmonary", "crackle_auc"), pulm_dir),
-               ("AUC wheeze", lambda d: per_fold_metric(d, "pulmonary", "wheeze_auc"), pulm_dir),
-               ("AUC normal-anormal\n(SPRSound)", None, pulm_dir)]
-    fig, ax = plt.subplots(figsize=(11, 4.8))
+    card_dir, pulm_dir = eval_dir / card_ref, eval_dir / pulm_ref
+    metrics = [("F2 murmullo", "murmur", "f2"), ("AUC murmullo", "murmur", "auc"),
+               ("score pulmonar", "pulmonary", "icbhi_score"), ("AUC crackle", "pulmonary", "crackle_auc"),
+               ("AUC wheeze", "pulmonary", "wheeze_auc"), ("AUC normal-anormal\n(SPRSound)", None, None)]
+    models = [("modelo de 6 clases", f"{run} (modelo de 6 clases)", eval_dir / f"{run}_B", run)]
+    if base_run:
+        models.append(("base", f"{base_run} (base)", eval_dir / f"{base_run}_B", base_run))
+    models.append(("ablación", f"ablaciones ({card_ref} / {pulm_ref})", None, pulm_ref))
+    fig, ax = plt.subplots(figsize=(11.5, 5))
     x = np.arange(len(metrics))
-    width = 0.36
-    for k, (label, color) in enumerate(MODEL_COLORS.items()):
-        vals = []
-        for name, fn, ref_dir in metrics:
-            if fn is None:
-                vals.append(rec_auc_per_fold(run if k == 0 else pulm_ref, spr))
+    step = 0.26
+    for k, (key, label, model_dir, tag) in enumerate(models):
+        pos = x + (k - (len(models) - 1) / 2) * step
+        for p, (_, task, metric) in zip(pos, metrics):
+            if task is None:
+                v = rec_auc_per_fold(tag, spr)
             else:
-                vals.append(fn(main_dir if k == 0 else ref_dir))
-        mean = [v.mean() for v in vals]
-        pos = x + (k - 0.5) * width
-        ax.bar(pos, mean, width - 0.04, color=color, alpha=0.85,
-               label=f"{run} (modelo de 6 clases)" if k == 0 else f"ablaciones ({card_ref} / {pulm_ref})")
-        for p, v in zip(pos, vals):   # cada fold, para ver la dispersión
-            ax.scatter(np.full(len(v), p), v, color="black", s=10, zorder=3)
-        for p, m in zip(pos, mean):
-            ax.text(p, 0.42, f"{m:.3f}", ha="center", va="bottom", fontsize=8, color="white")
+                d = model_dir or (card_dir if task == "murmur" else pulm_dir)
+                v = per_fold_metric(d, task, metric)
+            ax.scatter(np.full(len(v), p), v, color=MODEL_COLORS[key], marker=MODEL_MARKERS[key], s=14, alpha=0.45, lw=0)
+            ax.scatter(p, v.mean(), color=MODEL_COLORS[key], marker=MODEL_MARKERS[key], s=70, zorder=3,
+                       edgecolor="white", lw=1, label=label if p == pos[0] else None)
+            ax.text(p, v.max() + 0.015, f"{v.mean():.3f}", ha="center", va="bottom", fontsize=8)
     ax.set_xticks(x, [m[0] for m in metrics], fontsize=9)
-    ax.set_ylim(0.4, 1)
-    ax.set_ylabel("media en 5 folds (puntos: cada fold)")
+    ax.set_ylim(0.4, 1.02)
+    ax.set_ylabel("marcador grande: media en 5 folds; chicos: cada fold")
     ax.set_title("Métricas por grabación (test, estrategia pooled_fixed)")
-    ax.legend(fontsize=9, loc="upper right")
+    ax.legend(fontsize=9, loc="lower right")
     ax.grid(axis="y", alpha=0.3)
     fig.tight_layout()
     fig.savefig(out / "recording_metrics.png", dpi=110)
@@ -207,13 +212,43 @@ def domain_separation(run_eval: Path, run: str, out: Path) -> None:
     plt.close(fig)
 
 
+def class_accuracy(run: str, base_run: str, eval_dir: Path, out: Path) -> None:
+    """Aciertos del sistema por clase real, sobre las mismas grabaciones."""
+    models = [(f"{run}", eval_dir / f"{run}_B", "tab:blue", None),
+              (f"{base_run}", eval_dir / f"{base_run}_B", "#7f7f7f", None),
+              ("pipeline separado", EVAL_DIR / "pipeline_kfold_cs", "tab:orange", "//")]
+    fig, ax = plt.subplots(figsize=(11, 4.6))
+    x = np.arange(len(SYSTEM_CLASSES))
+    width = 0.27
+    for k, (label, d, color, hatch) in enumerate(models):
+        g = pd.read_csv(d / "layer1_all_recordings.csv")
+        acc = (g["true_class"] == g["system_class"]).groupby(g["true_class"]).mean().reindex(range(6))
+        pos = x + (k - 1) * width
+        ax.bar(pos, acc, width - 0.02, color=color, hatch=hatch, edgecolor="white", lw=0,
+               label=f"{label} (accuracy {(g['true_class'] == g['system_class']).mean():.3f})")
+        for p, v in zip(pos, acc):
+            ax.text(p, v + 0.012, f"{v:.2f}", ha="center", va="bottom", fontsize=8)
+    ax.set_xticks(x, SYSTEM_CLASSES, fontsize=9)
+    ax.set_ylim(0, 1.05)
+    ax.set_ylabel("grabaciones de la clase con la salida correcta")
+    ax.set_title("Aciertos del sistema por clase (capa 1, todos los pacientes)")
+    ax.legend(fontsize=9, loc="upper right")
+    ax.grid(axis="y", alpha=0.3)
+    ax.set_axisbelow(True)
+    fig.tight_layout()
+    fig.savefig(out / "class_accuracy.png", dpi=110)
+    plt.close(fig)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run", default="cs_base")
     parser.add_argument("--card-ref", default="abl_card")
     parser.add_argument("--pulm-ref", default="spr_inv")
+    parser.add_argument("--base-run", help="corrida base; lee circor_spr/<run>_vs_<base>/ (avances/25)")
     args = parser.parse_args()
-    out = EVAL_DIR / "figures"
+    eval_dir = EVAL_DIR / f"{args.run}_vs_{args.base_run}" if args.base_run else EVAL_DIR
+    out = eval_dir / "figures"
     out.mkdir(parents=True, exist_ok=True)
 
     run_dir = UNIFIED_MODEL_REPORTS_DIR / "runs" / args.run
@@ -221,14 +256,20 @@ def main() -> None:
     refs = pd.concat([load_window_probs(UNIFIED_MODEL_REPORTS_DIR / "runs" / args.card_ref).assign(run=args.card_ref),
                       load_window_probs(SPRSOUND_REPORTS_DIR / "runs" / args.pulm_ref).assign(run=args.pulm_ref)])
     refs = refs.rename(columns={"prob": "p_murmur"}).query("role == 'test'")
-    run_eval = EVAL_DIR / f"{args.run}_B"
+    run_eval = eval_dir / f"{args.run}_B"
+    probs = {"modelo de 6 clases": w.assign(run=args.run), "ablación": refs}
+    if args.base_run:
+        base = load_window_probs(UNIFIED_MODEL_REPORTS_DIR / "runs" / args.base_run)
+        probs["base"] = base.rename(columns={"prob": "p_murmur"}).query("role == 'test'").assign(run=args.base_run)
 
     learning_curves(args.run, run_dir, out)
-    roc_windows({"modelo de 6 clases": w.assign(run=args.run), "ablación": refs}, out)
+    roc_windows(probs, out)
     confusion_windows(w, args.run, out)
     confusion_system(run_eval, args.run, out)
-    recording_metrics(args.run, args.card_ref, args.pulm_ref, out)
+    recording_metrics(args.run, args.card_ref, args.pulm_ref, args.base_run, eval_dir, out)
     domain_separation(run_eval, args.run, out)
+    if args.base_run:
+        class_accuracy(args.run, args.base_run, eval_dir, out)
     print(f"✓ {out}")
 
 

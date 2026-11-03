@@ -7,7 +7,7 @@ pooling promedio o promedio + máximo (--pooling), 6 clases softmax, folds
 unificados (splits/make_unified_kfold.py). Piloto 1: MFCC + avg (los
 defaults); piloto 2: log-Mel + avg_max. Ajustes posteriores, uno por vez
 y elegidos por validación (folds 0 y 3): resolución temporal (--n-fft,
---hop, --time-keep-blocks), balance entre dominios (--class-weights sqrt,
+--hop, --time-keep-blocks, --n-fft2), balance entre dominios (--class-weights sqrt,
 --balance-domains) y SpecAugment (--specaug). Ablación por dominio
 (--domain cardiac|pulmonary): la misma receta entrenada solo con las
 ventanas de un dominio, con la softmax restringida a sus clases.
@@ -106,14 +106,29 @@ def domain_sample_weights(domains: np.ndarray) -> np.ndarray:
     return w
 
 
+def domain_class_sample_weights(domains: np.ndarray, labels: np.ndarray) -> np.ndarray:
+    """Probabilidad de muestreo por ventana con cada dominio la mitad de lo
+    que se ve en una época y, dentro de él, todas sus clases por igual
+    (--balance-classes, avances/25)."""
+    w = np.zeros(len(domains))
+    for d in np.unique(domains):
+        in_domain = domains == d
+        classes = np.unique(labels[in_domain])
+        for c in classes:
+            m = in_domain & (labels == c)
+            w[m] = 0.5 / len(classes) / m.sum()
+    return w
+
+
 def class_weights(labels: np.ndarray, mode: str, sample_w: np.ndarray | None = None) -> torch.Tensor:
     """Pesos de la pérdida. Con sample_w (muestreo balanceado), las
-    frecuencias son las que efectivamente ve el modelo, no las del índice."""
+    frecuencias son las que efectivamente ve el modelo, no las del índice.
+    mode "none": sin pesos, cuando el muestreo ya balancea las clases."""
     sample_w = np.ones(len(labels)) if sample_w is None else sample_w
     freq = np.bincount(labels, weights=sample_w, minlength=N_CLASSES)
     seen = freq > 0   # en la ablación por dominio faltan las clases del otro
     w = np.zeros(N_CLASSES)
-    w[seen] = 1.0 / freq[seen] if mode == "inv" else 1.0 / np.sqrt(freq[seen])
+    w[seen] = {"inv": 1.0 / freq[seen], "sqrt": 1.0 / np.sqrt(freq[seen]), "none": 1.0}[mode]
     w = w / ((w[labels] * sample_w).sum() / sample_w.sum())   # peso medio por ventana vista = 1
     return torch.tensor(w, dtype=torch.float32)
 
@@ -121,7 +136,7 @@ def class_weights(labels: np.ndarray, mode: str, sample_w: np.ndarray | None = N
 def build_model(args) -> UnifiedCNN:
     return UnifiedCNN(width=WIDTHS[args.width], feature=args.feature, pooling=args.pooling,
                       n_fft=args.n_fft, hop_length=args.hop, time_keep_blocks=args.time_keep_blocks,
-                      specaug=args.specaug,
+                      specaug=args.specaug, n_fft2=getattr(args, "n_fft2", 0),
                       active_classes=DOMAIN_CLASSES.get(args.domain))
 
 
@@ -221,8 +236,9 @@ def run_fold(i: int, sources: dict, args, ckpt_dir: Path, out_dir: Path) -> dict
 
     print(f"Fold {i}: train {len(tr)} | val {len(va)} | test {len(te)} ventanas", flush=True)
     train_ds = concat_dataset([(n, split[n, "train"]) for n in train_src], sources, augment=True)
-    if args.balance_domains:
-        sample_w = domain_sample_weights(tr["domain"].to_numpy())
+    if args.balance_domains or args.balance_classes:
+        sample_w = (domain_class_sample_weights(tr["domain"].to_numpy(), tr["label"].to_numpy())
+                    if args.balance_classes else domain_sample_weights(tr["domain"].to_numpy()))
         sampler = WeightedRandomSampler(sample_w, num_samples=len(tr), replacement=True)
         train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, sampler=sampler, collate_fn=collate)
     else:
@@ -321,13 +337,16 @@ def main() -> None:
     parser.add_argument("--feature", choices=FEATURES, default="mfcc")
     parser.add_argument("--pooling", choices=POOLING_TYPES, default="avg")
     parser.add_argument("--n-fft", type=int, default=512)
+    parser.add_argument("--n-fft2", type=int, default=0, help="segundo canal de entrada con este n_fft (0: uno solo)")
     parser.add_argument("--hop", type=int, default=160, help="muestras a 4 kHz (160 = 40 ms)")
     parser.add_argument("--time-keep-blocks", type=int, default=0, choices=[0, 1, 2],
                         help="últimos bloques que reducen solo frecuencia")
     parser.add_argument("--specaug", type=int, default=0, help="máscaras de frecuencia y de tiempo por ejemplo")
-    parser.add_argument("--class-weights", choices=["inv", "sqrt"], default="inv")
+    parser.add_argument("--class-weights", choices=["inv", "sqrt", "none"], default="inv")
     parser.add_argument("--balance-domains", action="store_true",
                         help="muestreo con la mitad de cada dominio por época")
+    parser.add_argument("--balance-classes", action="store_true",
+                        help="muestreo con la mitad de cada dominio y sus clases por igual (usar con --class-weights none)")
     parser.add_argument("--domain", choices=["both", "cardiac", "pulmonary"], default="both",
                         help="ablación: entrenar y evaluar solo con las ventanas de un dominio")
     parser.add_argument("--data", choices=["unified", "sprsound", "joint", "circor_spr"], default="unified",
