@@ -2,19 +2,19 @@
 
 \label{Chapter2}
 
-En este capítulo se describen los elementos en los que se apoya el desarrollo del trabajo. En primer lugar, se presentan las alteraciones acústicas que el sistema busca detectar. Luego, se mencionan las herramientas y el entorno de cómputo utilizados, se describen las bases de datos públicas empleadas para el entrenamiento y la validación, y por último se presenta el modelo preentrenado utilizado como punto de partida para la transferencia de aprendizaje.
+En este capítulo se describen los elementos en los que se apoya el desarrollo del trabajo. En primer lugar, se presentan las alteraciones acústicas que el sistema busca detectar. Luego, se mencionan las herramientas y el entorno de cómputo utilizados, se describen las bases de datos públicas empleadas para el entrenamiento y validación, y se presenta el modelo preentrenado utilizado como punto de partida para la transferencia de aprendizaje.
 
 %----------------------------------------------------------------------------------------
 
 \section{Alteraciones acústicas buscadas}
 \label{sec:alteraciones}
 
-Como se mencionó en la sección \ref{sec:auscultacion}, cada patología modifica el sonido de auscultación de una manera particular. En esta sección se describen las alteraciones que el sistema debe reconocer, con sus características en el tiempo y en la frecuencia, ya que estas determinan qué información debe conservar la representación de la señal.
+Como se mencionó en la sección \ref{sec:auscultacion}, cada patología modifica el sonido de auscultación de una manera particular. En esta sección se describen las alteraciones que el sistema debe reconocer tanto en tiempo como en frecuencia, ya que estas determinan qué información debe conservar la representación de la señal.
 
 \subsection{Alteraciones en los sonidos cardíacos}
 \label{subsec:alteracionesCardiacas}
 
-La alteración cardíaca considerada en este trabajo es el soplo. A diferencia de S1 y S2, que son eventos breves, el soplo se prolonga durante parte de la sístole o de la diástole, o incluso durante toda la fase. Por esa razón, se lo describe a partir de su ubicación dentro del ciclo cardíaco, su forma, su tono, su calidad y su intensidad, que suele graduarse con la escala de Levine \citep{oliveira2022circor}.
+La alteración cardíaca considerada en este trabajo es el soplo. A diferencia de S1 y S2, que son eventos breves, el soplo se prolonga durante parte de la sístole, de la diástole, o incluso durante toda la fase. Por esa razón, se lo describe a partir de su ubicación dentro del ciclo cardíaco, su forma, su tono, su calidad y su intensidad, que suele graduarse con la escala de Levine \citep{oliveira2022circor}.
 
 Los soplos son frecuentes en niños sanos y la mayoría no se debe a una patología. Sin embargo, un soplo puede ser la única manifestación de una enfermedad cardíaca grave. Los soplos holosistólicos o diastólicos, la intensidad de grado 3 o superior y la calidad áspera aumentan la probabilidad de que el soplo sea patológico \citep{frank2011evaluation}. Las diferencias también se observan en el espectro. En un estudio con 807 pacientes pediátricos, los soplos inocentes se concentraron típicamente por debajo de los 200\,Hz, mientras que los patológicos abarcaron tanto frecuencias más bajas como más altas \citep{noponen2007phono}.
 
@@ -23,16 +23,16 @@ En este trabajo, el modelo detecta la presencia de un soplo y no determina si es
 \subsection{Alteraciones en los sonidos pulmonares}
 \label{subsec:alteracionesPulmonares}
 
-Los sonidos adventicios pulmonares se dividen en discontinuos y continuos. Los crepitantes pertenecen al primer grupo. Son eventos explosivos, de menos de 20\,ms de duración, cuya energía se distribuye principalmente entre 60 y 1200\,Hz. Según la teoría más difundida, se producen cuando las pequeñas vías aéreas colapsadas se abren de forma súbita durante la inspiración. Se clasifican en finos, que son suaves, agudos y más numerosos en cada respiración, y gruesos, que son fuertes, graves y menos numerosos. Los primeros se observan en enfermedades pulmonares intersticiales y los segundos, en la bronquitis crónica \citep{sarkar2015auscultation}.
+Los sonidos adventicios pulmonares se dividen en discontinuos y continuos. Los crepitantes pertenecen al primer grupo. Son eventos explosivos, de menos de 20\,ms de duración, cuya energía se distribuye principalmente entre 60 y 1200\,Hz. Según la teoría, se producen cuando las pequeñas vías aéreas colapsadas se abren de forma súbita durante la inspiración. Se clasifican en finos, que son suaves, agudos y más numerosos en cada respiración, y gruesos, que son fuertes, graves y menos numerosos. Los primeros se observan en enfermedades pulmonares intersticiales y los segundos, en la bronquitis crónica \citep{sarkar2015auscultation}.
 
-Las sibilancias pertenecen al grupo de los sonidos continuos. Son sonidos agudos, de carácter musical, con una frecuencia dominante de 400\,Hz o más y una duración típicamente superior a 80--100\,ms. Se atribuyen a la oscilación de las paredes bronquiales provocada por el flujo de aire y son características de la obstrucción generalizada de la vía aérea, como ocurre en el asma y en la enfermedad pulmonar obstructiva crónica. Los roncus son sonidos continuos similares, pero más graves, con una frecuencia dominante de alrededor de 200\,Hz o menos \citep{sarkar2015auscultation}.
+Las sibilancias pertenecen al grupo de los sonidos continuos. Son sonidos agudos, de carácter musical, con una frecuencia dominante de 400\,Hz o más y una duración típicamente superior a 80-100\,ms. Se atribuyen a la oscilación de las paredes bronquiales provocada por el flujo de aire y son características de la obstrucción generalizada de la vía aérea, como ocurre en el asma y en la enfermedad pulmonar obstructiva crónica. Los roncus son sonidos continuos similares, pero más graves, con una frecuencia dominante de alrededor de 200\,Hz o menos \citep{sarkar2015auscultation}.
 
-Estas diferencias se reflejan en la representación tiempo-frecuencia, como se ilustra en la figura \ref{fig:alteraciones}. El soplo ocupa el intervalo entre S1 y S2 con energía distribuida en un rango amplio de frecuencias. Los crepitantes aparecen como trazos verticales, breves y de banda ancha. Las sibilancias, por su carácter tonal y sostenido, aparecen como trazos horizontales.
+Estas diferencias se reflejan en la representación tiempo-frecuencia, como se ilustra en la figura \ref{fig:alteraciones}. El soplo ocupa el intervalo entre S1 y S2 con energía distribuida en un rango amplio de frecuencias. Los crepitantes aparecen como trazos verticales breves y de banda ancha. Las sibilancias, por su carácter tonal y sostenido, aparecen como trazos horizontales.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\textwidth]{./Figures/alteraciones.pdf}
-	\caption[Ejemplos de las alteraciones acústicas buscadas]{Forma de onda y espectrograma en escala Mel de un tramo de cada alteración buscada.}
+	\caption[Ejemplos de las alteraciones acústicas buscadas]{Forma de onda y espectrograma de un tramo de cada alteración buscada.}
 	\label{fig:alteraciones}
 \end{figure}
 
@@ -80,18 +80,18 @@ El trabajo se desarrolló en el lenguaje Python, que concentra la mayor parte de
 	\end{tabular}
 \end{table}
 
-La mayor parte del trabajo se realizó en una computadora portátil con un procesador Intel Core i7-1355U y 16\,GB de memoria RAM, sin una unidad de procesamiento gráfico (GPU, \textit{Graphics Processing Unit}) dedicada. En ella se ejecutaron el preprocesamiento de los datos y el entrenamiento y la evaluación de las redes convolucionales diseñadas en el trabajo. Para el ajuste fino del modelo preentrenado, cuyo costo de cómputo resultaba inviable sin aceleración por \textit{hardware}, se utilizó Google Colab, una plataforma en la nube que ofrece \textit{notebooks} de Python con acceso a GPU. En particular, se empleó una GPU NVIDIA Tesla T4.
+La mayor parte del trabajo se realizó en una computadora portátil con un procesador Intel Core i7-1355U y 16\,GB de memoria RAM, sin una unidad de procesamiento gráfico (GPU, \textit{Graphics Processing Unit}) dedicada. En ella se ejecutaron el preprocesamiento de los datos, el entrenamiento de los modelos y la evaluación de los mismos. Para el ajuste fino del modelo preentrenado, cuyo costo de cómputo resultaba inviable sin aceleración por \textit{hardware}, se utilizó Google Colab, una plataforma en la nube que ofrece \textit{notebooks} de Python con acceso a GPU. En particular, se empleó una GPU NVIDIA Tesla T4.
 
 %----------------------------------------------------------------------------------------
 
 \section{Bases de datos}
 \label{sec:basesDatos}
 
-En el trabajo se utilizaron cuatro bases de datos públicas, cuyas características se resumen en la tabla \ref{tab:basesDatos}. Dos de ellas, CirCor DigiScope y SPRSound, se emplearon para entrenar y evaluar los modelos. Ambas están compuestas por grabaciones de pacientes pediátricos, una para los sonidos cardíacos y otra para los pulmonares. Las otras dos, ICBHI 2017 y HLS-CMDS, se reservaron para la validación externa, es decir, para evaluar los modelos con datos provenientes de otras poblaciones y de otros equipos de grabación. No se utilizaron datos propios.
+Se utilizaron cuatro bases de datos públicas, cuyas características se resumen en la tabla \ref{tab:basesDatos}. Dos de ellas, CirCor DigiScope y SPRSound, se emplearon para entrenar y evaluar los modelos. Ambas están compuestas por grabaciones de pacientes pediátricos, una para los sonidos cardíacos y otra para los pulmonares. Las otras dos, ICBHI 2017 y HLS-CMDS, se reservaron para evaluar los modelos con datos provenientes de otras poblaciones y de otros equipos de grabación. No se utilizaron datos propios.
 
 \begin{table}[!htb]
 	\centering
-	\caption[Características de las bases de datos utilizadas]{Características de las bases de datos utilizadas, en la versión con la que se trabajó.}
+	\caption[Características de las bases de datos utilizadas]{Características de las bases de datos utilizadas.}
 	\label{tab:basesDatos}
 	\small
 	\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm} >{\raggedright\arraybackslash}p{2.4cm} >{\raggedright\arraybackslash}p{2.4cm} >{\raggedright\arraybackslash}p{2.4cm} >{\raggedright\arraybackslash}p{2.3cm}}
@@ -150,13 +150,13 @@ HLS-CMDS es una base grabada sobre un maniquí clínico que reproduce sonidos ca
 \section{Modelo preentrenado}
 \label{sec:preentrenado}
 
-La transferencia de aprendizaje consiste en reutilizar una red entrenada sobre un conjunto de datos grande para resolver una tarea distinta, en la que los datos disponibles son menos. Las primeras capas de una red convolucional aprenden patrones generales de la señal, como bordes, texturas o componentes de frecuencia, que pueden aprovecharse en otros problemas. Existen dos formas habituales de aplicarla: utilizar la red preentrenada como extractor de características, con sus parámetros congelados, y entrenar solo un clasificador sobre ella, o bien utilizarla como punto de partida y ajustar todos sus parámetros o una parte de ellos con los datos de la nueva tarea, lo que se conoce como ajuste fino o \textit{fine-tuning} \citep{kong2020panns}.
+La transferencia de aprendizaje consiste en reutilizar una red entrenada sobre un conjunto de datos grande para resolver una tarea distinta, en la que los datos disponibles son menos. Las primeras capas de una red convolucional aprenden patrones generales de la señal, como bordes, texturas o componentes de frecuencia, que pueden aprovecharse en otros problemas. Existen dos formas habituales de aplicarla: utilizar la red preentrenada como extractor de características, con sus parámetros congelados, y entrenar solo un clasificador sobre ella, o bien utilizarla como punto de partida y ajustar una parte de sus parámetros con los datos de la nueva tarea, lo que se conoce como ajuste fino o \textit{fine-tuning} \citep{kong2020panns}.
 
 En este trabajo se utilizó como modelo preentrenado la red CNN6 de la familia PANNs (\textit{Pretrained Audio Neural Networks}) \citep{kong2020panns}. Las PANNs son redes entrenadas para el etiquetado de eventos sonoros sobre AudioSet, un conjunto de más de dos millones de fragmentos de audio de 10\,s extraídos de videos de YouTube y etiquetados según una ontología de 527 clases, que incluye voz, música, sonidos de animales, sonidos ambientales y sonidos del cuerpo humano, entre otras \citep{gemmeke2017audioset}. Sus autores entrenaron las redes con unos 1,9 millones de esos fragmentos y publicaron los pesos resultantes, lo que permite utilizarlas como punto de partida en otras tareas de audio. La tabla \ref{tab:cnn6} resume las características de la CNN6, la red convolucional más pequeña de la familia, que se eligió porque su tamaño resulta compatible con los recursos de cómputo descritos en la sección \ref{sec:herramientas}.
 
 \begin{table}[htbp]
 	\centering
-	\caption[Características del modelo preentrenado CNN6]{Características del modelo preentrenado CNN6 de la familia PANNs, según sus autores \citep{kong2020panns}.}
+	\caption[Características del modelo preentrenado CNN6]{Características del modelo preentrenado CNN6 de la familia PANNs \citep{kong2020panns}.}
 	\label{tab:cnn6}
 	\small
 	\begin{tabular}{>{\raggedright\arraybackslash}p{4.2cm} >{\raggedright\arraybackslash}p{8.2cm}}
