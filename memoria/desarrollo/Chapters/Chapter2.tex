@@ -36,51 +36,51 @@ Estas diferencias se reflejan en la representación tiempo-frecuencia, como se i
 	\label{fig:alteraciones}
 \end{figure}
 
-\subsection{Clases consideradas}
-\label{subsec:clases}
+% \subsection{Clases consideradas}
+% \label{subsec:clases}
 
-A partir de estas alteraciones, el modelo se diseñó para distinguir las siguientes seis clases:
+% A partir de estas alteraciones, el modelo se diseñó para distinguir las siguientes seis clases:
 
-\begin{itemize}
-	\item Sonido cardíaco normal.
-	\item Sonido cardíaco con soplo.
-	\item Sonido pulmonar normal.
-	\item Sonido pulmonar con crepitantes.
-	\item Sonido pulmonar con sibilancias.
-	\item Sonido pulmonar con crepitantes y sibilancias.
-\end{itemize}
+% \begin{itemize}
+% 	\item Sonido cardíaco normal.
+% 	\item Sonido cardíaco con soplo.
+% 	\item Sonido pulmonar normal.
+% 	\item Sonido pulmonar con crepitantes.
+% 	\item Sonido pulmonar con sibilancias.
+% 	\item Sonido pulmonar con crepitantes y sibilancias.
+% \end{itemize}
 
-Los crepitantes finos y gruesos se agruparon en una misma clase. Los roncus se incluyeron en la clase de sibilancias, ya que ambos son sonidos continuos. La última clase representa los casos en los que las dos alteraciones aparecen de forma conjunta. Además, esta agrupación permite unificar las etiquetas de las distintas bases de datos, que se describen en la sección \ref{sec:basesDatos}.
+% Los crepitantes finos y gruesos se agruparon en una misma clase. Los roncus se incluyeron en la clase de sibilancias, ya que ambos son sonidos continuos. La última clase representa los casos en los que las dos alteraciones aparecen de forma conjunta. Además, esta agrupación permite unificar las etiquetas de las distintas bases de datos, que se describen en la sección \ref{sec:basesDatos}.
 
 %----------------------------------------------------------------------------------------
 
 \section{Herramientas y entorno de cómputo}
 \label{sec:herramientas}
 
-El trabajo se desarrolló en el lenguaje Python, que concentra la mayor parte de las bibliotecas de aprendizaje automático y de procesamiento de audio. Los modelos se implementaron, entrenaron y evaluaron con PyTorch \citep{paszke2019pytorch}. Para la lectura de las grabaciones, el remuestreo y el cálculo de las representaciones tiempo-frecuencia se utilizó librosa \citep{mcfee2015librosa}, complementada con SciPy para el filtrado de las señales. Las métricas de evaluación se calcularon con scikit-learn \citep{pedregosa2011scikit}, mientras que la manipulación de los datos y de los metadatos de cada base se realizó con NumPy \citep{harris2020numpy} y pandas, y las figuras se generaron con Matplotlib. La tabla \ref{tab:herramientas} resume las versiones utilizadas.
+El trabajo se desarrolló en el lenguaje Python, que concentra la mayor parte de las bibliotecas de aprendizaje automático y de procesamiento de audio. Los modelos se implementaron, entrenaron y evaluaron con PyTorch \citep{paszke2019pytorch}. Para la lectura de las grabaciones, el remuestreo y el cálculo de las representaciones tiempo-frecuencia se utilizó librosa \citep{mcfee2015librosa}, complementada con SciPy para el filtrado de las señales. Las métricas de evaluación se calcularon con scikit-learn \citep{pedregosa2011scikit}, mientras que la manipulación de los datos y de los metadatos de cada base se realizó con NumPy \citep{harris2020numpy} y pandas. Por último, las figuras se generaron con Matplotlib.
 
-\begin{table}[htbp]
-	\centering
-	\caption[Herramientas de software utilizadas]{Herramientas de software utilizadas y su función en el trabajo.}
-	\label{tab:herramientas}
-	\small
-	\begin{tabular}{l c l}
-		\toprule
-		\textbf{Herramienta} & \textbf{Versión} & \textbf{Uso} \\
-		\midrule
-		Python       & 3.12  & Lenguaje de programación \\
-		PyTorch      & 2.13  & Definición, entrenamiento e inferencia de los modelos \\
-		librosa      & 1.0   & Carga de audio, remuestreo y espectrogramas Mel \\
-		SciPy        & 1.18  & Filtrado de señales \\
-		scikit-learn & 1.9   & Métricas de evaluación \\
-		NumPy        & 2.5   & Cálculo numérico \\
-		pandas       & 3.0   & Manejo de datos tabulares y metadatos \\
-		Matplotlib   & 3.11  & Generación de figuras \\
-		\bottomrule
-	\end{tabular}
-\end{table}
+% \begin{table}[htbp]
+% 	\centering
+% 	\caption[Herramientas de software utilizadas]{Herramientas de software utilizadas y su función en el trabajo.}
+% 	\label{tab:herramientas}
+% 	\small
+% 	\begin{tabular}{l c l}
+% 		\toprule
+% 		\textbf{Herramienta} & \textbf{Versión} & \textbf{Uso} \\
+% 		\midrule
+% 		Python       & 3.12  & Lenguaje de programación \\
+% 		PyTorch      & 2.13  & Definición, entrenamiento e inferencia de los modelos \\
+% 		librosa      & 1.0   & Carga de audio, remuestreo y espectrogramas Mel \\
+% 		SciPy        & 1.18  & Filtrado de señales \\
+% 		scikit-learn & 1.9   & Métricas de evaluación \\
+% 		NumPy        & 2.5   & Cálculo numérico \\
+% 		pandas       & 3.0   & Manejo de datos tabulares y metadatos \\
+% 		Matplotlib   & 3.11  & Generación de figuras \\
+% 		\bottomrule
+% 	\end{tabular}
+% \end{table}
 
-La mayor parte del trabajo se realizó en una computadora portátil con un procesador Intel Core i7-1355U y 16\,GB de memoria RAM, sin una unidad de procesamiento gráfico (GPU, \textit{Graphics Processing Unit}) dedicada. En ella se ejecutaron el preprocesamiento de los datos, el entrenamiento de los modelos y la evaluación de los mismos. Para el ajuste fino del modelo preentrenado, cuyo costo de cómputo resultaba inviable sin aceleración por \textit{hardware}, se utilizó Google Colab, una plataforma en la nube que ofrece \textit{notebooks} de Python con acceso a GPU. En particular, se empleó una GPU NVIDIA Tesla T4.
+La mayor parte del trabajo se realizó en una computadora portátil con un procesador Intel Core i7-1355U y 16\,GB de memoria RAM, sin una unidad de procesamiento gráfico (GPU, \textit{Graphics Processing Unit}) dedicada. En ella se ejecutaron el preprocesamiento de los datos, el entrenamiento de los modelos y la evaluación de los mismos. Para el ajuste fino del modelo preentrenado, cuyo costo de cómputo resultaba inviable sin aceleración por hardware, se utilizó Google Colab, una plataforma en la nube que ofrece notebooks de Python con acceso a GPU. En particular, se empleó una GPU NVIDIA Tesla T4.
 
 %----------------------------------------------------------------------------------------
 
@@ -131,7 +131,7 @@ Las anotaciones se realizan por paciente. Para cada uno se indica si presenta un
 \subsection{SPRSound}
 \label{subsec:sprsound}
 
-SPRSound es una base de sonidos respiratorios pediátricos registrados con un estetoscopio digital Yunting modelo II en el \textit{Shanghai Children's Medical Center}, un hospital pediátrico de China \citep{zhang2022sprsound}. Su primera versión, publicada en 2022, contenía 2683 grabaciones de 292 pacientes. La base se amplió luego con las entregas de las ediciones 2023, 2024 y 2025 del desafío de sonidos respiratorios de la conferencia IEEE BioCAS. En este trabajo se utilizaron todas las entregas disponibles.
+SPRSound es una base de sonidos respiratorios pediátricos registrados con un estetoscopio digital Yunting modelo II en el Shanghai Children's Medical Center, un hospital pediátrico de China \citep{zhang2022sprsound}. Su primera versión, publicada en 2022, contenía 2683 grabaciones de 292 pacientes. La base se amplió luego con las entregas de las ediciones 2023, 2024 y 2025 del desafío de sonidos respiratorios de la conferencia IEEE BioCAS. En este trabajo se utilizaron todas las entregas disponibles.
 
 Cada grabación tiene dos niveles de anotación. A nivel de grabación se la clasifica como normal, con sonidos adventicios continuos, con sonidos adventicios discontinuos, con ambos tipos o de mala calidad. A nivel de evento se marcan el inicio y el fin de cada segmento y su tipo: normal, crepitante fino, crepitante grueso, sibilancia, roncus, estridor o sibilancia con crepitante. Las anotaciones fueron realizadas por un equipo de once médicos pediatras \citep{zhang2022sprsound}.
 
@@ -156,7 +156,7 @@ En este trabajo se utilizó como modelo preentrenado la red CNN6 de la familia P
 
 \begin{table}[htbp]
 	\centering
-	\caption[Características del modelo preentrenado CNN6]{Características del modelo preentrenado CNN6 de la familia PANNs \citep{kong2020panns}.}
+	\caption[Características del modelo preentrenado CNN6]{Características del modelo preentrenado CNN6 de la familia PANNs.}
 	\label{tab:cnn6}
 	\small
 	\begin{tabular}{>{\raggedright\arraybackslash}p{4.2cm} >{\raggedright\arraybackslash}p{8.2cm}}
@@ -180,7 +180,7 @@ En este trabajo se utilizó como modelo preentrenado la red CNN6 de la familia P
 	\end{tabular}
 \end{table}
 
-Los sonidos de AudioSet difieren de los de auscultación. Se trata de audio de uso general, muestreado a 32\,kHz, mientras que las bases de entrenamiento de este trabajo están muestreadas a 4 y 8\,kHz (tabla \ref{tab:basesDatos}) y las alteraciones buscadas ocupan principalmente la parte baja del espectro, como se describió en la sección \ref{sec:alteraciones}. Por lo tanto, para utilizar la CNN6 fue necesario adaptar la representación de entrada y la capa de salida a la tarea de este trabajo. El modo en que se realizó esa adaptación y el ajuste fino se describen en el capítulo \ref{Chapter3}.
+% Los sonidos de AudioSet difieren de los de auscultación. Se trata de audio de uso general, muestreado a 32\,kHz, mientras que las bases de entrenamiento de este trabajo están muestreadas a 4 y 8\,kHz (tabla \ref{tab:basesDatos}) y las alteraciones buscadas ocupan principalmente la parte baja del espectro, como se describió en la sección \ref{sec:alteraciones}. Por lo tanto, para utilizar la CNN6 fue necesario adaptar la representación de entrada y la capa de salida a la tarea de este trabajo. El modo en que se realizó esa adaptación y el ajuste fino se describen en el capítulo \ref{Chapter3}.
 
 % %----------------------------------------------------------------------------------------
 % %	SECTION 1
