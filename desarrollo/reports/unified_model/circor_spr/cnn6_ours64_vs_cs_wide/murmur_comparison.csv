@@ -1,0 +1,5 @@
+setting,strategy,val_score,recall,precision,f2,auc,chosen
+cnn6_ours64 (B),pooled_fixed,0.805 ± 0.012,0.795 ± 0.076,0.76 ± 0.124,0.782 ± 0.052,0.927 ± 0.021,frac/frac/frac/frac/frac
+cnn6_ours64 (A),pooled_fixed,0.794 ± 0.015,0.809 ± 0.056,0.74 ± 0.092,0.79 ± 0.033,0.926 ± 0.02,frac/frac/frac/frac/frac
+cs_wide (B),pooled_fixed,0.795 ± 0.012,0.827 ± 0.076,0.685 ± 0.105,0.789 ± 0.05,0.933 ± 0.031,frac/frac/frac/frac/frac
+abl_card,pooled_fixed,0.811 ± 0.016,0.833 ± 0.041,0.675 ± 0.079,0.794 ± 0.034,0.927 ± 0.027,frac/frac/frac/frac/frac

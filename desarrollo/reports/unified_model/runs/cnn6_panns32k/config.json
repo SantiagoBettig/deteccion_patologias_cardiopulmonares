@@ -1,0 +1,14 @@
+{
+  "package_dir": "/content/pkg",
+  "out_dir": "/content/drive/MyDrive/CEIA/Proyecto_Final/Desarrollo/resultados",
+  "frontend": "panns32k",
+  "run_name": null,
+  "select": "select_domain",
+  "epochs": 30,
+  "patience": 8,
+  "limit": null,
+  "model": "cnn6",
+  "data": "circor_spr",
+  "first_trainable": 2,
+  "n_params": 4570182
+}
