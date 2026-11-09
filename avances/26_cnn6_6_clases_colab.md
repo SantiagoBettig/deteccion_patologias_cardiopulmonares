@@ -229,20 +229,81 @@ En Windows, `evaluate_circor_spr.py` necesita `PYTHONIOENCODING=utf-8` para
 imprimir el último mensaje. Checkpoints en
 `src/unified_model/checkpoints_cnn6_{panns32k,ours64}/` (no versionados).
 
-## 7. Pendiente y traspaso (en orden)
+## 7. Pendiente y traspaso
 
-1. **Reducción de parámetros**, con `cnn6_ours64` como techo y `cs_wide`
-   como piso: curva parámetros contra desempeño. Opción para explorar:
-   destilar la CNN6 en una red chica (sus probabilidades OOF ya están en
-   `window_probs_fold*.csv`).
-2. Ramas dedicadas más chicas, el extra que queda de los planeados para el
-   modelo sin gate (los batches balanceados se descartaron en `avances/25`
-   §4.1).
-3. Validación externa: ICBHI completo y HLS, con el modelo final
-   (`avances/23` §8.3).
-4. Lo que seguía pendiente de `avances/24` §9: escuchar los pacientes con
-   error de dominio (ahora también los 3 cardíacos de la CNN6) y actualizar
-   la memoria técnica.
+Plan acordado con el usuario el 2026-11-09, para llegar al ~90% del
+desarrollo hacia el 2026-12-21. Tres etapas, en orden.
+
+### 7.1 Etapa 1: reducción de parámetros (~2–3 semanas)
+
+**Pregunta**: cuánto de los +2.4 puntos de capa 1 de `cnn6_ours64` (4.57M)
+sobre `cs_wide` (95k) se conserva con una red chica. **Resultado esperado**:
+una curva parámetros contra desempeño (accuracy de 6 clases del sistema y
+métrica de decisión), con la CNN6 como techo y `cs_wide` / `cs_base` como
+referencias sin destilar.
+
+Pasos:
+
+1. **Predicciones de la CNN6 (maestro) en TODAS las ventanas del índice**,
+   incluidas las de train de cada fold: hoy solo hay val y test
+   (`window_probs_fold*.csv`). Para destilar en el fold *i* se usa el
+   checkpoint del fold *i* (`src/unified_model/checkpoints_cnn6_ours64/fold{i}_best.pt`,
+   criterio B), que no vio val ni test de ese fold.
+   - Se puede hacer local, en CPU, sin Colab: armar `Cnn6Classifier(pesos,
+     "ours64")` de `run_cnn6_gpu.py`, cargar el `state_dict` del checkpoint y
+     pasar las ventanas en modo eval, sin augmentation. El audio sale de las
+     mismas cachés que usa `run_kfold --data circor_spr` (son las que
+     empaqueta `pack_cnn6_colab.py`).
+   - Guardar los logits (no solo las probabilidades), para poder usar
+     temperatura. Control: en val y test tienen que coincidir con los
+     `window_probs_fold*.csv` de Colab (salvo diferencias de AMP).
+2. **Destilación en `run_kfold.py`** (opción nueva, p. ej. `--distill
+   cnn6_ours64 --alpha 0.5 --temperature 2`): pérdida = α · CE con las
+   etiquetas (pesos `inv`, como hoy) + (1 − α) · T² · KL entre las
+   distribuciones del maestro y del alumno a temperatura T. El resto, receta
+   de `cs_wide` (log-Mel, avg_max, `select_domain`).
+   - Decidir antes de entrenar si la parte KL lleva pesos por clase (el
+     maestro ya aprendió con pesos `inv`; probablemente no).
+3. **Tamaños del alumno**: `--width` hoy tiene `base` (16 canales, 24k) y
+   `wide` (32, 95k) en `model.py`. Sumar uno intermedio (p. ej. 48 o 64
+   canales, ~200–380k) para tener al menos tres puntos en la curva.
+4. **Filtro** con `filter_variants.py` en los folds 0 y 3 (solo val), con
+   regla fijada antes: pasa a 5 folds si supera al mismo tamaño sin destilar
+   en la media y no baja en ningún fold. Primero α y T con `wide` (dos o tres
+   combinaciones como mucho); después los tamaños con la mejor.
+5. **5 folds** de la ganadora y evaluación igual que en §4:
+   `evaluate_circor_spr.py --run <run> --base-run cs_wide --gate-run kfold_cs`
+   y `plot_circor_spr.py`.
+6. **Opcional, sobre la variante final**: convoluciones separables en
+   profundidad, poda y cuantización int8 (tamaño en disco y latencia en CPU;
+   barato y útil para la memoria).
+
+Ojo: los tiempos locales de `cs_wide` fueron ~11 min por época con cuatro
+procesos en paralelo. Si la destilación pesa mucho en CPU, se puede llevar
+a Colab con `run_cnn6_gpu.py` como modelo (mismo paquete).
+
+### 7.2 Etapa 2: validación externa (~1 semana)
+
+ICBHI completo y HLS-CMDS (`avances/23` §8.3), con los modelos finales:
+`cnn6_ours64`, `cs_wide` y el reducido. Va después de la etapa 1 para
+correrla una sola vez. HLS sigue siendo un conjunto limpio: no se elige
+nada con él.
+
+### 7.3 Etapa 3: cierre y memoria (en paralelo o al final)
+
+- Escuchar las grabaciones con error de dominio: las 7 pulmonares de
+  `cs_wide` (pacientes 40801342, 41101309 y 65114631) y las 3 cardíacas de la
+  CNN6 (`CIR_00309`, `CIR_00311`, `CIR_00508`).
+- Cap. 3 de la memoria: las 6 clases y la adaptación de la entrada de la
+  CNN6, que ya se puede escribir con §2.2 y §3 de este documento (gana
+  `ours64` contra `panns32k`).
+
+### 7.4 Lo que queda afuera
+
+- **Ramas dedicadas más chicas**: perdió sentido, porque el modelo
+  integrado ya supera al pipeline separado de forma significativa.
+- **Más ajuste de la CNN6** (variante C, más épocas): las curvas muestran
+  poco margen, y como techo alcanza.
 
 ## 8. Estado del repositorio
 
