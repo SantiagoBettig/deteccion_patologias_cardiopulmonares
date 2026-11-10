@@ -10,6 +10,8 @@ parámetros:
     ancha (width=32): canales 32-64-128, ~93 k parámetros — del orden de la
                       suma gate + murmullo + pulmonar chica, los tres modelos
                       que reemplaza
+    large (width=64): canales 64-128-256, ~374 k parámetros — el alumno más
+                      grande de la destilación desde la CNN6 (avances/27)
 
 La entrada es la onda (B, n) a 4 kHz: las features (dataset.SpectralFrontend,
 MFCC o log-Mel, sin parámetros entrenables) van adentro del modelo, así el
@@ -51,7 +53,7 @@ import torch.nn as nn
 from unified_model.dataset import SpectralFrontend
 
 N_CLASSES = 6
-WIDTHS = {"base": 16, "wide": 32}
+WIDTHS = {"base": 16, "wide": 32, "large": 64}
 POOLING_TYPES = ("avg", "avg_max")
 
 

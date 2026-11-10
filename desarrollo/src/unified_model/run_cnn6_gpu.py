@@ -37,6 +37,23 @@ Sin z-score: bn0 de PANNs normaliza cada banda con las estadísticas de
 AudioSet. Sin pasa-altos (el audio es el de cs_wide; el cardíaco lo
 necesita).
 
+Destilación (--model unified, avances/26 §7.1): el alumno es la UnifiedCNN
+de run_kfold con la receta de cs_wide (log-Mel z-score, n_fft 512 / hop
+160, avg_max, sin SpecAugment, Adam lr 1e-3, fp32), de ancho --width. El
+maestro es la CNN6 ours64 del mismo fold (--teacher-dir/fold{i}_best.pt,
+criterio B), que no vio val ni test de ese fold. Corre online en la GPU,
+en modo eval y sin enmascarado, sobre la misma onda aumentada que ve el
+alumno. Pérdida:
+
+    α · CE(alumno, etiqueta; pesos inv) + (1 − α) · T² · KL(maestro_T ‖ alumno_T)
+
+con las dos distribuciones a temperatura T y la KL sin pesos por clase
+(el maestro ya aprendió con pesos inv). Con --alpha 1 no se carga el
+maestro: es el control sin destilar, entrenado con el mismo código. Los
+checkpoints son state_dict de UnifiedCNN y config.json lleva los
+argumentos de run_kfold.build_model, así que se usan localmente igual que
+los de run_kfold.
+
 Pensado para Colab, que corta sesiones: guarda el estado completo al final
 de cada época en --out-dir (Drive) y los resultados de cada fold apenas
 termina. Volver a correr el mismo comando retoma.
@@ -53,6 +70,10 @@ Uso:
     python unified_model/run_cnn6_gpu.py --package-dir <carpeta> --out-dir <carpeta> --frontend panns32k --folds 0 3
     # prueba rápida en CPU:
     python unified_model/run_cnn6_gpu.py --package-dir ... --out-dir ... --frontend ours64 --folds 0 --epochs 1 --limit 150
+    # destilación (alumno wide, α 0.5, T 2) y su control sin destilar:
+    python unified_model/run_cnn6_gpu.py --package-dir ... --out-dir ... --model unified --width wide \\
+        --teacher-dir <carpeta con fold{i}_best.pt de cnn6_ours64> --alpha 0.5 --temperature 2 --folds 0 3
+    python unified_model/run_cnn6_gpu.py --package-dir ... --out-dir ... --model unified --width wide --alpha 1 --folds 0 3
 """
 
 import argparse
@@ -72,7 +93,7 @@ from pulmonary_adventitious_model.panns_cnn6 import load_pretrained_cnn6
 from pulmonary_adventitious_model.run_finetune_gpu import FineTuneCnn6
 from unified_model.dataset import derived_probs
 from unified_model.evaluate_circor_spr import FULL_COLS
-from unified_model.model import N_CLASSES
+from unified_model.model import N_CLASSES, WIDTHS, UnifiedCNN
 from unified_model.run_kfold import CRITERIA, K, SEED, class_weights, window_metrics
 
 SR = 4000
@@ -89,6 +110,13 @@ BATCH_SIZE, EVAL_BATCH = 64, 256
 GAIN_DB, NOISE_STD = 3.0, 0.005
 TIME_MASK_MAX, FREQ_MASK_MAX = 40, 6
 PAD_DB = -100.0
+LR_STUDENT = 1e-3       # run_kfold.LEARNING_RATE
+TEACHER_FRONTEND = "ours64"
+# Receta de cs_wide en los argumentos de run_kfold.build_model: van a
+# config.json para que los checkpoints del alumno se carguen localmente.
+STUDENT_ARGS = {"feature": "logmel", "pooling": "avg_max", "n_fft": 512, "n_fft2": 0, "hop": 160,
+                "time_keep_blocks": 0, "specaug": 0, "class_weights": "inv", "balance_domains": False,
+                "balance_classes": False, "domain": "both", "win_sec": 4.0}
 WINDOW_OUT_COLS = ["file_id", "subject_id", "domain", "window_idx", "start_sec", "label"]
 FULL_OUT_COLS = ["file_id", "subject_id", "window_idx", "start_sec"]
 
@@ -162,16 +190,65 @@ class Cnn6Classifier(nn.Module):
         return self.net(x, lengths)
 
 
+def build_student(width: str) -> UnifiedCNN:
+    """La UnifiedCNN de cs_wide (run_kfold.build_model con STUDENT_ARGS)."""
+    return UnifiedCNN(width=WIDTHS[width], feature=STUDENT_ARGS["feature"], pooling=STUDENT_ARGS["pooling"],
+                      n_fft=STUDENT_ARGS["n_fft"], hop_length=STUDENT_ARGS["hop"])
+
+
+def load_teacher(pkg: Path, ckpt: Path, device) -> Cnn6Classifier:
+    teacher = Cnn6Classifier(pkg / "Cnn6_mAP=0.343.pth", TEACHER_FRONTEND).to(device)
+    teacher.load_state_dict(torch.load(ckpt, map_location=device))
+    teacher.eval()
+    for p in teacher.parameters():
+        p.requires_grad_(False)
+    return teacher
+
+
+def wave_logits(model, y: torch.Tensor, amp: bool) -> torch.Tensor:
+    """Logits (fp32) a partir de la onda. La CNN6 lleva el frontend aparte
+    (el enmascarado va entre los dos) y corre con precisión mixta; la
+    UnifiedCNN lo tiene adentro y corre en fp32 (el log-Mel con z-score no
+    conviene en fp16, y la red chica no lo necesita)."""
+    if isinstance(model, Cnn6Classifier):
+        x = model.frontend(y)
+        with torch.autocast(device_type=y.device.type, enabled=amp):
+            return model(x).float()
+    return model(y)
+
+
 def predict(model, bank: AudioBank, starts: np.ndarray, lengths: np.ndarray, amp: bool) -> np.ndarray:
     model.eval()
     out = []
     with torch.no_grad():
         for s in range(0, len(starts), EVAL_BATCH):
-            x = model.frontend(bank.batch(starts[s:s + EVAL_BATCH], lengths[s:s + EVAL_BATCH]))
-            with torch.autocast(device_type=x.device.type, enabled=amp):
-                logits = model(x)
-            out.append(torch.softmax(logits.float(), dim=1).cpu().numpy())
+            logits = wave_logits(model, bank.batch(starts[s:s + EVAL_BATCH], lengths[s:s + EVAL_BATCH]), amp)
+            out.append(torch.softmax(logits, dim=1).cpu().numpy())
     return np.concatenate(out)
+
+
+def check_teacher(i: int, teacher: Cnn6Classifier, bank: AudioBank, va: pd.DataFrame, teacher_dir: Path,
+                  amp: bool, strict: bool = True) -> None:
+    """Control del maestro: en val tiene que dar el criterio B de su mejor
+    época (result_fold{i}.json de la corrida de cnn6_ours64, si está en
+    --teacher-dir), salvo diferencias de precisión mixta. strict=False
+    (pruebas con --limit, otro val): solo informa."""
+    m = window_metrics(va["label"].to_numpy(), predict(teacher, bank, va["abs_start"].to_numpy(),
+                                                       np.full(len(va), WIN), amp))
+    ref = teacher_dir / f"result_fold{i}.json"
+    expected = json.loads(ref.read_text()).get("val_select_domain") if ref.exists() else None
+    print(f"[fold {i}] maestro en val: B {m['select_domain']:.4f} (AUC murm {m['auc_murmur']:.3f} "
+          f"crk {m['auc_crackle']:.3f} whz {m['auc_wheeze']:.3f})"
+          + (f" | esperado {expected:.4f}" if expected is not None else " | sin result_fold para comparar"), flush=True)
+    if strict and expected is not None and abs(m["select_domain"] - expected) > 5e-3:
+        raise RuntimeError(f"El maestro del fold {i} no reproduce su validación: ¿checkpoint equivocado?")
+
+
+def distill_loss(logits: torch.Tensor, teacher_logits: torch.Tensor, temperature: float) -> torch.Tensor:
+    """T² · KL(maestro_T ‖ alumno_T), promedio por ventana, sin pesos por clase."""
+    t = temperature
+    return nn.functional.kl_div(torch.log_softmax(logits / t, dim=1), torch.log_softmax(teacher_logits / t, dim=1),
+                                reduction="batchmean", log_target=True) * t * t
 
 
 # ── Un fold, con guardado/retome por época ───────────────────────────────────
@@ -189,15 +266,23 @@ def run_fold(i: int, args, windows: pd.DataFrame, full: pd.DataFrame, bank: Audi
     tr, va = w[w.split == "train"], w[w.split == "val"]
     y_tr, y_va = tr["label"].to_numpy(), va["label"].to_numpy()
 
-    model = Cnn6Classifier(args.package_dir / "Cnn6_mAP=0.343.pth", args.frontend).to(device)
-    optimizer = torch.optim.Adam([
-        {"params": model.net.pretrained_params(), "lr": LR_PRETRAINED},
-        {"params": model.net.head.parameters(), "lr": LR_HEAD},
-    ], weight_decay=WEIGHT_DECAY)
-    scaler = torch.amp.GradScaler(enabled=amp)
+    teacher = None
+    if args.model == "cnn6":
+        model = Cnn6Classifier(args.package_dir / "Cnn6_mAP=0.343.pth", args.frontend).to(device)
+        optimizer = torch.optim.Adam([
+            {"params": model.net.pretrained_params(), "lr": LR_PRETRAINED},
+            {"params": model.net.head.parameters(), "lr": LR_HEAD},
+        ], weight_decay=WEIGHT_DECAY)
+        content_bands = FRONTENDS[args.frontend]["content_bands"]
+    else:
+        model = build_student(args.width).to(device)
+        optimizer = torch.optim.Adam(model.parameters(), lr=LR_STUDENT)
+        if args.alpha < 1:
+            teacher = load_teacher(args.package_dir, args.teacher_dir / f"fold{i}_best.pt", device)
+            check_teacher(i, teacher, bank, va, args.teacher_dir, amp, strict=args.limit is None)
+    scaler = torch.amp.GradScaler(enabled=amp and args.model == "cnn6")
     weights = class_weights(y_tr, "inv")
     criterion = nn.CrossEntropyLoss(weight=weights.to(device))
-    content_bands = FRONTENDS[args.frontend]["content_bands"]
 
     def ckpt_path(c: str) -> Path:
         return out_dir / (f"fold{i}_best.pt" if c == args.select else f"fold{i}_best_{c}.pt")
@@ -230,14 +315,26 @@ def run_fold(i: int, args, windows: pd.DataFrame, full: pd.DataFrame, bank: Audi
         t0 = time.perf_counter()
         model.train()
         perm = np.random.permutation(len(tr))
-        total = 0.0
+        total, total_ce, total_kd = 0.0, 0.0, 0.0
         for s in range(0, len(perm), BATCH_SIZE):
             b = perm[s:s + BATCH_SIZE]
-            with torch.no_grad():
-                x = augment_spec(model.frontend(augment_wave(bank.batch(tr_starts[b], tr_len[b]))), content_bands)
             y = torch.from_numpy(y_tr[b]).to(device)
-            with torch.autocast(device_type=device.type, enabled=amp):
-                loss = criterion(model(x).float(), y)
+            with torch.no_grad():
+                wave = augment_wave(bank.batch(tr_starts[b], tr_len[b]))
+                teacher_logits = wave_logits(teacher, wave, amp) if teacher is not None else None
+            if args.model == "cnn6":
+                with torch.no_grad():
+                    x = augment_spec(model.frontend(wave), content_bands)
+                with torch.autocast(device_type=device.type, enabled=amp):
+                    logits = model(x).float()
+            else:
+                logits = model(wave)
+            loss = ce = criterion(logits, y)
+            if teacher is not None:
+                kd = distill_loss(logits, teacher_logits, args.temperature)
+                loss = args.alpha * ce + (1 - args.alpha) * kd
+                total_kd += kd.item() * len(b)
+            total_ce += ce.item() * len(b)
             optimizer.zero_grad()
             scaler.scale(loss).backward()
             scaler.step(optimizer)
@@ -247,11 +344,13 @@ def run_fold(i: int, args, windows: pd.DataFrame, full: pd.DataFrame, bank: Audi
         val_loss = float(nn.functional.nll_loss(torch.log(torch.tensor(val_probs).clamp_min(1e-8)),
                                                 torch.tensor(y_va), weight=weights))
         m = window_metrics(y_va, val_probs)
-        history.append({"epoch": epoch, "train_loss": total / len(perm), "val_loss": val_loss, **m,
+        kd_cols = {"train_ce": total_ce / len(perm), "train_kd": total_kd / len(perm)} if teacher is not None else {}
+        history.append({"epoch": epoch, "train_loss": total / len(perm), "val_loss": val_loss, **kd_cols, **m,
                         "sec": time.perf_counter() - t0})
         improved = [c for c in CRITERIA if m[c] > best[c]]
         marks = "".join(" *" if c == args.select else " +" for c in improved)   # *: principal, +: el otro
-        print(f"[fold {i}] [{epoch:02d}] loss {total / len(perm):.4f}/{val_loss:.4f} | AUC murm {m['auc_murmur']:.3f} "
+        kd_txt = f" (CE {kd_cols['train_ce']:.4f} KD {kd_cols['train_kd']:.4f})" if kd_cols else ""
+        print(f"[fold {i}] [{epoch:02d}] loss {total / len(perm):.4f}{kd_txt}/{val_loss:.4f} | AUC murm {m['auc_murmur']:.3f} "
               f"crk {m['auc_crackle']:.3f} whz {m['auc_wheeze']:.3f} | dominio {m['domain_acc']:.3f} "
               f"| bal6 {m['bal_acc_6']:.3f} | sel A {m['select']:.3f} B {m['select_domain']:.3f} "
               f"| {history[-1]['sec']:.0f} s{marks}", flush=True)
@@ -310,8 +409,16 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--package-dir", type=Path, required=True, help="Carpeta con el contenido del zip")
     parser.add_argument("--out-dir", type=Path, required=True, help="Dónde guardar (en Colab: una carpeta de Drive)")
-    parser.add_argument("--frontend", choices=list(FRONTENDS), required=True)
-    parser.add_argument("--run-name", help="Por defecto, cnn6_<frontend>")
+    parser.add_argument("--model", choices=["cnn6", "unified"], default="cnn6",
+                        help="cnn6: fine-tuning de PANNs; unified: alumno UnifiedCNN (destilación)")
+    parser.add_argument("--frontend", choices=list(FRONTENDS), help="Solo --model cnn6")
+    parser.add_argument("--width", choices=list(WIDTHS), default="wide", help="Solo --model unified")
+    parser.add_argument("--teacher-dir", type=Path,
+                        help="Carpeta con fold{i}_best.pt (y result_fold{i}.json) de cnn6_ours64")
+    parser.add_argument("--alpha", type=float, default=1.0,
+                        help="Peso de la CE con etiquetas; 1 = sin destilar (control)")
+    parser.add_argument("--temperature", type=float, default=2.0)
+    parser.add_argument("--run-name", help="Por defecto, cnn6_<frontend>, kd_<width>_a<α·100>_t<T> o gpu_<width>")
     parser.add_argument("--select", choices=CRITERIA, default="select_domain")
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--patience", type=int, default=8)
@@ -319,8 +426,20 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=None,
                         help="Solo para pruebas: N grabaciones al azar por dominio")
     args = parser.parse_args()
+    if args.model == "cnn6" and args.frontend is None:
+        parser.error("--model cnn6 necesita --frontend")
+    if args.model == "unified" and args.alpha < 1 and args.teacher_dir is None:
+        parser.error("la destilación (--alpha < 1) necesita --teacher-dir")
+    if not 0 <= args.alpha <= 1:
+        parser.error("--alpha va de 0 a 1")
 
-    run = args.run_name or f"cnn6_{args.frontend}"
+    if args.model == "cnn6":
+        default_run = f"cnn6_{args.frontend}"
+    elif args.alpha < 1:
+        default_run = f"kd_{args.width}_a{round(args.alpha * 100):02d}_t{args.temperature:g}"
+    else:
+        default_run = f"gpu_{args.width}"
+    run = args.run_name or default_run
     out_dir = args.out_dir / run
     out_dir.mkdir(parents=True, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -339,12 +458,20 @@ def main() -> None:
     full["abs_start"] = full["file_id"].map(offset) + full["start_sample"]
     bank = AudioBank(np.load(pkg / "audio_4k_int16.npy"), device)
 
-    n_params = sum(p.numel() for p in Cnn6Classifier(pkg / "Cnn6_mAP=0.343.pth", args.frontend).parameters())
     config = {k: (str(v) if isinstance(v, Path) else v) for k, v in vars(args).items() if k != "folds"}
-    config.update({"model": "cnn6", "data": "circor_spr", "first_trainable": FIRST_TRAINABLE, "n_params": n_params})
+    config.update({"run_name": run, "data": "circor_spr"})
+    if args.model == "cnn6":
+        n_params = sum(p.numel() for p in Cnn6Classifier(pkg / "Cnn6_mAP=0.343.pth", args.frontend).parameters())
+        config.update({"first_trainable": FIRST_TRAINABLE, "n_params": n_params})
+        desc = f"CNN6 (bloques 3-4 + fc1, {n_params / 1e6:.2f} M parámetros), frontend {args.frontend}"
+    else:
+        n_params = sum(p.numel() for p in build_student(args.width).parameters())
+        config.update({**STUDENT_ARGS, "n_params": n_params, "teacher_frontend": TEACHER_FRONTEND})
+        desc = (f"UnifiedCNN {args.width} ({n_params / 1e3:.0f} k parámetros), "
+                + (f"destilación desde {args.teacher_dir} con α {args.alpha:g}, T {args.temperature:g}"
+                   if args.alpha < 1 else "sin destilar (control)"))
     (out_dir / "config.json").write_text(json.dumps(config, indent=2))
-    print(f"Run {run}: CNN6 (bloques 3-4 + fc1, {n_params / 1e6:.2f} M parámetros), frontend {args.frontend}, "
-          f"selección {args.select}, folds {args.folds} | {len(windows)} ventanas del índice, "
+    print(f"Run {run}: {desc}, selección {args.select}, folds {args.folds} | {len(windows)} ventanas del índice, "
           f"{len(full)} de SPRSound completas | {device}"
           f"{' (' + torch.cuda.get_device_name(0) + ')' if amp else ''}", flush=True)
 
