@@ -1,0 +1,5 @@
+setting,strategy,val_score,recall,precision,f2,auc,chosen
+kd_base_a50_t2 (B),pooled_fixed,0.799 ± 0.011,0.824 ± 0.053,0.701 ± 0.116,0.793 ± 0.051,0.927 ± 0.024,frac/frac/frac/frac/frac
+kd_base_a50_t2 (A),pooled_fixed,0.799 ± 0.011,0.824 ± 0.053,0.701 ± 0.116,0.793 ± 0.051,0.927 ± 0.024,frac/frac/frac/frac/frac
+gpu_base (B),pooled_fixed,0.778 ± 0.008,0.804 ± 0.051,0.675 ± 0.125,0.77 ± 0.046,0.918 ± 0.031,frac/frac/frac/frac/frac
+abl_card,pooled_fixed,0.811 ± 0.016,0.833 ± 0.041,0.675 ± 0.079,0.794 ± 0.034,0.927 ± 0.027,frac/frac/frac/frac/frac
