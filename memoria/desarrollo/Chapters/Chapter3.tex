@@ -4,8 +4,7 @@
 
 En este capítulo se describen el diseño y la implementación del sistema de clasificación. En primer
 lugar, se presentan la arquitectura general del sistema y las dos configuraciones que se
-compararon. Luego, se describen el procesamiento de los datos, desde las grabaciones originales
-hasta las ventanas que recibe el modelo, la arquitectura del modelo y su adaptación a la tarea, y
+compararon. Luego, se describe el procesamiento de los datos, la arquitectura del modelo, y
 el procedimiento de entrenamiento. Por último, se explica cómo se obtiene el resultado de cada
 grabación a partir de las predicciones del modelo.
 
@@ -16,7 +15,7 @@ grabación a partir de las predicciones del modelo.
 
 El sistema recibe una grabación de auscultación y determina si corresponde a un sonido cardíaco o
 pulmonar y si presenta alguna de las alteraciones descritas en la sección \ref{sec:alteraciones}.
-No es necesario indicarle el tipo de sonido ni el foco de auscultación, ya que ambos datos se
+No es necesario indicar el tipo de sonido ni el foco de auscultación, ya que ambos datos se
 infieren a partir del audio. En esta sección se presentan las clases que distingue el sistema, las
 etapas por las que pasa cada grabación y las dos configuraciones que se implementaron.
 
@@ -36,7 +35,7 @@ Cada grabación se asigna a una de las siguientes seis clases:
 
 Los crepitantes finos y gruesos se agruparon en una misma clase. Los roncus se incluyeron en la
 clase de sibilancias, ya que ambos son sonidos continuos. La última clase representa los casos en
-los que las dos alteraciones aparecen de forma conjunta. Además, esta agrupación permite unificar
+los que las dos alteraciones aparecen de forma conjunta. Esta agrupación permite unificar
 las etiquetas de las distintas bases de datos descritas en la sección \ref{sec:basesDatos}.
 
 \subsection{Procesamiento de una grabación}
@@ -44,8 +43,8 @@ las etiquetas de las distintas bases de datos descritas en la sección \ref{sec:
 
 El procesamiento de una grabación sigue las etapas de la figura \ref{fig:arquitectura}a. Primero,
 la señal se lleva a un formato común, con una misma frecuencia de muestreo y una amplitud
-normalizada. Luego, se divide en ventanas de duración fija que se superponen parcialmente, y cada
-ventana se transforma en un espectrograma log-Mel. El modelo asigna a cada ventana una probabilidad
+normalizada. Luego, se divide en ventanas de duración fija que se superponen parcialmente, y se transforma
+cada una de ellas en un espectrograma log-Mel. El modelo asigna a cada ventana una probabilidad
 para cada clase. Por último, las predicciones de todas las ventanas se combinan para obtener una
 única decisión por grabación: primero el tipo de sonido y luego, dentro de ese tipo, la alteración.
 
@@ -128,12 +127,11 @@ entrenamiento y en prueba. Luego de estos descartes y de los de la subsección
 \label{subsec:preprocesamiento}
 
 Todas las grabaciones se procesaron con la misma cadena de tres pasos. En primer lugar, se aplicó
-un filtro pasa-bajos Butterworth de orden 4 con frecuencia de corte de 2048\,Hz, en ambos sentidos
-para no introducir desfasaje, que evita el solapamiento espectral en el paso siguiente. En segundo
-lugar, la señal se remuestreó a 4\,kHz. Por último, se normalizó su amplitud para llevar el valor
-eficaz (RMS, \textit{Root Mean Square}) a 0,1, de modo que las diferencias de ganancia entre
-equipos y grabaciones no influyan en la clasificación. La frecuencia de muestreo de cada grabación
-se leyó del propio archivo de audio y no de los metadatos de la base.
+un filtro pasa-bajos Butterworth de orden 4 con frecuencia de corte de 2048\,Hz que evita el solapamiento 
+espectral en el paso siguiente. En segundo lugar, la señal se remuestreó a 4\,kHz. 
+Por último, se normalizó su amplitud para llevar el valor eficaz (RMS, \textit{Root Mean Square}) a 0,1, 
+de modo que las diferencias de ganancia entre equipos y grabaciones no influyan en la clasificación. 
+La frecuencia de muestreo de cada grabación se leyó del propio archivo de audio y no de los metadatos de la base.
 
 La frecuencia de 4\,kHz es la de CirCor DigiScope y permite representar hasta 2\,kHz, un rango que
 abarca las alteraciones descritas en la sección \ref{sec:alteraciones}. En SPRSound, grabada a
@@ -159,8 +157,8 @@ qué momentos se escucha el soplo. En cambio, las ventanas pulmonares se etiquet
 superposición con los eventos anotados en SPRSound, como se ilustra en la figura
 \ref{fig:ventanas}. Una ventana se consideró con crepitantes si se superpone al menos 1\,s con un
 evento de crepitantes, o con al menos la mitad de su duración, para no perder los eventos más
-cortos que ese umbral. El mismo criterio se aplicó a las sibilancias, y las ventanas que cumplen
-ambos se asignaron a la clase que reúne las dos alteraciones.
+cortos que ese umbral. Este mismo criterio se aplicó para las sibilancias. Por último, si la ventana
+cumple con ambas condiciones, se asigna a la clase que reúne las dos alteraciones.
 
 \begin{figure}[htbp]
 	\centering
@@ -182,8 +180,8 @@ entrenamiento. Al evaluar un modelo, cada grabación se procesa con todas sus ve
 ocurriría en el uso real del sistema.
 
 La tabla \ref{tab:distribucionClases} resume la cantidad de ventanas, grabaciones y pacientes de
-cada clase. El conjunto está desbalanceado en dos sentidos: dentro de cada dominio predominan las
-ventanas normales, y la clase con ambas alteraciones pulmonares reúne apenas 631 ventanas, 46
+cada clase. El conjunto está desbalanceado en dos sentidos: por un lado, dentro de cada dominio predominan las
+ventanas normales, por el otro, la clase con ambas alteraciones pulmonares reúne apenas 631 ventanas, 46
 veces menos que la clase cardíaca normal. El tratamiento de este desbalance se describe junto con
 el procedimiento de entrenamiento.
 
@@ -227,7 +225,7 @@ Las particiones se construyeron por separado en cada base, ya que no comparten p
 estratificaron para que todas tengan una proporción similar de cada clase. En CirCor DigiScope se
 estratificó según si el paciente presenta soplo. En SPRSound, donde un mismo paciente puede tener
 grabaciones de varias clases, se estratificó según la clase menos frecuente de cada paciente. La
-partición $i$ del sistema es la unión de las particiones $i$ de ambas bases. Todos los modelos y
+partición $n$ del sistema es la unión de las particiones $n$ de ambas bases. Todos los modelos y
 las dos configuraciones utilizan las mismas cinco particiones, lo que permite comparar sus
 resultados paciente por paciente.
 
@@ -243,94 +241,5 @@ de fondo entre grabaciones y equipos.
 En el caso de la CNN6, se agregó además SpecAugment \citep{park2019specaugment} sobre el
 espectrograma, la misma técnica utilizada en su preentrenamiento (tabla \ref{tab:cnn6}). En cada
 ventana se enmascaran un intervalo de hasta 40 tramas temporales (0,4\,s) y un rango de hasta 6
-bandas de frecuencia. Las transformaciones se aplican solo en el entrenamiento: las ventanas de
+bandas de frecuencia. Las transformaciones se aplican solo en el entrenamiento, mientras que las ventanas de
 validación y de prueba se procesan sin modificaciones.
-
-% \definecolor{mygreen}{rgb}{0,0.6,0}
-% \definecolor{mygray}{rgb}{0.5,0.5,0.5}
-% \definecolor{mymauve}{rgb}{0.58,0,0.82}
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % parámetros para configurar el formato del código en los entornos lstlisting
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \lstset{ %
-%   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-%   basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-%   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-%   breaklines=true,                 % sets automatic line breaking
-%   captionpos=b,                    % sets the caption-position to bottom
-%   commentstyle=\color{mygreen},    % comment style
-%   deletekeywords={...},            % if you want to delete keywords from the given language
-%   %escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-%   %extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-%   %frame=single,	                % adds a frame around the code
-%   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-%   keywordstyle=\color{blue},       % keyword style
-%   language=[ANSI]C,                % the language of the code
-%   %otherkeywords={*,...},           % if you want to add more keywords to the set
-%   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-%   numbersep=5pt,                   % how far the line-numbers are from the code
-%   numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
-%   rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
-%   showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-%   showstringspaces=false,          % underline spaces within strings only
-%   showtabs=false,                  % show tabs within strings adding particular underscores
-%   stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
-%   stringstyle=\color{mymauve},     % string literal style
-%   tabsize=2,	                   % sets default tabsize to 2 spaces
-%   title=\lstname,                  % show the filename of files included with \lstinputlisting; also try caption instead of title
-%   morecomment=[s]{/*}{*/}
-% }
-
-
-% %----------------------------------------------------------------------------------------
-% %	SECTION 1
-% %----------------------------------------------------------------------------------------
-% \section{Análisis del software}
- 
-% La idea de esta sección es resaltar los problemas encontrados, los criterios utilizados y la justificación de las decisiones que se hayan tomado.
-
-% Se puede agregar código o pseudocódigo dentro de un entorno lstlisting con el siguiente código:
-
-% \begin{verbatim}
-% \begin{lstlisting}[caption= "un epígrafe descriptivo"]
-% 	las líneas de código irían aquí...
-% \end{lstlisting}
-% \end{verbatim}
-
-% A modo de ejemplo, se muestra el fragmento de código \ref{cod:vControl}:
-
-% \begin{lstlisting}[label=cod:vControl,caption=Pseudocódigo del lazo principal de control.]  % Start your code-block
-
-% #define MAX_SENSOR_NUMBER 3
-% #define MAX_ALARM_NUMBER  6
-% #define MAX_ACTUATOR_NUMBER 6
-
-% uint32_t sensorValue[MAX_SENSOR_NUMBER];		
-% FunctionalState alarmControl[MAX_ALARM_NUMBER];	//ENABLE or DISABLE
-% state_t alarmState[MAX_ALARM_NUMBER];						//ON or OFF
-% state_t actuatorState[MAX_ACTUATOR_NUMBER];			//ON or OFF
-
-% void vControl() {
-
-% 	initGlobalVariables();
-	
-% 	period = 500 ms;
-		
-% 	while(1) {
-
-% 		ticks = xTaskGetTickCount();
-		
-% 		updateSensors();
-		
-% 		updateAlarms();
-		
-% 		controlActuators();
-		
-% 		vTaskDelayUntil(&ticks, period);
-% 	}
-% }
-% \end{lstlisting}
-
-
-
