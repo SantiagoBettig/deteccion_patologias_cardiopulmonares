@@ -1,15 +1,17 @@
 """
 fig_arquitectura.py
 ===================
-Figura 3.1 de la memoria: diagrama de bloques de las dos configuraciones del
-sistema. Arriba, la integrada (un modelo de 6 clases sobre ventanas de 4 s);
-abajo, la separada (gate que decide el tipo de sonido de la grabación y la
-deriva a la rama cardíaca o a la pulmonar).
+Figura 3.1 de la memoria (dos subfiguras): diagrama de bloques de las dos
+configuraciones del sistema, la integrada (un modelo de 6 clases sobre
+ventanas de 4 s) y la separada (gate que decide el tipo de sonido de la
+grabación y la deriva a la rama cardíaca o a la pulmonar). Las dos se dibujan
+con la misma escala, así los bloques tienen el mismo tamaño en el documento.
 
 Uso (desde la raíz del repo, con el venv de desarrollo/):
     desarrollo/.venv/Scripts/python.exe memoria/figuras/fig_arquitectura.py
 
-Salida: memoria/desarrollo/Figures/arquitectura.pdf
+Salida: memoria/desarrollo/Figures/arquitectura_integrada.pdf y
+        memoria/desarrollo/Figures/arquitectura_separada.pdf
 """
 
 from pathlib import Path
@@ -18,9 +20,10 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-OUT_PDF = REPO_ROOT / "memoria" / "desarrollo" / "Figures" / "arquitectura.pdf"
+OUT_DIR = REPO_ROOT / "memoria" / "desarrollo" / "Figures"
 
-ANCHO, ALTO = 6.3, 3.3          # pulgadas
+ANCHO = 6.3                     # pulgadas
+X_MAX = 7.2                     # ancho del dibujo (unidades de datos)
 BW, BH = 0.82, 0.58             # tamaño de cada bloque (unidades de datos)
 C_DATO = "#f2f2f2"              # entrada y salida
 C_PROC = "#dbe8f4"              # procesamiento de la señal
@@ -46,27 +49,40 @@ def fila(ax, y, xs, textos, colores):
         flecha(ax, (a + BW / 2, y), (b - BW / 2, y))
 
 
+def lienzo(y0, y1):
+    """Ejes de X_MAX unidades en ANCHO pulgadas, con la misma escala en y."""
+    escala = ANCHO / X_MAX
+    fig, ax = plt.subplots(figsize=(ANCHO, (y1 - y0) * escala))
+    ax.set_xlim(0, X_MAX)
+    ax.set_ylim(y0, y1)
+    ax.axis("off")
+    return fig, ax
+
+
+def guardar(fig, nombre):
+    salida = OUT_DIR / nombre
+    salida.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(salida, bbox_inches="tight")
+    print(f"Figura guardada en {salida}")
+
+
 def main() -> None:
     plt.rcParams.update({
         "font.family": "serif",
         "font.serif": ["Palatino Linotype", "Book Antiqua", "DejaVu Serif"],
     })
-    fig, ax = plt.subplots(figsize=(ANCHO, ALTO))
-    ax.set_xlim(0, 7.2)
-    ax.set_ylim(0.2, 3.9)
-    ax.axis("off")
     xs = [0.45 + 1.05 * i for i in range(7)]
 
-    # (a) Configuración integrada
-    ya = 3.2
-    ax.text(0.05, 3.75, "(a) Configuración integrada", fontsize=8, ha="left", va="center")
-    fila(ax, ya, xs,
+    # Configuración integrada
+    fig, ax = lienzo(-0.35, 0.35)
+    fila(ax, 0, xs,
          ["Grabación", "Preproce-\nsamiento", "Ventanas\nde 4 s", "Espectro-\ngrama\nlog-Mel",
           "Modelo de\n6 clases", "Agregación\npor\ngrabación", "Tipo de\nsonido y\nalteración"],
          [C_DATO, C_PROC, C_PROC, C_PROC, C_MODELO, C_PROC, C_DATO])
+    guardar(fig, "arquitectura_integrada.pdf")
 
-    # (b) Configuración separada
-    ax.text(0.05, 2.55, "(b) Configuración separada", fontsize=8, ha="left", va="center")
+    # Configuración separada
+    fig, ax = lienzo(0.25, 2.2)
     yc, yp = 1.85, 0.6               # ramas cardíaca y pulmonar
     ym = (yc + yp) / 2
     fila(ax, ym, xs[:3], ["Grabación", "Preproce-\nsamiento", "Gate:\ncardíaco o\npulmonar"],
@@ -80,10 +96,7 @@ def main() -> None:
     bloque(ax, xs[6], ym, "Tipo de\nsonido y\nalteración", C_DATO)
     for y in (yc, yp):
         flecha(ax, (xs[5] + BW / 2, y), (xs[6] - BW / 2, ym))
-
-    OUT_PDF.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(OUT_PDF, bbox_inches="tight")
-    print(f"Figura guardada en {OUT_PDF}")
+    guardar(fig, "arquitectura_separada.pdf")
 
 
 if __name__ == "__main__":

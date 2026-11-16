@@ -99,10 +99,11 @@ El trabajo se desarrolló en el lenguaje Python, que concentra la mayor parte de
 aprendizaje automático y de procesamiento de audio. Los modelos se implementaron, entrenaron y
 evaluaron con PyTorch \citep{paszke2019pytorch}. Para la lectura de las grabaciones, el remuestreo y
 el cálculo de las representaciones tiempo-frecuencia se utilizó librosa \citep{mcfee2015librosa},
-complementada con SciPy para el filtrado de las señales. Las métricas de evaluación se calcularon
-con scikit-learn \citep{pedregosa2011scikit}, mientras que la manipulación de los datos y de los
-metadatos de cada base se realizó con NumPy \citep{harris2020numpy} y pandas. Por último, las
-figuras se generaron con Matplotlib.
+complementada con SciPy \citep{virtanen2020scipy} para el filtrado de las señales. Las métricas de
+evaluación se calcularon con scikit-learn \citep{pedregosa2011scikit}, mientras que la
+manipulación de los datos y de los metadatos de cada base se realizó con NumPy
+\citep{harris2020numpy} y pandas \citep{mckinney2010pandas}. Por último, las figuras se generaron
+con Matplotlib \citep{hunter2007matplotlib}.
 
 % \begin{table}[htbp]
 % 	\centering
@@ -129,7 +130,7 @@ figuras se generaron con Matplotlib.
 La mayor parte del trabajo se realizó en una computadora portátil con un procesador Intel Core
 i7-1355U y 16\,GB de memoria RAM, sin una unidad de procesamiento gráfico (GPU, \textit{Graphics
 Processing Unit}) dedicada. En ella se ejecutaron el preprocesamiento de los datos, el entrenamiento
-de los modelos y la evaluación de los mismos. Para el ajuste fino del modelo preentrenado, cuyo
+de los modelos y su evaluación. Para el ajuste fino del modelo preentrenado, cuyo
 costo de cómputo resultaba inviable sin aceleración por hardware, se utilizó Google Colab, una
 plataforma en la nube que ofrece notebooks de Python con acceso a GPU. En particular, se empleó una
 GPU NVIDIA Tesla T4.
@@ -280,7 +281,7 @@ compatible con los recursos de cómputo descritos en la sección \ref{sec:herram
 		\addlinespace
 		Entrada & Espectrograma log-Mel de 64 bandas entre 50\,Hz y 14\,kHz, calculado a 32\,kHz con ventanas de 1024 muestras y saltos de 320 \\
 		\addlinespace
-		Aumentación en el preentrenamiento & \textit{Mixup} y SpecAugment \\
+		Aumentación en el preentrenamiento & Mixup y SpecAugment \\
 		\addlinespace
 		Desempeño en AudioSet & Precisión media promedio (mAP) de 0,343 \\
 		\bottomrule

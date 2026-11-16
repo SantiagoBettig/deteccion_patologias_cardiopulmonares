@@ -41,7 +41,7 @@ las etiquetas de las distintas bases de datos descritas en la sección \ref{sec:
 \subsection{Procesamiento de una grabación}
 \label{subsec:procesamiento}
 
-El procesamiento de una grabación sigue las etapas de la figura \ref{fig:arquitectura}a. Primero,
+El procesamiento de una grabación sigue las etapas de la figura \ref{fig:arqIntegrada}. Primero,
 la señal se lleva a un formato común, con una misma frecuencia de muestreo y una amplitud
 normalizada. Luego, se divide en ventanas de duración fija que se superponen parcialmente, y se transforma
 cada una de ellas en un espectrograma log-Mel. El modelo asigna a cada ventana una probabilidad
@@ -61,16 +61,30 @@ las mismas condiciones en las que fue entrenado.
 
 Para comparar un enfoque integrado con uno basado en modelos separados, como se planteó en los
 objetivos (sección \ref{sec:objetivos}), se implementaron dos configuraciones del sistema, que se
-muestran en la figura \ref{fig:arquitectura}. En la configuración integrada, un único modelo
-clasifica cada ventana en las seis clases. El tipo de sonido no se decide en una etapa aparte, sino
-que surge de sumar las probabilidades de las clases de cada dominio. En la configuración separada,
-un primer modelo, denominado compuerta o \textit{gate}, decide si la grabación es cardíaca o
-pulmonar y la deriva a una de dos ramas: una cardíaca, que distingue entre sonido normal y soplo, y
-una pulmonar, que distingue entre las cuatro clases pulmonares.
+muestran en la figura \ref{fig:arquitectura}. En la configuración integrada (figura
+\ref{fig:arqIntegrada}), un único modelo clasifica cada ventana en las seis clases. El tipo de
+sonido no se decide en una etapa aparte, sino que surge de sumar las probabilidades de las clases
+de cada dominio. En la configuración separada (figura \ref{fig:arqSeparada}), un primer modelo,
+denominado compuerta o \textit{gate}, decide si la grabación es cardíaca o pulmonar y la deriva a
+una de dos ramas: una cardíaca, que distingue entre sonido normal y soplo, y una pulmonar, que
+distingue entre las cuatro clases pulmonares.
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{./Figures/arquitectura.pdf}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./Figures/arquitectura_integrada.pdf}
+		\caption{Configuración integrada.}
+		\label{fig:arqIntegrada}
+	\end{subfigure}
+
+	\vspace{0.6cm}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./Figures/arquitectura_separada.pdf}
+		\caption{Configuración separada.}
+		\label{fig:arqSeparada}
+	\end{subfigure}
 	\caption[Configuraciones del sistema]{Diagrama de bloques de las dos configuraciones del
 		sistema.}
 	\label{fig:arquitectura}
@@ -85,7 +99,7 @@ compararse con una misma arquitectura, y la diferencia de desempeño se debe a l
 sistema. La red preentrenada CNN6 se utilizó solo en la configuración integrada, que es la que se
 adoptó como sistema final.
 
-Cada configuración tiene ventajas y desventajas. La separada permite que cada rama se especialice
+Cada topología tiene ventajas y desventajas. La separada permite que cada rama se especialice
 en un solo tipo de sonido, pero los errores del \textit{gate} se propagan: una grabación derivada a
 la rama equivocada no puede clasificarse correctamente. La integrada, en cambio, requiere entrenar
 y mantener una única red y aprende el tipo de sonido junto con las alteraciones, aunque ambos
@@ -127,7 +141,7 @@ entrenamiento y en prueba. Luego de estos descartes y de los de la subsección
 \label{subsec:preprocesamiento}
 
 Todas las grabaciones se procesaron con la misma cadena de tres pasos. En primer lugar, se aplicó
-un filtro pasa-bajos Butterworth de orden 4 con frecuencia de corte de 2048\,Hz que evita el solapamiento 
+un filtro pasabajos Butterworth de orden 4 con frecuencia de corte de 2048\,Hz que evita el solapamiento 
 espectral en el paso siguiente. En segundo lugar, la señal se remuestreó a 4\,kHz. 
 Por último, se normalizó su amplitud para llevar el valor eficaz (RMS, \textit{Root Mean Square}) a 0,1, 
 de modo que las diferencias de ganancia entre equipos y grabaciones no influyan en la clasificación. 
@@ -136,8 +150,8 @@ La frecuencia de muestreo de cada grabación se leyó del propio archivo de audi
 La frecuencia de 4\,kHz es la de CirCor DigiScope y permite representar hasta 2\,kHz, un rango que
 abarca las alteraciones descritas en la sección \ref{sec:alteraciones}. En SPRSound, grabada a
 8\,kHz, se verificó que la energía por encima de 2\,kHz es prácticamente nula en todas las clases,
-por lo que el remuestreo no elimina información útil. No se aplicó un filtro pasa-altos, aunque es
-habitual en el análisis de sonidos pulmonares para atenuar los ruidos cardíacos, porque en este
+por lo que el remuestreo no elimina información útil. No se aplicó un filtro pasaaltos (aunque es
+habitual en el análisis de sonidos pulmonares para atenuar los ruidos cardíacos) porque en este
 sistema eliminaría S1 y S2, que son necesarios para reconocer los sonidos cardíacos.
 
 Para no repetir este procesamiento en cada época de entrenamiento, el audio preprocesado de todas
@@ -183,7 +197,7 @@ La tabla \ref{tab:distribucionClases} resume la cantidad de ventanas, grabacione
 cada clase. El conjunto está desbalanceado en dos sentidos: por un lado, dentro de cada dominio predominan las
 ventanas normales, por el otro, la clase con ambas alteraciones pulmonares reúne apenas 631 ventanas, 46
 veces menos que la clase cardíaca normal. El tratamiento de este desbalance se describe junto con
-el procedimiento de entrenamiento.
+el procedimiento de entrenamiento en una sección posterior.
 
 \begin{table}[htbp]
 	\centering
