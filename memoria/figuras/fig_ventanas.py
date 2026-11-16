@@ -69,7 +69,7 @@ def main() -> None:
     if starts[-1] + WIN < dur - 1e-9:
         starts.append(dur - WIN)
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6.3, 3.4), sharex=True,
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6.3, 2.7), sharex=True,
                                    gridspec_kw={"height_ratios": [1.1, 1.0], "hspace": 0.12})
 
     # Forma de onda y eventos anotados
