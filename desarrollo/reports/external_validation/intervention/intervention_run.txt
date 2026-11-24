@@ -1,0 +1,106 @@
+  hp100 · ICBHI · cnn6_ours64: 45145 ventanas, 1837 s
+  hp100 · ICBHI · cs_wide: 45145 ventanas, 92 s
+  hp100 · ICBHI · gate_kfold_cs: 39285 ventanas, 20 s
+  eq_spr · ICBHI · cnn6_ours64: 45145 ventanas, 1821 s
+  eq_spr · ICBHI · cs_wide: 45145 ventanas, 87 s
+  eq_spr · ICBHI · gate_kfold_cs: 39285 ventanas, 21 s
+  hp100 · KAUH · cnn6_ours64: 13685 ventanas, 556 s
+  hp100 · KAUH · cs_wide: 13685 ventanas, 26 s
+  hp100 · KAUH · gate_kfold_cs: 10875 ventanas, 6 s
+  eq_spr · KAUH · cnn6_ours64: 13685 ventanas, 555 s
+  eq_spr · KAUH · cs_wide: 13685 ventanas, 25 s
+  eq_spr · KAUH · gate_kfold_cs: 10875 ventanas, 6 s
+  hp100 · HLS · cnn6_ours64: 3500 ventanas, 143 s
+  hp100 · HLS · cs_wide: 3500 ventanas, 7 s
+  hp100 · HLS · gate_kfold_cs: 3000 ventanas, 2 s
+  eq_spr · HLS · cnn6_ours64: 3500 ventanas, 142 s
+  eq_spr · HLS · cs_wide: 3500 ventanas, 7 s
+  eq_spr · HLS · gate_kfold_cs: 3000 ventanas, 2 s
+  hp100 · PASCAL · cnn6_ours64: 6585 ventanas, 267 s
+  hp100 · PASCAL · cs_wide: 6585 ventanas, 13 s
+  hp100 · PASCAL · gate_kfold_cs: 5235 ventanas, 3 s
+  eq_spr · PASCAL · cnn6_ours64: 6585 ventanas, 266 s
+  eq_spr · PASCAL · cs_wide: 6585 ventanas, 12 s
+  eq_spr · PASCAL · gate_kfold_cs: 5235 ventanas, 3 s
+  eq_akg · SPRSound · cnn6_ours64: 30366 ventanas, 1242 s
+  eq_akg · SPRSound · cs_wide: 30366 ventanas, 55 s
+  eq_akg · SPRSound · gate_kfold_cs: 24445 ventanas, 12 s
+
+== Fracción mandada a cardíaco (ensamble): original contra transformada ==
+transformacion     base                          group        modelo    n  original  transformada
+        eq_akg SPRSound                       SPRSound   cnn6_ours64 5920       NaN         0.001
+        eq_akg SPRSound                       SPRSound       cs_wide 5920       NaN         0.454
+        eq_akg SPRSound                       SPRSound gate_kfold_cs 5920       NaN         0.072
+        eq_spr      HLS                       HLS · HS   cnn6_ours64   50     0.360         0.040
+        eq_spr      HLS                       HLS · HS       cs_wide   50     1.000         0.400
+        eq_spr      HLS                       HLS · HS gate_kfold_cs   50     1.000         0.180
+        eq_spr      HLS                       HLS · LS   cnn6_ours64   50     0.320         0.000
+        eq_spr      HLS                       HLS · LS       cs_wide   50     0.980         0.040
+        eq_spr      HLS                       HLS · LS gate_kfold_cs   50     1.000         0.000
+        eq_spr    ICBHI              ICBHI · AKG C417L   cnn6_ours64  683     0.350         0.066
+        eq_spr    ICBHI              ICBHI · AKG C417L       cs_wide  683     0.999         0.126
+        eq_spr    ICBHI              ICBHI · AKG C417L gate_kfold_cs  683     0.991         0.744
+        eq_spr    ICBHI          ICBHI · Littmann 3200   cnn6_ours64   60     0.083         0.050
+        eq_spr    ICBHI          ICBHI · Littmann 3200       cs_wide   60     1.000         0.600
+        eq_spr    ICBHI          ICBHI · Littmann 3200 gate_kfold_cs   60     0.783         0.433
+        eq_spr    ICBHI ICBHI · Littmann Classic II SE   cnn6_ours64  141     0.298         0.234
+        eq_spr    ICBHI ICBHI · Littmann Classic II SE       cs_wide  141     1.000         0.248
+        eq_spr    ICBHI ICBHI · Littmann Classic II SE gate_kfold_cs  141     0.773         0.865
+        eq_spr    ICBHI               ICBHI · Meditron   cnn6_ours64   36     0.222         0.000
+        eq_spr    ICBHI               ICBHI · Meditron       cs_wide   36     1.000         0.083
+        eq_spr    ICBHI               ICBHI · Meditron gate_kfold_cs   36     0.944         0.722
+        eq_spr     KAUH                 KAUH · campana   cnn6_ours64  112     0.000         0.000
+        eq_spr     KAUH                 KAUH · campana       cs_wide  112     0.991         0.000
+        eq_spr     KAUH                 KAUH · campana gate_kfold_cs  112     0.000         0.000
+        eq_spr     KAUH               KAUH · diafragma   cnn6_ours64  112     0.277         0.000
+        eq_spr     KAUH               KAUH · diafragma       cs_wide  112     1.000         0.098
+        eq_spr     KAUH               KAUH · diafragma gate_kfold_cs  112     0.562         0.277
+        eq_spr     KAUH               KAUH · extendido   cnn6_ours64  112     0.330         0.000
+        eq_spr     KAUH               KAUH · extendido       cs_wide  112     1.000         0.071
+        eq_spr     KAUH               KAUH · extendido gate_kfold_cs  112     0.973         0.179
+        eq_spr   PASCAL                       PASCAL B   cnn6_ours64  461     0.993         0.254
+        eq_spr   PASCAL                       PASCAL B       cs_wide  461     0.918         0.434
+        eq_spr   PASCAL                       PASCAL B gate_kfold_cs  461     0.896         0.564
+         hp100      HLS                       HLS · HS   cnn6_ours64   50     0.360         0.040
+         hp100      HLS                       HLS · HS       cs_wide   50     1.000         0.420
+         hp100      HLS                       HLS · HS gate_kfold_cs   50     1.000         0.840
+         hp100      HLS                       HLS · LS   cnn6_ours64   50     0.320         0.020
+         hp100      HLS                       HLS · LS       cs_wide   50     0.980         0.000
+         hp100      HLS                       HLS · LS gate_kfold_cs   50     1.000         0.480
+         hp100    ICBHI              ICBHI · AKG C417L   cnn6_ours64  683     0.350         0.442
+         hp100    ICBHI              ICBHI · AKG C417L       cs_wide  683     0.999         0.078
+         hp100    ICBHI              ICBHI · AKG C417L gate_kfold_cs  683     0.991         0.993
+         hp100    ICBHI          ICBHI · Littmann 3200   cnn6_ours64   60     0.083         0.000
+         hp100    ICBHI          ICBHI · Littmann 3200       cs_wide   60     1.000         0.017
+         hp100    ICBHI          ICBHI · Littmann 3200 gate_kfold_cs   60     0.783         0.567
+         hp100    ICBHI ICBHI · Littmann Classic II SE   cnn6_ours64  141     0.298         0.376
+         hp100    ICBHI ICBHI · Littmann Classic II SE       cs_wide  141     1.000         0.170
+         hp100    ICBHI ICBHI · Littmann Classic II SE gate_kfold_cs  141     0.773         0.965
+         hp100    ICBHI               ICBHI · Meditron   cnn6_ours64   36     0.222         0.639
+         hp100    ICBHI               ICBHI · Meditron       cs_wide   36     1.000         0.028
+         hp100    ICBHI               ICBHI · Meditron gate_kfold_cs   36     0.944         1.000
+         hp100     KAUH                 KAUH · campana   cnn6_ours64  112     0.000         0.000
+         hp100     KAUH                 KAUH · campana       cs_wide  112     0.991         0.000
+         hp100     KAUH                 KAUH · campana gate_kfold_cs  112     0.000         0.000
+         hp100     KAUH               KAUH · diafragma   cnn6_ours64  112     0.277         0.170
+         hp100     KAUH               KAUH · diafragma       cs_wide  112     1.000         0.188
+         hp100     KAUH               KAUH · diafragma gate_kfold_cs  112     0.562         0.750
+         hp100     KAUH               KAUH · extendido   cnn6_ours64  112     0.330         0.161
+         hp100     KAUH               KAUH · extendido       cs_wide  112     1.000         0.062
+         hp100     KAUH               KAUH · extendido gate_kfold_cs  112     0.973         0.982
+         hp100   PASCAL                       PASCAL B   cnn6_ours64  461     0.993         0.913
+         hp100   PASCAL                       PASCAL B       cs_wide  461     0.918         0.675
+         hp100   PASCAL                       PASCAL B gate_kfold_cs  461     0.896         0.764
+
+== AUC normal-anormal condicional (ensamble) ==
+transformacion  base      modelo  original  transformada
+        eq_spr ICBHI cnn6_ours64     0.602         0.649
+        eq_spr ICBHI     cs_wide     0.522         0.578
+        eq_spr  KAUH cnn6_ours64     0.857         0.865
+        eq_spr  KAUH     cs_wide     0.809         0.825
+         hp100 ICBHI cnn6_ours64     0.602         0.634
+         hp100 ICBHI     cs_wide     0.522         0.571
+         hp100  KAUH cnn6_ours64     0.857         0.867
+         hp100  KAUH     cs_wide     0.809         0.824
+
+✓ C:\Users\santi\OneDrive\Documentos\CEIA\repo_ceia\proyecto_final\desarrollo\reports\external_validation\intervention

@@ -188,3 +188,27 @@ SPRSOUND_REPORTS_DIR      = REPORTS_DIR / "sprsound"
 
 def sprsound_windows_index(win_sec: float) -> Path:
     return SPRSOUND_DIR / f"windows_index_{win_sec:g}s.csv"
+
+
+# ── Validación externa del modelo sin gate (avances/27 §8.1, avances/28) ──────
+# ICBHI completo (ya está en la cache del modelo único) y HLS-CMDS, con su
+# propia cache de audio (make_unified_audio_cache.py --data hls).
+HLS_DIR                   = DATA_DIR / "hls"
+HLS_RECORDINGS_CSV        = HLS_DIR / "recordings.csv"
+HLS_AUDIO_CACHE_NPY       = HLS_DIR / "audio_4k_int16.npy"
+HLS_AUDIO_OFFSETS_CSV     = HLS_DIR / "audio_4k_offsets.csv"
+EXTERNAL_REPORTS_DIR      = REPORTS_DIR / "external_validation"
+
+# Bases externas con el equipo de CirCor (Littmann 3200 / DigiScope), avances/28 §11:
+# KAUH (pulmonar, Fraiwan et al. 2021, Mendeley jwyy9np4gv v3, CC BY 4.0) y
+# PASCAL Dataset B (cardíaco, challenge 2011). Tabla de grabaciones en
+# data/<base>/recordings.csv (preprocessing/make_external_recordings.py) y cache
+# con make_unified_audio_cache.py --data <base>.
+KAUH_RAW_DIR   = DATA_DIR / "raw" / "KAUH"
+PASCAL_RAW_DIR = DATA_DIR / "raw" / "PASCAL"
+
+
+def external_paths(name: str) -> tuple[Path, Path, Path]:
+    """(recordings.csv, cache .npy, offsets .csv) de una base externa: hls, kauh o pascal."""
+    base = DATA_DIR / name.lower()
+    return base / "recordings.csv", base / "audio_4k_int16.npy", base / "audio_4k_offsets.csv"

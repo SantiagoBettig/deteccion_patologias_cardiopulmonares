@@ -11,13 +11,21 @@ con (offset de la grabación + start_sample) sin cargar el resto en RAM.
 Con --data sprsound hace lo mismo con las grabaciones de SPRSound que usa
 preprocessing/make_sprsound_windows.py (data/sprsound/recordings.csv).
 
+Con --data hls, los 535 audios de HLS-CMDS (HS, LS y los tríos de Mix) para
+la validación externa (avances/28). La tabla de audios y etiquetas es la de
+integration/external_hls.load_hls y se guarda en data/hls/recordings.csv
+(file_id = audio_id, p. ej. "HS/F_AF_A").
+
 Salidas:
     data/unified_model/audio_4k_int16.npy   (~720 MB)
     data/unified_model/audio_4k_offsets.csv (file_id, offset, n_samples)
     --data sprsound: data/sprsound/audio_4k_{int16.npy,offsets.csv}
+    --data hls:      data/hls/audio_4k_{int16.npy,offsets.csv} y data/hls/recordings.csv
+    --data kauh|pascal: data/<base>/audio_4k_{int16.npy,offsets.csv} (la tabla la arma
+                     preprocessing/make_external_recordings.py; avances/28 §11)
 
 Uso:
-    python preprocessing/make_unified_audio_cache.py [--data unified|sprsound]
+    python preprocessing/make_unified_audio_cache.py [--data unified|sprsound|hls|kauh|pascal]
 """
 
 import argparse
@@ -29,7 +37,7 @@ from pathlib import Path
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from common.paths import (AUDIO_DIR_V2, MASTER_CSV_V2, SPRSOUND_AUDIO_CACHE_NPY, SPRSOUND_AUDIO_OFFSETS_CSV,
+from common.paths import (AUDIO_DIR_V2, KAUH_RAW_DIR, PASCAL_RAW_DIR, external_paths, HLS_AUDIO_CACHE_NPY, HLS_AUDIO_OFFSETS_CSV, HLS_RECORDINGS_CSV, MASTER_CSV_V2, SPRSOUND_AUDIO_CACHE_NPY, SPRSOUND_AUDIO_OFFSETS_CSV,
                           SPRSOUND_RAW_DIR, SPRSOUND_RECORDINGS_CSV, UNIFIED_AUDIO_CACHE_NPY,
                           UNIFIED_AUDIO_OFFSETS_CSV)
 from preprocessing.audio_ops import preprocess
@@ -39,6 +47,19 @@ SR = 4000
 
 def sources(data: str) -> tuple[list[tuple[str, Path]], Path, Path]:
     """[(file_id, ruta del WAV)], .npy y .csv de offsets de salida."""
+    if data == "hls":
+        from integration.external_hls import load_hls
+        from unified_dataset.config import HLS_ROOT
+        recs = load_hls().rename(columns={"audio_id": "file_id"})
+        HLS_RECORDINGS_CSV.parent.mkdir(parents=True, exist_ok=True)
+        recs.to_csv(HLS_RECORDINGS_CSV, index=False)
+        files = [(f, HLS_ROOT / f"{f}.wav") for f in recs["file_id"]]
+        return files, HLS_AUDIO_CACHE_NPY, HLS_AUDIO_OFFSETS_CSV
+    if data in ("kauh", "pascal"):   # tabla de preprocessing/make_external_recordings.py
+        recs_csv, cache_npy, offsets_csv = external_paths(data)
+        raw = KAUH_RAW_DIR if data == "kauh" else PASCAL_RAW_DIR
+        recs = pd.read_csv(recs_csv)
+        return [(f, raw / p) for f, p in zip(recs["file_id"], recs["audio_path"])], cache_npy, offsets_csv
     if data == "sprsound":
         recs = pd.read_csv(SPRSOUND_RECORDINGS_CSV)
         files = [(f, SPRSOUND_RAW_DIR / p) for f, p in zip(recs["file_id"], recs["audio_path"])]
@@ -49,7 +70,7 @@ def sources(data: str) -> tuple[list[tuple[str, Path]], Path, Path]:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data", choices=["unified", "sprsound"], default="unified")
+    parser.add_argument("--data", choices=["unified", "sprsound", "hls", "kauh", "pascal"], default="unified")
     files, cache_npy, offsets_csv = sources(parser.parse_args().data)
     t0 = time.perf_counter()
     chunks, rows, offset = [], [], 0

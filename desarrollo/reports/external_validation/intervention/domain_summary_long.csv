@@ -1,0 +1,124 @@
+transformacion,base,group,modelo,audio,n,a_cardiaco_ens,a_cardiaco_folds
+eq_akg,SPRSound,SPRSound,cnn6_ours64,transformada,5920,0.0010135135135135136,0.001 ± 0.002
+eq_akg,SPRSound,SPRSound,cs_wide,transformada,5920,0.4537162162162162,0.450 ± 0.226
+eq_akg,SPRSound,SPRSound,gate_kfold_cs,transformada,5920,0.07179054054054054,0.072 ± 0.065
+eq_spr,HLS,HLS · HS,cnn6_ours64,transformada,50,0.04,0.040 ± 0.028
+eq_spr,HLS,HLS · LS,cnn6_ours64,transformada,50,0.0,0.008 ± 0.011
+eq_spr,HLS,HLS · HS,cnn6_ours64,original,50,0.36,0.400 ± 0.150
+eq_spr,HLS,HLS · LS,cnn6_ours64,original,50,0.32,0.344 ± 0.152
+eq_spr,HLS,HLS · HS,cs_wide,transformada,50,0.4,0.424 ± 0.103
+eq_spr,HLS,HLS · LS,cs_wide,transformada,50,0.04,0.036 ± 0.022
+eq_spr,HLS,HLS · HS,cs_wide,original,50,1.0,0.988 ± 0.011
+eq_spr,HLS,HLS · LS,cs_wide,original,50,0.98,0.948 ± 0.073
+eq_spr,HLS,HLS · HS,gate_kfold_cs,transformada,50,0.18,0.200 ± 0.051
+eq_spr,HLS,HLS · LS,gate_kfold_cs,transformada,50,0.0,0.024 ± 0.054
+eq_spr,HLS,HLS · HS,gate_kfold_cs,original,50,1.0,0.988 ± 0.027
+eq_spr,HLS,HLS · LS,gate_kfold_cs,original,50,1.0,0.864 ± 0.243
+eq_spr,ICBHI,ICBHI · AKG C417L,cnn6_ours64,transformada,683,0.06588579795021962,0.074 ± 0.028
+eq_spr,ICBHI,ICBHI · Littmann 3200,cnn6_ours64,transformada,60,0.05,0.053 ± 0.038
+eq_spr,ICBHI,ICBHI · Littmann Classic II SE,cnn6_ours64,transformada,141,0.23404255319148937,0.228 ± 0.036
+eq_spr,ICBHI,ICBHI · Meditron,cnn6_ours64,transformada,36,0.0,0.000 ± 0.000
+eq_spr,ICBHI,ICBHI · AKG C417L,cnn6_ours64,original,683,0.34992679355783307,0.353 ± 0.058
+eq_spr,ICBHI,ICBHI · Littmann 3200,cnn6_ours64,original,60,0.08333333333333333,0.153 ± 0.151
+eq_spr,ICBHI,ICBHI · Littmann Classic II SE,cnn6_ours64,original,141,0.2978723404255319,0.308 ± 0.055
+eq_spr,ICBHI,ICBHI · Meditron,cnn6_ours64,original,36,0.2222222222222222,0.250 ± 0.179
+eq_spr,ICBHI,ICBHI · AKG C417L,cs_wide,transformada,683,0.1259150805270864,0.149 ± 0.115
+eq_spr,ICBHI,ICBHI · Littmann 3200,cs_wide,transformada,60,0.6,0.607 ± 0.124
+eq_spr,ICBHI,ICBHI · Littmann Classic II SE,cs_wide,transformada,141,0.24822695035460993,0.270 ± 0.100
+eq_spr,ICBHI,ICBHI · Meditron,cs_wide,transformada,36,0.08333333333333333,0.106 ± 0.165
+eq_spr,ICBHI,ICBHI · AKG C417L,cs_wide,original,683,0.9985358711566618,0.996 ± 0.005
+eq_spr,ICBHI,ICBHI · Littmann 3200,cs_wide,original,60,1.0,1.000 ± 0.000
+eq_spr,ICBHI,ICBHI · Littmann Classic II SE,cs_wide,original,141,1.0,0.993 ± 0.016
+eq_spr,ICBHI,ICBHI · Meditron,cs_wide,original,36,1.0,1.000 ± 0.000
+eq_spr,ICBHI,ICBHI · AKG C417L,gate_kfold_cs,transformada,683,0.7437774524158126,0.732 ± 0.138
+eq_spr,ICBHI,ICBHI · Littmann 3200,gate_kfold_cs,transformada,60,0.43333333333333335,0.423 ± 0.136
+eq_spr,ICBHI,ICBHI · Littmann Classic II SE,gate_kfold_cs,transformada,141,0.8652482269503546,0.833 ± 0.054
+eq_spr,ICBHI,ICBHI · Meditron,gate_kfold_cs,transformada,36,0.7222222222222222,0.683 ± 0.149
+eq_spr,ICBHI,ICBHI · AKG C417L,gate_kfold_cs,original,683,0.9912152269399708,0.989 ± 0.008
+eq_spr,ICBHI,ICBHI · Littmann 3200,gate_kfold_cs,original,60,0.7833333333333333,0.677 ± 0.310
+eq_spr,ICBHI,ICBHI · Littmann Classic II SE,gate_kfold_cs,original,141,0.7730496453900709,0.770 ± 0.066
+eq_spr,ICBHI,ICBHI · Meditron,gate_kfold_cs,original,36,0.9444444444444444,0.889 ± 0.071
+eq_spr,KAUH,KAUH · campana,cnn6_ours64,transformada,112,0.0,0.000 ± 0.000
+eq_spr,KAUH,KAUH · diafragma,cnn6_ours64,transformada,112,0.0,0.004 ± 0.005
+eq_spr,KAUH,KAUH · extendido,cnn6_ours64,transformada,112,0.0,0.004 ± 0.005
+eq_spr,KAUH,KAUH · campana,cnn6_ours64,original,112,0.0,0.000 ± 0.000
+eq_spr,KAUH,KAUH · diafragma,cnn6_ours64,original,112,0.2767857142857143,0.312 ± 0.179
+eq_spr,KAUH,KAUH · extendido,cnn6_ours64,original,112,0.33035714285714285,0.345 ± 0.196
+eq_spr,KAUH,KAUH · campana,cs_wide,transformada,112,0.0,0.000 ± 0.000
+eq_spr,KAUH,KAUH · diafragma,cs_wide,transformada,112,0.09821428571428571,0.113 ± 0.083
+eq_spr,KAUH,KAUH · extendido,cs_wide,transformada,112,0.07142857142857142,0.086 ± 0.086
+eq_spr,KAUH,KAUH · campana,cs_wide,original,112,0.9910714285714286,0.859 ± 0.305
+eq_spr,KAUH,KAUH · diafragma,cs_wide,original,112,1.0,0.998 ± 0.004
+eq_spr,KAUH,KAUH · extendido,cs_wide,original,112,1.0,1.000 ± 0.000
+eq_spr,KAUH,KAUH · campana,gate_kfold_cs,transformada,112,0.0,0.000 ± 0.000
+eq_spr,KAUH,KAUH · diafragma,gate_kfold_cs,transformada,112,0.2767857142857143,0.268 ± 0.079
+eq_spr,KAUH,KAUH · extendido,gate_kfold_cs,transformada,112,0.17857142857142858,0.225 ± 0.077
+eq_spr,KAUH,KAUH · campana,gate_kfold_cs,original,112,0.0,0.002 ± 0.004
+eq_spr,KAUH,KAUH · diafragma,gate_kfold_cs,original,112,0.5625,0.575 ± 0.100
+eq_spr,KAUH,KAUH · extendido,gate_kfold_cs,original,112,0.9732142857142857,0.905 ± 0.108
+eq_spr,PASCAL,PASCAL B,cnn6_ours64,transformada,461,0.25379609544468545,0.249 ± 0.042
+eq_spr,PASCAL,PASCAL B,cnn6_ours64,original,461,0.9934924078091106,0.990 ± 0.006
+eq_spr,PASCAL,PASCAL B,cs_wide,transformada,461,0.43383947939262474,0.417 ± 0.134
+eq_spr,PASCAL,PASCAL B,cs_wide,original,461,0.9175704989154013,0.907 ± 0.042
+eq_spr,PASCAL,PASCAL B,gate_kfold_cs,transformada,461,0.5639913232104121,0.550 ± 0.138
+eq_spr,PASCAL,PASCAL B,gate_kfold_cs,original,461,0.89587852494577,0.893 ± 0.063
+hp100,HLS,HLS · HS,cnn6_ours64,transformada,50,0.04,0.056 ± 0.022
+hp100,HLS,HLS · LS,cnn6_ours64,transformada,50,0.02,0.036 ± 0.017
+hp100,HLS,HLS · HS,cnn6_ours64,original,50,0.36,0.400 ± 0.150
+hp100,HLS,HLS · LS,cnn6_ours64,original,50,0.32,0.344 ± 0.152
+hp100,HLS,HLS · HS,cs_wide,transformada,50,0.42,0.408 ± 0.194
+hp100,HLS,HLS · LS,cs_wide,transformada,50,0.0,0.000 ± 0.000
+hp100,HLS,HLS · HS,cs_wide,original,50,1.0,0.988 ± 0.011
+hp100,HLS,HLS · LS,cs_wide,original,50,0.98,0.948 ± 0.073
+hp100,HLS,HLS · HS,gate_kfold_cs,transformada,50,0.84,0.756 ± 0.288
+hp100,HLS,HLS · LS,gate_kfold_cs,transformada,50,0.48,0.544 ± 0.393
+hp100,HLS,HLS · HS,gate_kfold_cs,original,50,1.0,0.988 ± 0.027
+hp100,HLS,HLS · LS,gate_kfold_cs,original,50,1.0,0.864 ± 0.243
+hp100,ICBHI,ICBHI · AKG C417L,cnn6_ours64,transformada,683,0.44216691068814057,0.433 ± 0.092
+hp100,ICBHI,ICBHI · Littmann 3200,cnn6_ours64,transformada,60,0.0,0.017 ± 0.024
+hp100,ICBHI,ICBHI · Littmann Classic II SE,cnn6_ours64,transformada,141,0.375886524822695,0.366 ± 0.053
+hp100,ICBHI,ICBHI · Meditron,cnn6_ours64,transformada,36,0.6388888888888888,0.628 ± 0.085
+hp100,ICBHI,ICBHI · AKG C417L,cnn6_ours64,original,683,0.34992679355783307,0.353 ± 0.058
+hp100,ICBHI,ICBHI · Littmann 3200,cnn6_ours64,original,60,0.08333333333333333,0.153 ± 0.151
+hp100,ICBHI,ICBHI · Littmann Classic II SE,cnn6_ours64,original,141,0.2978723404255319,0.308 ± 0.055
+hp100,ICBHI,ICBHI · Meditron,cnn6_ours64,original,36,0.2222222222222222,0.250 ± 0.179
+hp100,ICBHI,ICBHI · AKG C417L,cs_wide,transformada,683,0.07759882869692533,0.117 ± 0.122
+hp100,ICBHI,ICBHI · Littmann 3200,cs_wide,transformada,60,0.016666666666666666,0.020 ± 0.014
+hp100,ICBHI,ICBHI · Littmann Classic II SE,cs_wide,transformada,141,0.1702127659574468,0.173 ± 0.107
+hp100,ICBHI,ICBHI · Meditron,cs_wide,transformada,36,0.027777777777777776,0.111 ± 0.218
+hp100,ICBHI,ICBHI · AKG C417L,cs_wide,original,683,0.9985358711566618,0.996 ± 0.005
+hp100,ICBHI,ICBHI · Littmann 3200,cs_wide,original,60,1.0,1.000 ± 0.000
+hp100,ICBHI,ICBHI · Littmann Classic II SE,cs_wide,original,141,1.0,0.993 ± 0.016
+hp100,ICBHI,ICBHI · Meditron,cs_wide,original,36,1.0,1.000 ± 0.000
+hp100,ICBHI,ICBHI · AKG C417L,gate_kfold_cs,transformada,683,0.9926793557833089,0.987 ± 0.013
+hp100,ICBHI,ICBHI · Littmann 3200,gate_kfold_cs,transformada,60,0.5666666666666667,0.573 ± 0.361
+hp100,ICBHI,ICBHI · Littmann Classic II SE,gate_kfold_cs,transformada,141,0.9645390070921985,0.965 ± 0.034
+hp100,ICBHI,ICBHI · Meditron,gate_kfold_cs,transformada,36,1.0,0.994 ± 0.012
+hp100,ICBHI,ICBHI · AKG C417L,gate_kfold_cs,original,683,0.9912152269399708,0.989 ± 0.008
+hp100,ICBHI,ICBHI · Littmann 3200,gate_kfold_cs,original,60,0.7833333333333333,0.677 ± 0.310
+hp100,ICBHI,ICBHI · Littmann Classic II SE,gate_kfold_cs,original,141,0.7730496453900709,0.770 ± 0.066
+hp100,ICBHI,ICBHI · Meditron,gate_kfold_cs,original,36,0.9444444444444444,0.889 ± 0.071
+hp100,KAUH,KAUH · campana,cnn6_ours64,transformada,112,0.0,0.000 ± 0.000
+hp100,KAUH,KAUH · diafragma,cnn6_ours64,transformada,112,0.16964285714285715,0.189 ± 0.075
+hp100,KAUH,KAUH · extendido,cnn6_ours64,transformada,112,0.16071428571428573,0.177 ± 0.084
+hp100,KAUH,KAUH · campana,cnn6_ours64,original,112,0.0,0.000 ± 0.000
+hp100,KAUH,KAUH · diafragma,cnn6_ours64,original,112,0.2767857142857143,0.312 ± 0.179
+hp100,KAUH,KAUH · extendido,cnn6_ours64,original,112,0.33035714285714285,0.345 ± 0.196
+hp100,KAUH,KAUH · campana,cs_wide,transformada,112,0.0,0.000 ± 0.000
+hp100,KAUH,KAUH · diafragma,cs_wide,transformada,112,0.1875,0.188 ± 0.136
+hp100,KAUH,KAUH · extendido,cs_wide,transformada,112,0.0625,0.157 ± 0.231
+hp100,KAUH,KAUH · campana,cs_wide,original,112,0.9910714285714286,0.859 ± 0.305
+hp100,KAUH,KAUH · diafragma,cs_wide,original,112,1.0,0.998 ± 0.004
+hp100,KAUH,KAUH · extendido,cs_wide,original,112,1.0,1.000 ± 0.000
+hp100,KAUH,KAUH · campana,gate_kfold_cs,transformada,112,0.0,0.000 ± 0.000
+hp100,KAUH,KAUH · diafragma,gate_kfold_cs,transformada,112,0.75,0.689 ± 0.239
+hp100,KAUH,KAUH · extendido,gate_kfold_cs,transformada,112,0.9821428571428571,0.909 ± 0.134
+hp100,KAUH,KAUH · campana,gate_kfold_cs,original,112,0.0,0.002 ± 0.004
+hp100,KAUH,KAUH · diafragma,gate_kfold_cs,original,112,0.5625,0.575 ± 0.100
+hp100,KAUH,KAUH · extendido,gate_kfold_cs,original,112,0.9732142857142857,0.905 ± 0.108
+hp100,PASCAL,PASCAL B,cnn6_ours64,transformada,461,0.913232104121475,0.913 ± 0.026
+hp100,PASCAL,PASCAL B,cnn6_ours64,original,461,0.9934924078091106,0.990 ± 0.006
+hp100,PASCAL,PASCAL B,cs_wide,transformada,461,0.6746203904555315,0.617 ± 0.178
+hp100,PASCAL,PASCAL B,cs_wide,original,461,0.9175704989154013,0.907 ± 0.042
+hp100,PASCAL,PASCAL B,gate_kfold_cs,transformada,461,0.7635574837310195,0.763 ± 0.061
+hp100,PASCAL,PASCAL B,gate_kfold_cs,original,461,0.89587852494577,0.893 ± 0.063
