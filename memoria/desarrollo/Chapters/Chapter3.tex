@@ -211,13 +211,13 @@ el procedimiento de entrenamiento en una sección posterior.
 		\midrule
 		CirCor DigiScope & Cardíaco normal & 29\,111 & 2664 & 831 \\
 		 & Soplo & 5412 & 499 & 179 \\
-		 & \textit{Total} & 34\,523 & 3163 & 942 \\
+		 & Total & 34\,523 & 3163 & 942 \\
 		\addlinespace
 		SPRSound & Pulmonar normal & 19\,867 & 4218 & 747 \\
 		 & Crepitantes & 3931 & 1120 & 240 \\
 		 & Sibilancias & 1639 & 512 & 165 \\
 		 & Crepitantes y sibilancias & 631 & 214 & 66 \\
-		 & \textit{Total} & 26\,068 & 5920 & 854 \\
+		 & Total & 26\,068 & 5920 & 854 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -255,5 +255,281 @@ de fondo entre grabaciones y equipos.
 En el caso de la CNN6, se agregó además SpecAugment \citep{park2019specaugment} sobre el
 espectrograma, la misma técnica utilizada en su preentrenamiento (tabla \ref{tab:cnn6}). En cada
 ventana se enmascaran un intervalo de hasta 40 tramas temporales (0,4\,s) y un rango de hasta 6
-bandas de frecuencia. Las transformaciones se aplican solo en el entrenamiento, mientras que las ventanas de
-validación y de prueba se procesan sin modificaciones.
+bandas de frecuencia. Las transformaciones se aplican solo en el entrenamiento, mientras que las
+ventanas de validación y de prueba se procesan sin modificaciones.
+
+%----------------------------------------------------------------------------------------
+
+\section{Arquitectura del modelo}
+\label{sec:arquitecturaModelo}
+
+Para la configuración integrada se implementaron dos redes neuronales convolucionales con una misma
+salida. La primera es la CNN6 preentrenada descrita en la sección \ref{sec:preentrenado}, adaptada
+a la tarea de este trabajo, que constituye el modelo principal del sistema. La segunda es una red
+propia, mucho más pequeña, que se diseñó como alternativa liviana y que, en una versión reducida,
+también forma las ramas de la configuración separada. En esta sección se describen la salida común
+a ambas redes y la arquitectura de cada una.
+
+\subsection{Salida del modelo}
+\label{subsec:salida}
+
+Las dos redes terminan en una capa lineal con seis salidas, una por cada clase de la subsección
+\ref{subsec:clases}, seguida de una función softmax, que convierte esos valores en probabilidades
+que suman uno. Se optó por una única salida de seis clases, en lugar de una salida para el tipo de
+sonido y otra para las alteraciones, para que el tipo de sonido no se decida en una etapa separada.
+
+A partir de las seis probabilidades, numeradas de $p_0$ a $p_5$ en el orden en que se presentaron
+las clases, se obtienen las probabilidades de cada hallazgo, como se indica en la ecuación
+\ref{eq:probHallazgos}.
+
+\begin{equation}
+	\label{eq:probHallazgos}
+	\begin{array}{rcl}
+		P(\text{cardíaco}) & = & p_0 + p_1 \\
+		P(\text{soplo}) & = & p_1 \\
+		P(\text{crepitantes}) & = & p_3 + p_5 \\
+		P(\text{sibilancias}) & = & p_4 + p_5
+	\end{array}
+\end{equation}
+
+La clase que reúne ambas alteraciones pulmonares ($p_5$) suma tanto a la probabilidad de
+crepitantes como a la de sibilancias, ya que una ventana de esa clase contiene los dos hallazgos.
+Estas cuatro probabilidades son las que luego se combinan para obtener el resultado de cada
+grabación.
+
+\subsection{CNN6 adaptada}
+\label{subsec:cnn6Adaptada}
+
+Como se indicó en la tabla \ref{tab:cnn6}, la CNN6 fue entrenada con espectrogramas log-Mel de 64
+bandas entre 50\,Hz y 14\,kHz, calculados sobre audio a 32\,kHz. Las grabaciones de este trabajo,
+en cambio, se procesan a 4\,kHz y solo tienen contenido hasta 2\,kHz. Si se remuestrearan a
+32\,kHz y se utilizara el banco de filtros original, alrededor de la mitad de las bandas quedarían
+vacías. Como consecuencia, el rango por debajo de 2\,kHz, donde se encuentran las alteraciones
+buscadas, quedaría representado solo por las 30 bandas restantes, como se observa en la figura
+\ref{fig:bancoPanns}.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./Figures/banco_panns.pdf}
+		\caption{Banco de filtros de PANNs.}
+		\label{fig:bancoPanns}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./Figures/banco_adaptado.pdf}
+		\caption{Banco de filtros adaptado.}
+		\label{fig:bancoAdaptado}
+	\end{subfigure}
+	\caption[Espectrograma log-Mel con cada banco de filtros]{Espectrograma log-Mel de una misma
+		ventana con el banco de filtros de PANNs y con el banco adaptado.}
+	\label{fig:bancoMel}
+\end{figure}
+
+Por esa razón, se redefinió la representación de entrada. El espectrograma se calcula directamente
+sobre la señal a 4\,kHz, sin remuestrear, con una ventana de Hann de 256 muestras (64\,ms) y saltos
+de 40 muestras (10\,ms), y se proyecta sobre 64 bandas en escala Mel entre 50 y 2000\,Hz. El salto
+de 10\,ms es el mismo de la representación original, por lo que cada ventana de 4\,s da lugar a
+401 tramas, y la cantidad de bandas también se mantiene. De este modo, la entrada conserva las
+dimensiones que espera la red, pero todas sus bandas cubren el rango de interés, como se observa en
+la figura \ref{fig:bancoAdaptado}.
+
+El espectrograma se expresa en decibeles y no se normaliza antes de ingresar a la red. La primera
+capa de la CNN6 es una normalización por lotes que lleva cada banda a media nula y varianza
+unitaria con las estadísticas estimadas sobre AudioSet. Como las
+bandas del banco adaptado no coinciden con las originales, esa normalización no es exacta, y la
+diferencia queda a cargo de los bloques que se ajustan durante el entrenamiento.
+
+El resto de la arquitectura se conservó, como se resume en la tabla \ref{tab:capasCnn6}. La red
+tiene cuatro bloques convolucionales, cada uno formado por una convolución de $5 \times 5$, una
+normalización por lotes, una activación ReLU y un promedio de $2 \times 2$, con 64, 128, 256 y 512
+filtros. A la salida del último bloque, los mapas de características se promedian en frecuencia y,
+en el tiempo, se suman su promedio y su máximo. El promedio resume los sonidos sostenidos, como el
+soplo, mientras que el máximo conserva los eventos breves, como los crepitantes, que el promedio
+diluiría. El vector resultante, de 512 valores, pasa por la capa densa preentrenada de 512
+unidades. Por último, la capa de salida de 527 clases de AudioSet se reemplazó por una nueva capa
+de seis salidas, inicializada de forma aleatoria. Durante el entrenamiento se aplica
+\textit{dropout} con una probabilidad de 0,5 antes y después de la capa densa, y de 0,2 a la salida
+de los bloques que se ajustan.
+
+\begin{table}[htbp]
+	\centering
+	\caption[Capas y parámetros de la CNN6 adaptada]{Capas y parámetros de la CNN6 adaptada.}
+	\label{tab:capasCnn6}
+	\small
+	\begin{tabular}{l c r}
+		\toprule
+		\textbf{Capa} & \textbf{Dimensión de salida} & \textbf{Parámetros} \\
+		\midrule
+		Entrada log-Mel & $1 \times 64 \times 401$ & -- \\
+		Normalización por banda & $1 \times 64 \times 401$ & 128 \\
+		Bloque convolucional 1 & $64 \times 32 \times 200$ & 1728 \\
+		Bloque convolucional 2 & $128 \times 16 \times 100$ & 205\,056 \\
+		Bloque convolucional 3 & $256 \times 8 \times 50$ & 819\,712 \\
+		Bloque convolucional 4 & $512 \times 4 \times 25$ & 3\,277\,824 \\
+		Agregación en frecuencia y tiempo & 512 & -- \\
+		Capa densa con ReLU & 512 & 262\,656 \\
+		Capa de salida & 6 & 3078 \\
+		Total & & 4\,570\,182 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Red convolucional propia}
+\label{subsec:redPropia}
+
+La red propia se diseñó como una alternativa liviana, con unas 48 veces menos parámetros que la
+CNN6, que puede entrenarse sin aceleración por hardware. Su entrada es un espectrograma log-Mel de
+64 bandas entre 0 y 2000\,Hz, calculado con una ventana de 512 muestras (128\,ms) y saltos de 160
+muestras (40\,ms), por lo que cada ventana de 4\,s da lugar a 101 tramas. Los valores se expresan
+en decibeles, se limitan a un rango de 80\,dB por debajo del máximo y se normalizan en cada
+ventana para que tengan media nula y desvío unitario. A diferencia de la CNN6, esta red no cuenta
+con una normalización aprendida en un preentrenamiento, por lo que la normalización se aplica sobre
+la entrada.
+
+La red tiene tres bloques convolucionales, cada uno formado por una convolución de $3 \times 3$,
+una normalización por lotes, una activación ReLU y un máximo de $2 \times 2$, con 32, 64 y 128
+filtros. La salida del último bloque se resume con la misma idea que en la CNN6: se promedia en
+frecuencia y, en el tiempo, se calculan el promedio y el máximo, que en este caso se concatenan en
+un vector de 256 valores. Luego de un \textit{dropout} con una probabilidad de 0,3, una capa lineal
+produce las seis salidas. En total, la red tiene 94\,662 parámetros, como se detalla en la tabla
+\ref{tab:capasPropia}.
+
+\begin{table}[htbp]
+	\centering
+	\caption[Capas y parámetros de la red convolucional propia]{Capas y parámetros de la red
+		convolucional propia.}
+	\label{tab:capasPropia}
+	\small
+	\begin{tabular}{l c r}
+		\toprule
+		\textbf{Capa} & \textbf{Dimensión de salida} & \textbf{Parámetros} \\
+		\midrule
+		Entrada log-Mel normalizada & $1 \times 64 \times 101$ & -- \\
+		Bloque convolucional 1 & $32 \times 32 \times 50$ & 384 \\
+		Bloque convolucional 2 & $64 \times 16 \times 25$ & 18\,624 \\
+		Bloque convolucional 3 & $128 \times 8 \times 12$ & 74\,112 \\
+		Agregación en frecuencia y tiempo & 256 & -- \\
+		Capa de salida & 6 & 1542 \\
+		Total & & 94\,662 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+En la configuración separada, las dos ramas utilizan esta misma arquitectura con la mitad de
+filtros en cada bloque (16, 32 y 64), lo que da 24\,294 parámetros por rama, y su salida se
+restringe a las clases de su dominio: dos en la rama cardíaca y cuatro en la pulmonar. El
+\textit{gate} es una red de estructura similar, con tres bloques de 16, 32 y 64 filtros y una única
+salida, la probabilidad de que el sonido sea cardíaco, que suma 23\,585 parámetros. A diferencia de
+las ramas, recibe 20 coeficientes MFCC normalizados por ventana, calculados sobre ventanas de 5\,s
+con saltos de 2,5\,s, y asigna la grabación al dominio cardíaco cuando la probabilidad media de
+sus ventanas supera 0,5.
+
+%----------------------------------------------------------------------------------------
+
+\section{Entrenamiento}
+\label{sec:entrenamiento}
+
+Los modelos se entrenaron por separado en cada una de las cinco particiones descritas en la
+subsección \ref{subsec:particiones}, siguiendo el procedimiento de la figura
+\ref{fig:entrenamiento}. En esta sección se describen la función de pérdida, la configuración de la
+optimización de cada red, el criterio con el que se eligió el modelo de cada partición y el entorno
+en el que se realizó el entrenamiento.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{./Figures/entrenamiento.pdf}
+	\caption[Procedimiento de entrenamiento]{Procedimiento de entrenamiento y selección del modelo en
+		cada partición.}
+	\label{fig:entrenamiento}
+\end{figure}
+
+\subsection{Función de pérdida}
+\label{subsec:perdida}
+
+Como función de pérdida se utilizó la entropía cruzada entre la salida del modelo y la clase de cada
+ventana. Para compensar el desbalance descrito en la subsección \ref{subsec:ventanas}, el término
+de cada ventana se pondera según su clase, con un peso inversamente proporcional a la frecuencia de
+esa clase en el conjunto de entrenamiento, que se calcula con la ecuación \ref{eq:pesosClase}.
+
+\begin{equation}
+	\label{eq:pesosClase}
+	w_c = \frac{N}{6\,n_c}
+\end{equation}
+
+\noindent donde $n_c$ es la cantidad de ventanas de la clase $c$ y $N$, el total de ventanas de
+entrenamiento. Con estos pesos, cada clase aporta lo mismo a la pérdida total y el peso medio por
+ventana es igual a uno. Sobre el conjunto completo, por ejemplo, una ventana de la clase con ambas
+alteraciones pulmonares pesa 16, mientras que una cardíaca normal pesa 0,35. Los pesos se
+recalcularon en cada partición, a partir de su propio conjunto de entrenamiento.
+
+\subsection{Optimización}
+\label{subsec:optimizacion}
+
+Ambas redes se entrenaron con el optimizador Adam, con lotes de 64 ventanas y hasta 30 épocas. En
+la CNN6 se aplicó un ajuste fino parcial. Como se mencionó en la sección \ref{sec:preentrenado},
+las primeras capas de una red convolucional aprenden patrones generales de la señal, por lo que la
+normalización inicial y los dos primeros bloques convolucionales se mantuvieron congelados con sus
+pesos de AudioSet. Se ajustaron los bloques 3 y 4, la capa densa y la nueva capa de salida, que
+suman 4\,363\,270 parámetros. Para no alejar demasiado los pesos preentrenados de su punto de
+partida, se utilizó una tasa de aprendizaje de $10^{-4}$ para ellos y de $10^{-3}$ para la capa de
+salida, que parte de valores aleatorios, junto con una penalización de los pesos
+(\textit{weight decay}) de $10^{-4}$. Además, las estadísticas de todas las normalizaciones por
+lotes se mantuvieron fijas en los valores de AudioSet.
+
+La red propia, en cambio, se entrenó desde cero con todos sus parámetros y una tasa de aprendizaje
+de $10^{-3}$. Las ramas de la configuración separada siguieron la misma receta, cada una con las
+ventanas de su dominio. El \textit{gate} se entrenó con una entropía cruzada binaria, ponderada por
+la relación entre ventanas pulmonares y cardíacas, lotes de 32 ventanas y 15 épocas, y se eligió la
+época con mayor F1 en validación.
+
+\subsection{Selección del modelo}
+\label{subsec:seleccionModelo}
+
+Al finalizar cada época, el modelo se evaluó sobre las ventanas de validación. A partir de las
+probabilidades de la ecuación \ref{eq:probHallazgos}, se calculó el área bajo la curva ROC (AUC,
+\textit{Area Under the Curve}) de cada tarea: la detección de soplo sobre las ventanas cardíacas y
+la de crepitantes y sibilancias sobre las pulmonares. Con ellas se definió el criterio de selección
+$S$ de la ecuación \ref{eq:criterioSeleccion}.
+
+\begin{equation}
+	\label{eq:criterioSeleccion}
+	S = \frac{1}{2}\left(\mathrm{AUC}_{\text{soplo}} +
+	\frac{\mathrm{AUC}_{\text{crepitantes}} + \mathrm{AUC}_{\text{sibilancias}}}{2}\right)
+\end{equation}
+
+El criterio le asigna el mismo peso a cada dominio. Un promedio simple de las tres AUC le daría el
+doble de peso al dominio pulmonar solo por tener dos tareas, mientras que el objetivo es detectar
+las patologías de ambos dominios por igual. Además, el AUC no depende de un umbral de decisión, lo
+que resulta adecuado en esta etapa, ya que los umbrales se fijan después, sobre las predicciones
+por grabación.
+
+En cada partición se conservó el modelo de la época con mayor valor de $S$, y el entrenamiento se
+detuvo antes de las 30 épocas si el criterio no mejoraba durante 8 épocas consecutivas. Tanto este
+criterio como el resto de las decisiones de diseño se tomaron solo con los conjuntos de
+validación. Por ejemplo, la representación de entrada de la CNN6 y el ancho de la red propia se
+eligieron comparando las alternativas en la validación de dos de las cinco particiones, con una
+métrica por grabación que combina el desempeño en soplo y en las alteraciones pulmonares, que se
+define en el capítulo \ref{Chapter4}. El conjunto de prueba se utilizó una única vez, con la
+configuración ya fijada.
+
+\subsection{Entorno de entrenamiento}
+\label{subsec:entornoEntrenamiento}
+
+En ambas redes, el espectrograma se calcula dentro del modelo a partir de la forma de onda, por
+lotes y con operaciones de PyTorch. Así, el modelo entrenado recibe audio tanto al entrenar como al
+predecir, y la representación es siempre la misma. La red propia, las ramas y el \textit{gate} se
+entrenaron en la computadora portátil descrita en la sección \ref{sec:herramientas}, sin GPU. Las
+ventanas se leen del arreglo de audio preprocesado descrito en la subsección
+\ref{subsec:preprocesamiento}, sin cargarlo completo en memoria.
+
+La CNN6 se entrenó en Google Colab, con una GPU NVIDIA Tesla T4. Para aprovecharla, el audio
+preprocesado de ambas bases, de alrededor de 1,1\,GB, se cargó completo en la memoria de la GPU,
+y cada lote se arma a partir del inicio y la duración de sus ventanas. El espectrograma y la
+aumentación de datos también se calculan en la GPU, y se utilizó precisión mixta, que realiza
+parte de las operaciones con números de 16 bits para acelerar el cálculo. Como las sesiones de
+Colab tienen una duración limitada, el estado completo del entrenamiento se guardó al final de cada
+época, lo que permitía retomarlo si la sesión se interrumpía. Con esta configuración, cada época
+demoró alrededor de 55\,s, es decir, unos 30 minutos por partición.
