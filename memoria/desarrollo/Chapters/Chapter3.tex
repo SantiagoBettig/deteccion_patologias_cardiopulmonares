@@ -533,3 +533,223 @@ parte de las operaciones con números de 16 bits para acelerar el cálculo. Como
 Colab tienen una duración limitada, el estado completo del entrenamiento se guardó al final de cada
 época, lo que permitía retomarlo si la sesión se interrumpía. Con esta configuración, cada época
 demoró alrededor de 55\,s, es decir, unos 30 minutos por partición.
+
+%----------------------------------------------------------------------------------------
+
+\section{Inferencia por grabación}
+\label{sec:inferencia}
+
+El modelo entrega una predicción para cada ventana, pero el resultado que interesa al profesional
+es uno por grabación. En esta sección se describe cómo se combinan las predicciones de las
+ventanas, cómo se fijan los umbrales de decisión, cómo se obtiene la clase final de cada grabación
+en las dos configuraciones y cómo se utiliza el sistema cuando el tipo de sonido es conocido.
+
+\subsection{Agregación de las ventanas}
+\label{subsec:agregacion}
+
+Para cada grabación se calculan las probabilidades de la ecuación \ref{eq:probHallazgos} en todas
+sus ventanas. Para combinarlas se consideraron cuatro reglas: el promedio de las probabilidades, su
+percentil 75, su máximo y la proporción de ventanas positivas. Las cuatro se compararon sobre los
+conjuntos de validación, y la proporción de ventanas positivas obtuvo el mejor resultado en todas
+las tareas y en todos los modelos, por lo que fue la que se adoptó. Esta regla cuenta cuántas
+ventanas superan un umbral por ventana $\tau$, como se indica en la ecuación \ref{eq:proporcion}:
+
+\begin{equation}
+	\label{eq:proporcion}
+	f = \frac{M_{+}}{M}
+\end{equation}
+
+\noindent donde $M$ es la cantidad de ventanas de la grabación y $M_{+}$, la cantidad de ventanas
+en las que la probabilidad del hallazgo supera $\tau$. Se calcula una proporción para el soplo y
+otra para cada alteración pulmonar, y la grabación se considera positiva para un hallazgo cuando su
+proporción supera un segundo umbral, definido por grabación. A diferencia del máximo, esta regla no
+se activa por una única ventana con ruido, y el umbral por grabación permite ajustar cuántas
+ventanas positivas se exigen para cada hallazgo.
+
+\subsection{Calibración de los umbrales}
+\label{subsec:calibracion}
+
+Los umbrales se calibraron en dos niveles, siempre sobre datos de validación, mediante una búsqueda
+entre 0,05 y 0,95 con pasos de 0,05. En el caso del soplo, se eligió el umbral que maximiza la
+medida F2, una variante de la medida F1 que le da más peso a la sensibilidad que a la precisión.
+Se priorizó la sensibilidad porque no detectar un soplo es más grave que una falsa alarma, ya que,
+como se mencionó en la subsección \ref{subsec:alteracionesCardiacas}, una detección positiva solo
+indica que el paciente requiere una evaluación adicional. En el caso pulmonar, los umbrales de
+crepitantes y de sibilancias se eligieron en conjunto para maximizar el puntaje del desafío ICBHI
+(sección \ref{sec:estadoArte}), que promedia la sensibilidad, entendida como la proporción de
+grabaciones anormales cuya clase se identifica correctamente, y la especificidad, entendida como la
+proporción de grabaciones normales clasificadas como normales. La búsqueda se hace en conjunto
+porque el puntaje depende de acertar la combinación de ambas alteraciones.
+
+Los umbrales por ventana $\tau$ se calibraron en cada partición, con las ventanas de su conjunto de
+validación. Para los umbrales por grabación, en cambio, se reunieron las grabaciones de validación
+de las cinco particiones, excluyendo a los pacientes que forman parte del conjunto de prueba de la
+partición que se evalúa. Cada una de esas grabaciones fue predicha por un modelo que no la utilizó
+para entrenar, y el conjunto resultante es varias veces más grande que la validación de una sola
+partición, lo que hace más estable la elección de los umbrales. En ningún caso se utilizaron
+grabaciones de prueba.
+
+\subsection{Decisión por grabación}
+\label{subsec:decision}
+
+En la configuración integrada, el tipo de sonido se decide con la probabilidad $P(\text{cardíaco})$
+promediada sobre todas las ventanas de la grabación: si supera 0,5, la grabación se considera
+cardíaca, y en caso contrario, pulmonar. Una grabación cardíaca se clasifica con soplo si su
+proporción de ventanas con soplo supera el umbral correspondiente, y como normal en caso contrario.
+Una grabación pulmonar se clasifica según qué alteraciones superan su umbral: crepitantes,
+sibilancias, ambas o ninguna, en cuyo caso se considera normal. El resultado es una de las seis
+clases de la subsección \ref{subsec:clases}.
+
+En la configuración separada, el tipo de sonido lo decide el \textit{gate}, con la regla descrita
+en la subsección \ref{subsec:redPropia}, y la grabación se procesa con la rama correspondiente. Las
+probabilidades de la rama se combinan y se comparan con sus umbrales siguiendo el mismo
+procedimiento que en la configuración integrada. En ambas configuraciones, una grabación asignada
+al dominio equivocado se considera mal clasificada, independientemente del resultado posterior.
+
+\subsection{Uso del sistema}
+\label{subsec:usoSistema}
+
+La validación cruzada produce cinco modelos, uno por partición. Para procesar grabaciones nuevas,
+que no pertenecen a ninguna de las bases, se combinan los cinco: las probabilidades de cada ventana
+se promedian entre los modelos, se aplica la regla de agregación común y se utilizan como umbrales
+los promedios de los calibrados en cada partición.
+
+Por defecto, el sistema funciona de forma automática: recibe solo la grabación y decide tanto el
+tipo de sonido como la alteración, como se describió en la subsección \ref{subsec:decision}. De
+manera opcional, el profesional puede indicar si la grabación corresponde al corazón o a los
+pulmones. En ese caso, la decisión del tipo de sonido se omite. Como la salida del modelo es una
+distribución sobre las seis clases, alcanza con quedarse con las clases del dominio indicado y
+renormalizarlas para que sumen uno, como se muestra en la ecuación \ref{eq:probCondicionales}:
+
+\begin{equation}
+	\label{eq:probCondicionales}
+	\begin{array}{rcl}
+		P(\text{soplo} \mid \text{cardíaco}) & = & \displaystyle\frac{p_1}{p_0 + p_1} \\[3ex]
+		P(\text{crepitantes} \mid \text{pulmonar}) & = &
+			\displaystyle\frac{p_3 + p_5}{p_2 + p_3 + p_4 + p_5} \\[3ex]
+		P(\text{sibilancias} \mid \text{pulmonar}) & = &
+			\displaystyle\frac{p_4 + p_5}{p_2 + p_3 + p_4 + p_5}
+	\end{array}
+\end{equation}
+
+Esta opción no requiere reentrenar el modelo, y sus umbrales se calibraron sobre la validación con
+estas mismas probabilidades, siguiendo el procedimiento de la subsección \ref{subsec:calibracion}.
+Cuando se indica el dominio, los errores en la decisión del tipo de sonido desaparecen por
+construcción, y el resultado depende solo de la detección de las alteraciones. Como se analiza en
+el capítulo \ref{Chapter4}, la decisión del tipo de sonido es la parte del sistema más sensible al
+equipo de grabación, por lo que indicar el dominio resulta especialmente útil cuando se utiliza un
+estetoscopio distinto de los empleados en el entrenamiento.
+
+%----------------------------------------------------------------------------------------
+
+\section{Interfaz de usuario}
+\label{sec:interfaz}
+
+Para que el sistema pueda ser utilizado por un profesional de la salud sin conocimientos de
+programación, se desarrolló una interfaz gráfica con Gradio, cuyo panel de entrada se muestra en la
+figura \ref{fig:interfazCarga}. La interfaz permite analizar una grabación por vez con la CNN6
+adaptada, utilizando la combinación de los cinco modelos descrita en la subsección
+\ref{subsec:usoSistema}. En esta sección se describen la organización del software, el
+funcionamiento de la interfaz, los avisos que presenta al profesional y su alcance.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.65\textwidth]{./Figures/interfaz_audio_file_light.png}
+	\caption{Panel de entrada de la interfaz de usuario con una grabación cargada.}
+	\label{fig:interfazCarga}
+\end{figure}
+
+\subsection{Organización del software}
+\label{subsec:organizacionSoftware}
+
+El software se organizó en dos módulos. El primero realiza la inferencia: recibe la ruta de un
+archivo de audio y, de manera opcional, el dominio indicado por el profesional, y devuelve el
+resultado de la grabación junto con las probabilidades de cada ventana. Los cinco modelos se cargan
+una única vez al iniciar la aplicación. Para cada grabación, el módulo aplica el preprocesamiento
+de la subsección \ref{subsec:preprocesamiento}, la divide en ventanas según la subsección
+\ref{subsec:ventanas}, obtiene la salida de cada modelo, las promedia y toma la decisión siguiendo
+lo descrito en la sección \ref{sec:inferencia}, con los umbrales calibrados en la validación. El
+segundo módulo construye la interfaz y presenta los resultados.
+
+El módulo de inferencia utiliza las mismas funciones de preprocesamiento, segmentación y cálculo
+del espectrograma que se emplearon para entrenar y evaluar los modelos, en lugar de una
+reimplementación. Para verificarlo, se procesaron con la interfaz 50 grabaciones originales de las
+bases de validación externa, con y sin el dominio indicado, y se compararon los resultados con los
+obtenidos durante la evaluación. La mayor diferencia entre las probabilidades de una ventana fue
+del orden de $10^{-7}$, y la decisión fue la misma en todos los casos. En la computadora portátil
+descrita en la sección \ref{sec:herramientas}, sin GPU, el análisis de cada grabación demora del
+orden de un segundo.
+
+\subsection{Funcionamiento}
+\label{subsec:funcionamiento}
+
+El profesional carga un archivo de audio en formato WAV, MP3 o FLAC, que la interfaz muestra como
+forma de onda y permite escuchar antes de analizarlo, como se observa en la figura
+\ref{fig:interfazCarga}. Luego elige el dominio de la grabación entre tres opciones: automático, que
+es la opción por defecto, cardíaco o pulmonar. Además, puede indicar el rango de edad del paciente,
+un dato opcional que solo se utiliza para mostrar avisos. Al presionar el botón de análisis, la
+interfaz presenta los resultados que se muestran en la figura \ref{fig:interfazResultado}:
+
+\begin{itemize}
+	\item La clase asignada a la grabación, resaltada en verde si es normal y en naranja si
+	presenta una alteración.
+	\item El dominio utilizado, con la aclaración de si lo decidió el modelo o lo indicó el
+	profesional, junto con la duración de la grabación y la cantidad de ventanas analizadas.
+	\item Para cada hallazgo del dominio, una barra con la proporción de ventanas positivas, una
+	marca en el umbral por grabación y la indicación de si el hallazgo está presente o ausente.
+	\item La forma de onda de la señal y el espectrograma log-Mel que recibe el modelo, con el eje
+	de frecuencias en hertz.
+\end{itemize}
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=\textwidth]{./Figures/interfaz_audio_analizado_light.png}
+	\caption[Resultado del análisis en la interfaz de usuario]{Resultado del análisis de una
+		grabación pulmonar con sibilancias en la interfaz de usuario.}
+	\label{fig:interfazResultado}
+\end{figure}
+
+Se optó por mostrar la proporción de ventanas positivas junto con su umbral, en lugar de una única
+probabilidad, para que el profesional vea cuán cerca o lejos de la decisión se encuentra cada
+grabación. La probabilidad media de cada hallazgo se informa solo como referencia, ya que el
+entrenamiento con pesos por clase tiende a sobreestimar la probabilidad de las clases menos
+frecuentes. La interfaz incluye también una sección que resume el modelo, los datos de
+entrenamiento, la forma en que se toma la decisión y sus limitaciones, y recuerda en cada resultado
+que se trata de una herramienta de apoyo que no reemplaza el criterio del profesional.
+
+\subsection{Avisos al profesional}
+\label{subsec:avisos}
+
+Junto con el resultado, la interfaz muestra avisos cuando detecta situaciones en las que el
+desempeño del sistema puede ser menor. Los criterios de estos avisos surgen de los análisis que se
+presentan en el capítulo \ref{Chapter4}:
+
+\begin{itemize}
+	\item Si el profesional indicó el dominio y no coincide con el que habría decidido el modelo, se
+	advierte que el estetoscopio podría no ser uno de los utilizados en el entrenamiento.
+	\item En el modo automático, si la probabilidad media de que el sonido sea cardíaco se encuentra
+	entre 0,2 y 0,8, se sugiere indicar el dominio y repetir el análisis.
+	\item Si la grabación dura menos de 4\,s, o menos de lo recomendado para su dominio (15\,s en
+	cardíaco y 10\,s en pulmonar), se advierte que el resultado puede ser menos confiable.
+	\item Si el paciente es menor de un año, se advierte que en ese grupo el sistema clasifica como
+	anormales más grabaciones de pacientes sanos, y si es adulto, que el sistema no fue validado con
+	el mismo rigor en esa población.
+	\item Si la señal es casi silenciosa, si más del 1\,\% de sus muestras está saturada o si su
+	frecuencia de muestreo es menor que 4\,kHz, se advierte sobre posibles problemas de la
+	grabación.
+\end{itemize}
+
+En el ejemplo de la figura \ref{fig:interfazResultado}, la grabación se clasificó como pulmonar con
+sibilancias, ya que todas sus ventanas superaron el umbral de esa alteración. Como dura 9\,s, la
+interfaz advierte además que es más corta que lo recomendado para un foco pulmonar.
+
+\subsection{Alcance}
+\label{subsec:alcanceInterfaz}
+
+La interfaz se ejecuta de forma local, en la propia computadora del profesional, sin publicar un
+enlace de acceso externo ni enviar datos de uso. De este modo, las grabaciones, que son datos
+sensibles de los pacientes, no salen de la computadora en la que se analizan. Como se estableció en
+la sección \ref{sec:objetivos}, el despliegue del sistema en un entorno de producción quedó fuera
+del alcance del trabajo. La interfaz constituye un prototipo que permite que los profesionales
+prueben el sistema con sus propias grabaciones, y sus resultados no reemplazan una evaluación
+clínica.
